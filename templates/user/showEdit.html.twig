@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme formUser 'bootstrap_4_layout.html.twig' %}
+
+{% block title 'Mon compte' %}
+
+{% block body %}
+<div class="w-50 p-2 mx-auto">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <h4>Mon Espace Joueur ({{ user.username }})</h4>
+
+    {{ form_start(formUser) }}
+    {{ form_errors(formUser) }}
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(formUser.firstName, {'label': 'Prénom'}) }}</div>
+        <div class="col-md-auto">{{ form_row(formUser.lastName, {'label': 'Nom'}) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(formUser.email) }}</div>
+        <div class="col-md-auto">{{ form_row(formUser.mobile, {'label': 'Portable'}) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(formUser.birthDate) }}</div>
+        <div class="col-md-auto">{{ form_row(formUser.license, {'label': 'Licence'}) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(formUser.classement_simple) }}</div>
+        <div class="col-md-auto">{{ form_row(formUser.classement_double) }}</div>
+        <div class="col-md-auto">{{ form_row(formUser.classement_mixte) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">{{ form_row(formUser.rue) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(formUser.code_postal) }}</div>
+        <div class="col-md-auto">{{ form_row(formUser.ville) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(formUser.saison) }}</div>
+        <div class="col-md-auto">{{ form_row(formUser.team) }}</div>
+        <div class="col-md-auto">{{ form_row(formUser.teamVeteran) }}</div>
+    </div>
+
+    <button class="btn btn-info">{{ button|default('Modifier') }}</button>
+    {{ form_end(formUser) }}
+</div>
+{% endblock %}
+
+
+

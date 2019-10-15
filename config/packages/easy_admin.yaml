@@ -1,0 +1,43 @@
+#easy_admin:
+#    entities:
+#        # List the entity class name you want to manage
+#        - App\Entity\Product
+#        - App\Entity\Category
+#        - App\Entity\User
+
+easy_admin:
+  design:
+    menu:
+      - label: 'Gestion des Articles'
+        icon: 'newspaper-o'
+        children:
+          - {entity: 'Articles'}
+          - {entity: 'Categories'}
+      - label: 'Gestion des Joueurs et des Equipes'
+        icon: 'users'
+        children:
+          - {entity: 'Joueurs'}
+          - {entity: 'Equipes'}
+  entities:
+    Articles:
+      class: App\Entity\Article
+      form:
+        fields:
+          - { property: 'title'}
+          - { property: 'slug'}
+          - { property: 'picture'}
+          - { property: 'content', type: 'FOS\CKEditorBundle\Form\Type\CKEditorType'}
+    Categories:
+      class: App\Entity\Category
+    Joueurs:
+      class: App\Entity\User
+      form:
+        fields:
+          - {property: 'Username'}
+          - {property: 'Email'}
+          - {property: 'Password', type: 'password', label: 'Mot de passe' }
+      list:
+        fields: ['Username', 'Email', { property: 'Password', type: 'password', label: 'Mot de passe' }]
+        sort: ['id', 'ASC']
+    Equipes:
+      class: App\Entity\Team

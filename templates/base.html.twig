@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}BACV78{% endblock %}</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        <nav class="navbar bg-dark">
+            <a class="navbar-brand" href="{{ path('homepage') }}"><img title="Accueil" src="/images/bacv78.png" style="width:200px;height:auto;"></a>
+            {% if app.user %}
+                <ul class="nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                            <img src="/images/user.png">{{ app.user.firstName }} {{ app.user.lastName }}
+                        </a>
+                        <div class="dropdown-menu bg-dark">
+                            <a class="nav-link text-light" href="/user/{{ app.user.username }}">Mon compte</a>
+                            <a href="{{ path('app_logout') }}" class="nav-link text-light">Se déconnecter</a>
+                        </div>
+                    </li>
+                <ul>
+            {% else %}
+                <a class="navbar-brand" href="{{ path('app_login') }}"><img title="Se connecter" src="/images/user.png"></a>
+            {% endif %}
+        </nav>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor02">
+                <ul class="navbar-nav mx-md-auto">
+                    <li class="nav-item active">
+                    <a class="nav-link" href="{{ path('homepage') }}">Accueil<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="#">Le Club</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="#">Les Tournois</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="#">Les Interclubs</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="#">Trophée Jeunes</a>
+                    </li>
+                    {% if app.user and app.user.roles %}
+                        {% if (app.user.roles[0] == 'ROLE_ADMIN') or (app.user.roles[0] == 'ROLE_SUPER_ADMIN') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin">Easy Admin</a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+</html>

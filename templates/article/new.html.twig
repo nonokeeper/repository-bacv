@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Créer un article' %}
+
+{% block body %}
+
+<div class="container mt-4">
+    <h1>Créer un article</h1>
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-4">{{ form_row(form.title) }}</div>
+        <div class="col-md-4">{{ form_row(form.slug) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(form.content) }}</div>
+    </div>
+    {{ form_rest(form) }}
+    <button class="btn btn-primary">{{ button|default('Enregistrer') }}</button>
+    {{ form_end(form) }}
+
+</div>
+{% endblock %}
