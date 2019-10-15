@@ -21,12 +21,6 @@ easy_admin:
   entities:
     Articles:
       class: App\Entity\Article
-      form:
-        fields:
-          - { property: 'title'}
-          - { property: 'slug'}
-          - { property: 'picture'}
-          - { property: 'content', type: 'FOS\CKEditorBundle\Form\Type\CKEditorType'}
     Categories:
       class: App\Entity\Category
     Joueurs:

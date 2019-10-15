@@ -9,6 +9,7 @@ use App\Repository\ArticleRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Form\ArticleType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ArticleController extends AbstractController
 {
@@ -24,16 +25,23 @@ class ArticleController extends AbstractController
 
     public function __construct(ArticleRepository $repository, ObjectManager $em)
     {
-        $this->article = $repository;
+        $this->repository = $repository;
         $this->em = $em;
     }
 
     /**
      * @Route("/articles", name="article.index")
      */
-    public function index()
+    public function index(Request $request): Response
     {
-        return $this->render('article/index.html.twig');
+        $form = $this->createForm(ArticleType::class);
+        $form->handleRequest($request);
+
+        $articles = $this->repository->findAll();
+        return $this->render('article/index.html.twig', [
+            'articles'    => $articles,
+            'form'        => $form->createView()
+        ]);
     }
 
     /**
@@ -47,6 +55,7 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            $this->em->persist($article);
             $this->em->flush();
             $this->addFlash('success','Article créé');
             return $this->redirectToRoute('article.index');
@@ -63,7 +72,17 @@ class ArticleController extends AbstractController
     public function edit(Article $article)
     {
         return $this->render('article/edit.html.twig', [
-            'controller_name' => 'ArticleController',
+            'article'    => $article
+        ]);
+    }
+
+    /**
+     * @Route("/article/{slug}/delete", name="article.delete")
+     */
+    public function delete(Article $article)
+    {
+        return $this->render('article/delete.html.twig', [
+            'article'    => $article
         ]);
     }
 
