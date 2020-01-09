@@ -39,7 +39,7 @@ class Interclub
     private $team_ext;
 
     /**
-     * @ORM\Column(type="string", length=3, nullable=true)
+     * @ORM\Column(type="string", length=10, nullable=true)
      */
     private $score;
 
@@ -47,6 +47,81 @@ class Interclub
      * @ORM\ManyToOne(targetEntity="App\Entity\Saison", inversedBy="interclubs")
      */
     private $saison;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Lieu", inversedBy="interclubs")
+     */
+    private $lieu;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $location;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $SH1;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $SH2;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $SH3;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $SH4;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $SD;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $DDJoueuse1;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $DDJoueuse2;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $DH1Joueur1;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $DH1Joueur2;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $DH2Joueur1;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $DH2Joueur2;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $DMXJoueur;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $DMXJoueuse;
 
     public function __construct()
     {
@@ -92,6 +167,10 @@ class Interclub
     {
         $this->team_home = $team_home;
 
+        if (!$this->team_home) {
+            $this->setLocation(null);
+        }
+
         return $this;
     }
 
@@ -127,6 +206,193 @@ class Interclub
     public function setSaison(?Saison $saison): self
     {
         $this->saison = $saison;
+
+        return $this;
+    }
+
+    public function getLieu(): ?Lieu
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(?Lieu $lieu): self
+    {
+        $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        if ($this->getName()) {
+            return $this->getName();
+        } else return '';
+    }
+
+    public function getLocation(): ?string
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?string $location): self
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+    public function getSH1(): ?User
+    {
+        return $this->SH1;
+    }
+
+    public function setSH1(?User $SH1): self
+    {
+        $this->SH1 = $SH1;
+
+        return $this;
+    }
+
+    public function getSH2(): ?User
+    {
+        return $this->SH2;
+    }
+
+    public function setSH2(?User $SH2): self
+    {
+        $this->SH2 = $SH2;
+
+        return $this;
+    }
+
+    public function getSH3(): ?User
+    {
+        return $this->SH3;
+    }
+
+    public function setSH3(?User $SH3): self
+    {
+        $this->SH3 = $SH3;
+
+        return $this;
+    }
+
+    public function getSD(): ?User
+    {
+        return $this->SD;
+    }
+
+    public function setSD(?User $SD): self
+    {
+        $this->SD = $SD;
+
+        return $this;
+    }
+
+    public function getDDJoueuse1(): ?User
+    {
+        return $this->DDJoueuse1;
+    }
+
+    public function setDDJoueuse1(?User $DDJoueuse1): self
+    {
+        $this->DDJoueuse1 = $DDJoueuse1;
+
+        return $this;
+    }
+
+    public function getDDJoueuse2(): ?User
+    {
+        return $this->DDJoueuse2;
+    }
+
+    public function setDDJoueuse2(?User $DDJoueuse2): self
+    {
+        $this->DDJoueuse2 = $DDJoueuse2;
+
+        return $this;
+    }
+
+    public function getDH1Joueur1(): ?User
+    {
+        return $this->DH1Joueur1;
+    }
+
+    public function setDH1Joueur1(?User $DH1Joueur1): self
+    {
+        $this->DH1Joueur1 = $DH1Joueur1;
+
+        return $this;
+    }
+
+    public function getDH1Joueur2(): ?User
+    {
+        return $this->DH1Joueur2;
+    }
+
+    public function setDH1Joueur2(?User $DH1Joueur2): self
+    {
+        $this->DH1Joueur2 = $DH1Joueur2;
+
+        return $this;
+    }
+
+    public function getDH2Joueur1(): ?User
+    {
+        return $this->DH2Joueur1;
+    }
+
+    public function setDH2Joueur1(?User $DH2Joueur1): self
+    {
+        $this->DH2Joueur1 = $DH2Joueur1;
+
+        return $this;
+    }
+
+    public function getDH2Joueur2(): ?User
+    {
+        return $this->DH2Joueur2;
+    }
+
+    public function setDH2Joueur2(?User $DH2Joueur2): self
+    {
+        $this->DH2Joueur2 = $DH2Joueur2;
+
+        return $this;
+    }
+
+    public function getSH4(): ?User
+    {
+        return $this->SH4;
+    }
+
+    public function setSH4(?User $SH4): self
+    {
+        $this->SH4 = $SH4;
+
+        return $this;
+    }
+
+    public function getDMXJoueur(): ?User
+    {
+        return $this->DMXJoueur;
+    }
+
+    public function setDMXJoueur(?User $DMXJoueur): self
+    {
+        $this->DMXJoueur = $DMXJoueur;
+
+        return $this;
+    }
+
+    public function getDMXJoueuse(): ?User
+    {
+        return $this->DMXJoueuse;
+    }
+
+    public function setDMXJoueuse(?User $DMXJoueuse): self
+    {
+        $this->DMXJoueuse = $DMXJoueuse;
 
         return $this;
     }

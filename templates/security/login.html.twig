@@ -18,18 +18,19 @@
         </div>
     {% else %}
         <form class="form-signin" method="post">
-            <div class="text-center w-50 p-2 mx-auto">
+            <div class="text-center w-25 mx-auto">
                 <img src="images/badplayer.png" width="100" height="100">
-                <div class="p-1"></div>
-                <input class="form-control" type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" placeholder="Utilisateur" required autofocus>
                 <div class="p-2"></div>
-                <input class="form-control" type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required>
-                <div class="text-left p-1">
+                <input class="form-control-lg input-lg" type="text" value="{{ last_username }}" name="username" id="inputUsername" placeholder="Utilisateur" required autofocus>
+                <div class="p-3"></div>
+                <input class="form-control-lg" type="password" name="password" id="inputPassword" placeholder="Mot de passe" required>
+                <div class="p-1"></div>
+                <div class="text-left p-2">
                     <a href="{{ path('app_forgotten_password') }}">Mot de passe oublié ?</a>
                 </div>
             </div>
             <div class="text-center w-25 p-2 mx-auto">
-                <button class="btn btn-md btn-primary btn-block" type="submit">Entrer</button>
+                <button class="btn btn-lg btn-primary" type="submit"><p class="h4">Entrer</p></button>
             </div>
             <input class="form-control" type="hidden" name="_csrf_token"
                         value="{{ csrf_token('authenticate') }}">

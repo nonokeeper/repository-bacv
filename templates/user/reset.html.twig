@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Reset' %}
+
+{% block body %}
+<div class="w-50 p-2 mx-auto">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <a href="{{ path('user.index') }}"><i class="fas fa-arrow-alt-circle-left"></i>&nbsp;Retour vers la liste des Joueurs</a>
+    <h4>Réinitialiser le mot de passe de "{{ user.username }}"</h4>
+
+    {{ form_start(formResetUser) }}
+    <div class="row">
+        <div class="col-md-4">{{ form_row(formResetUser.userName, {'label':'Identifiant'}) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(formResetUser.firstName, {'label':'Prénom'}) }}</div>
+        <div class="col-md-auto">{{ form_row(formResetUser.lastName, {'label':'Nom'}) }}</div>
+    </div>
+    <button class="btn btn-primary">{{ button|default('Reset') }}</button>
+    {{ form_end(formResetUser) }}
+
+</div>
+{% endblock %}
+
+
+

@@ -1,0 +1,122 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Interclubs' %}
+
+{% block body %}
+<!-- 
+    Code un peu 'en dur' car hypothèse d'avoir 4 équipes qui s'appellent
+    Villepreux 1 / Villepreux 2 / Villepreux 3 / Villepreux 4
+ -->
+{% set debut = '<table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Rencontre</th>
+                <th>Date</th>
+                <th>Equipe domicile</th>
+                <th>Equipe extérieure</th>
+                <th>Score</th>
+                <th>Lieu</th>
+            </tr>
+        </thead>
+        <tbody>' %}
+{% set saison = '' %}
+{% set liste1 = '' %}
+{% set liste2 = '' %}
+{% set liste3 = '' %}
+{% set liste4 = '' %}
+{% set liste = '' %}
+{% set var = '' %}
+{% set fin = '</tbody>
+    </table>' %}
+
+{% for interclub in interclubs %}
+
+    {% if level in ['A','B'] %}
+        {% set link = '<a href="' ~ path('interclub.edit', {id: interclub.id}) ~ '">' ~ interclub.name ~ '</a>' %}
+    {% else %}
+        {% set link = interclub.name %}
+    {% endif %}
+
+    {% if (interclub.location) %}
+        {% set lieu = '<a href="/lieu/' ~ interclub.location ~ '">' ~ interclub.lieu.name ~ '</a>' %}
+    {% else %}
+        {% set lieu = '?' %}
+    {% endif %}
+    {% set var = '<tr>
+        <td>' ~ link ~ '</td>
+        <td>' ~ interclub.dateRencontre|date("d/m/Y") ~ '</td>
+        <td>' ~ interclub.teamhome ~ '</td>
+        <td>' ~ interclub.teamext ~ '</td>
+        <td>' ~ interclub.score ~ '</td>
+        <td>' ~ lieu ~ '</td>
+    </tr>' %}
+    {% set liste = liste ~ var %}
+
+    {% if interclub.teamhome == 'Villepreux 1' or interclub.teamext == 'Villepreux 1' %}
+        {% set liste1 = liste1 ~ liste %}
+        {% set liste = '' %}
+    {% endif %}
+    {% if interclub.teamhome == 'Villepreux 2' or interclub.teamext == 'Villepreux 2' %}
+        {% set liste2 = liste2 ~ liste %}
+        {% set liste = '' %}
+    {% endif %}
+    {% if interclub.teamhome == 'Villepreux 3' or interclub.teamext == 'Villepreux 3' %}
+        {% set liste3 = liste3 ~ liste %}
+        {% set liste = '' %}
+    {% endif %}
+    {% if interclub.teamhome == 'Villepreux 4' or interclub.teamext == 'Villepreux 4' %}
+        {% set liste4 = liste4 ~ liste %}
+        {% set liste = '' %}
+    {% endif %}
+    {% set saison = interclub.saison %}
+{% endfor %}
+
+{% set liste1 = debut ~ liste1 ~ fin %}
+{% set liste2 = debut ~ liste2 ~ fin %}
+{% set liste3 = debut ~ liste3 ~ fin %}
+{% set liste4 = debut ~ liste4 ~ fin %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Interclubs - Saison {{ saisoncourante }}</h5>
+        </div>
+        <div class="card-body">
+        {% if level in ['A','B'] %}
+            <a class="btn btn-success" href="{{ path('interclub.new') }}">Créer une rencontre mixte</a>
+            &nbsp;&nbsp;&nbsp;<a class="btn btn-primary" href="{{ path('interclub.newMasculin') }}">Créer une rencontre masculin</a>
+            &nbsp;&nbsp;&nbsp;<a class="btn btn-danger" href="{{ path('interclub.compo') }}">Voir toutes les compositions</a>
+        {% elseif level in ['C','D'] %}
+            &nbsp;&nbsp;&nbsp;<a class="btn btn-danger" href="{{ path('interclub.compo') }}">Voir toutes les compositions</a>
+        {% else %}&nbsp;
+        {% endif %}
+        </div>
+    </div>
+    <div class="tab">&nbsp;</div>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-2">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <div class="tab">&nbsp;</div>
+                <a class="nav-link active" id="v-pills-vip1-tab" data-toggle="pill" href="#v-pills-vip1" role="tab" aria-controls="v-pills-vip1" aria-selected="true">Villepreux 1</a>
+                <a class="nav-link" id="v-pills-vip2-tab" data-toggle="pill" href="#v-pills-vip2" role="tab" aria-controls="v-pills-vip2" aria-selected="false">Villepreux 2</a>
+                <a class="nav-link" id="v-pills-vip3-tab" data-toggle="pill" href="#v-pills-vip3" role="tab" aria-controls="v-pills-vip3" aria-selected="false">Villepreux 3</a>
+                <a class="nav-link" id="v-pills-vip4-tab" data-toggle="pill" href="#v-pills-vip4" role="tab" aria-controls="v-pills-vip4" aria-selected="false">Villepreux 4</a>
+            </div>
+        </div>
+        <div class="col-10">
+            <div class="tab-content table-middlefont" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-vip1" role="tabpanel" aria-labelledby="v-pills-vip1-tab">{{ liste1|raw }}</div>
+                <div class="tab-pane fade" id="v-pills-vip2" role="tabpanel" aria-labelledby="v-pills-vip2-tab">{{ liste2|raw }}</div>
+                <div class="tab-pane fade" id="v-pills-vip3" role="tabpanel" aria-labelledby="v-pills-vip3-tab">{{ liste3|raw }}</div>
+                <div class="tab-pane fade" id="v-pills-vip4" role="tabpanel" aria-labelledby="v-pills-vip4-tab">{{ liste4|raw }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

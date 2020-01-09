@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lieu rencontre{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="tab">&nbsp;</div>
+    <div class="d-inline">
+        <a class="btn btn-success" href="{{ path('interclub.index')}}"><i class="fas fa-retweet">&nbsp;</i>Retour vers Interclubs</a>
+        <a class="btn btn-primary" href="{{ path('interclubVeteran.index')}}"><i class="fab fa-android">&nbsp;</i>Retour vers Interclubs Vétéran</a>
+    </div>
+    <div class="tab">&nbsp;</div>
+    <h4>Lieu de la rencontre : {{ lieu.name }}</h4>
+    {{ lieu.rue }}
+    {{ lieu.codepostal }}
+    {{ lieu.ville }}
+    <div class="tab">&nbsp;</div>
+    <a target="_blank" href="https://www.google.fr/maps/place/{{ lieu.rue }}+{{ lieu.codepostal }}+{{ lieu.ville }}"><i class="fas fa-map-marked-alt">&nbsp;</i>Plan Google Maps</a>
+    <div class="tab">&nbsp;</div>
+</div>
+{% endblock %}

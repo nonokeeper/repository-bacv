@@ -24,7 +24,7 @@ class TeamVeteran
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=10, nullable=true)
+     * @ORM\Column(type="string", length=20, nullable=true)
      */
     private $slug;
 
@@ -39,9 +39,20 @@ class TeamVeteran
      */
     private $club;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="teamVeteran")
+     */
+    private $users;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="teamVeteranManaged")
+     */
+    private $capitaine;
+
     public function __construct()
     {
         $this->saison = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -107,6 +118,56 @@ class TeamVeteran
     public function setClub(?Club $club): self
     {
         $this->club = $club;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setTeamVeteran($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            // set the owning side to null (unless already changed)
+            if ($user->getTeamVeteran() === $this) {
+                $user->setTeamVeteran(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        if ($this->getName()) {
+            return $this->getName();
+        } else return '';
+    }
+
+    public function getCapitaine(): ?User
+    {
+        return $this->capitaine;
+    }
+
+    public function setCapitaine(?User $capitaine): self
+    {
+        $this->capitaine = $capitaine;
 
         return $this;
     }

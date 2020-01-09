@@ -1,4 +1,22 @@
 {
+    "backup-manager/backup-manager": {
+        "version": "1.4"
+    },
+    "backup-manager/symfony": {
+        "version": "2.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.1",
+            "ref": "ae7e2e6cebb46c0adede771d3d9b8c540879920c"
+        },
+        "files": [
+            "config/packages/bm_backup_manager.yaml"
+        ]
+    },
+    "behat/transliterator": {
+        "version": "v1.2.0"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -40,9 +58,6 @@
             "src/Entity/.gitignore",
             "src/Repository/.gitignore"
         ]
-    },
-    "doctrine/doctrine-cache-bundle": {
-        "version": "1.3.5"
     },
     "doctrine/doctrine-fixtures-bundle": {
         "version": "3.0",
@@ -139,14 +154,29 @@
     "fzaninotto/faker": {
         "version": "v1.8.0"
     },
+    "gedmo/doctrine-extensions": {
+        "version": "v2.4.37"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
+    },
+    "knplabs/knp-components": {
+        "version": "v2.3.1"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.0.0"
+    },
+    "league/flysystem": {
+        "version": "1.0.57"
     },
     "monolog/monolog": {
         "version": "1.25.1"
     },
     "nikic/php-parser": {
         "version": "v4.2.4"
+    },
+    "nyholm/dsn": {
+        "version": "0.1.1"
     },
     "ocramius/package-versions": {
         "version": "1.5.1"
@@ -156,6 +186,9 @@
     },
     "pagerfanta/pagerfanta": {
         "version": "v2.1.3"
+    },
+    "php": {
+        "version": "7.3"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.0.0"
@@ -188,6 +221,18 @@
         },
         "files": [
             "config/packages/sensio_framework_extra.yaml"
+        ]
+    },
+    "stof/doctrine-extensions-bundle": {
+        "version": "1.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.2",
+            "ref": "6c1ceb662f8997085f739cd089bfbef67f245983"
+        },
+        "files": [
+            "config/packages/stof_doctrine_extensions.yaml"
         ]
     },
     "swiftmailer/swiftmailer": {
@@ -559,6 +604,18 @@
     },
     "symfony/yaml": {
         "version": "v4.3.4"
+    },
+    "tattali/calendar-bundle": {
+        "version": "1.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.1",
+            "ref": "0c643e17b5340747b35c2c75e11727fa31bfa9bb"
+        },
+        "files": [
+            "config/routes/calendar.yaml"
+        ]
     },
     "twig/extensions": {
         "version": "1.0",

@@ -5,18 +5,25 @@
 {% block body %}
 
 <div class="container mt-4">
-    <h1>Créer un article</h1>
+    <a class="btn btn-primary" href="{{ path('article.index') }}"><i class="fas fa-clipboard-list">&nbsp;</i>Retour liste des articles</a>
+    <div class="tab">&nbsp;</div>
+    <h3>Nouvel Article</h3>
+    {{ form_errors(form) }}
     {{ form_start(form) }}
     <div class="row">
-        <div class="col-md-4">{{ form_row(form.title) }}</div>
-        <div class="col-md-4">{{ form_row(form.slug) }}</div>
+        <div class="col-md-3">{{ form_row(form.title) }}</div>
+        <div class="col-md-6">{{ form_row(form.excerpt) }}</div>
     </div>
     <div class="row">
-        <div class="col-md-auto">{{ form_row(form.content) }}</div>
+        <div class="col-md-9">{{ form_row(form.content) }}</div>
     </div>
-    {{ form_rest(form) }}
-    <button class="btn btn-primary">{{ button|default('Enregistrer') }}</button>
+    <div class="row">
+        <div class="col-md-4">{{ form_row(form.picture) }}</div>
+        <div class="col-md-3">{{ form_row(form.categories) }}</div>
+        <div class="col-md-2">{{ form_row(form.isPublished) }}</div>
+    </div>
+    <button class="btn btn-success"><i class="fas fa-plus-circle">&nbsp;</i>{{ button_label|default('Créer') }}</button>
     {{ form_end(form) }}
-
+    <div class="tab">&nbsp;</div>
 </div>
 {% endblock %}

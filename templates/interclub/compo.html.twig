@@ -1,0 +1,625 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Compos Interclubs' %}
+
+{% block body %}
+{% set journee = '' %}
+{% set tmp = 'X' %}
+{% set i = 0 %}
+{% set liste1 = '' %}
+{% set liste2 = '' %}
+{% set liste3 = '' %}
+{% set liste4 = '' %}
+{% set ligne1 = '' %}
+{% set ligne2 = '' %}
+{% set ligne3 = '' %}
+{% set ligne4 = '' %}
+{% set tableau = '<table class="table table-bordered table-middlefont">
+        <thead>
+            <tr>
+                <th class="text-center">Villepreux 1</th>
+                <th class="text-center">Villepreux 2</th>
+                <th class="text-center">Villepreux 3</th>
+                <th class="text-center">Villepreux 4</th>
+            </tr>
+        </thead>
+        <tbody><tr>' %}
+{% set noCompo = '<td class="text-center">Compo non faite</td>' %}
+{% set tab = tableau %}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Composition des rencontres Interclubs - Saison {{ saisoncourante }}</h5>
+        </div>
+        <div class="card-body">
+            <a class="btn btn-success" href="{{ path('interclub.index') }}">Retour Liste Interclubs</a>
+        </div>
+        <div class="card-footer text-muted">
+            Les classements affichés sont respectivement : Simple/Double/Mixte et correspondent aux classements figés de début de saison
+        </div>
+    </div>
+    <div class="tab">&nbsp;</div>
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+    {% for interclub in interclubs %}
+        {% set journee = interclub.name[0:3] %}
+        {% if journee != tmp %}
+            {% if i == 0 and date(interclub.dateRencontre) >= date() %}
+                <li class="nav-item">
+                    <a class="nav-link active" id="pills-{{ journee }}-tab" data-toggle="pill" href="#pills-{{ journee }}" role="tab" aria-controls="pills-{{ journee }}" aria-selected="true">{{ journee }}</a>
+                </li>
+                {% set i = 1 %}
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-{{ journee }}-tab" data-toggle="pill" href="#pills-{{ journee }}" role="tab" aria-controls="pills-{{ journee }}" aria-selected="false">{{ journee }}</a>
+                </li>
+            {% endif %}
+        {% endif %}
+        {% set tmp = journee %}
+    {% endfor %}
+    </ul>
+    {% set i = 0 %}
+    <div class="tab-content" id="pills-tabContent">
+        {% for interclub in interclubs %}
+            {% set journee = interclub.name[0:3] %}
+            {% for interclub in interclubs %}
+                {% if (interclub.teamhome and interclub.teamext) %}
+                    {% if (interclub.teamhome.slug == 'vip1' or interclub.teamext.slug == 'vip1') and journee == interclub.name[0:3] and interclub.SH1 != null %}
+                        {% set ligne1 = '<td class="text-center">' ~ interclub.dateRencontre|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM Y')|capitalize ~ 
+                        '<br>' ~ interclub.teamhome ~ ' / ' ~ interclub.teamext ~ '</td>' %}
+                        {% set liste1 = '<td><div class="row">
+                                <div class="col-md-auto text-left">
+                                    SH 1 : ' ~ interclub.SH1 ~ '
+                                </div>
+                                <div class="col text-right">' ~
+                                    interclub.SH1.classementsimple ~ '/' ~ interclub.SH1.classementdouble ~ '/' ~ interclub.SH1.classementmixte ~
+                                '</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-auto text-left">
+                                        SH 2 : ' ~ interclub.SH2 ~ '
+                                    </div>' 
+                        %}
+                        {% if (interclub.SH2) %}
+                            {% set liste1 = liste1 ~ '<div class="col text-right">' ~
+                                    interclub.SH2.classementsimple ~ '/' ~ interclub.SH2.classementdouble ~ '/' ~ interclub.SH2.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste1 = liste1 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste1 = liste1 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    SH 3 : ' ~ interclub.SH3 ~ '
+                                </div>' %}
+                        {% if (interclub.SH3) %}
+                            {% set liste1 = liste1 ~ '<div class="col text-right">' ~
+                                    interclub.SH3.classementsimple ~ '/' ~ interclub.SH3.classementdouble ~ '/' ~ interclub.SH3.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste1 = liste1 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste1 = liste1 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    SD : ' ~ interclub.SD ~ '
+                                </div>' %}
+                        {% if (interclub.SD) %}
+                            {% set liste1 = liste1 ~ '<div class="col text-right">' ~
+                                    interclub.SD.classementsimple ~ '/' ~ interclub.SD.classementdouble ~ '/' ~ interclub.SD.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste1 = liste1 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste1 = liste1 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    DD : ' ~ interclub.DDJoueuse1 ~ '
+                                </div>' %}
+                        {% if (interclub.DDJoueuse1) %}
+                            {% set liste1 = liste1 ~ '<div class="col text-right">' ~
+                                    interclub.DDJoueuse1.classementsimple ~ '/' ~ interclub.DDJoueuse1.classementdouble ~ '/' ~ interclub.DDJoueuse1.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste1 = liste1 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste1 = liste1 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;' ~ interclub.DDJoueuse2 ~ '
+                                </div>' %}
+                        {% if (interclub.DDJoueuse2) %}
+                            {% set liste1 = liste1 ~ '<div class="col text-right">' ~
+                                    interclub.DDJoueuse2.classementsimple ~ '/' ~ interclub.DDJoueuse2.classementdouble ~ '/' ~ interclub.DDJoueuse2.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste1 = liste1 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste1 = liste1 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    DH : ' ~ interclub.DH1Joueur1 ~ '
+                                </div>' %}
+                        {% if (interclub.DH1Joueur1) %}
+                            {% set liste1 = liste1 ~ '<div class="col text-right">' ~
+                                    interclub.DH1Joueur1.classementsimple ~ '/' ~ interclub.DH1Joueur1.classementdouble ~ '/' ~ interclub.DH1Joueur1.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste1 = liste1 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste1 = liste1 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;' ~ interclub.DH1Joueur2 ~ '
+                                </div>' %}
+                        {% if (interclub.DH1Joueur2) %}
+                            {% set liste1 = liste1 ~ '<div class="col text-right">' ~
+                                    interclub.DH1Joueur2.classementsimple ~ '/' ~ interclub.DH1Joueur2.classementdouble ~ '/' ~ interclub.DH1Joueur2.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste1 = liste1 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste1 = liste1 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    DM : ' ~ interclub.DMXJoueur ~ '
+                                </div>' %}
+                        {% if (interclub.DMXJoueur) %}
+                            {% set liste1 = liste1 ~ '<div class="col text-right">' ~
+                                    interclub.DMXJoueur.classementsimple ~ '/' ~ interclub.DMXJoueur.classementdouble ~ '/' ~ interclub.DMXJoueur.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste1 = liste1 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste1 = liste1 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;' ~ interclub.DMXJoueuse ~ '
+                                </div>' %}
+                        {% if (interclub.DMXJoueuse) %}
+                            {% set liste1 = liste1 ~ '<div class="col text-right">' ~
+                                    interclub.DMXJoueuse.classementsimple ~ '/' ~ interclub.DMXJoueuse.classementdouble ~ '/' ~ interclub.DMXJoueuse.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste1 = liste1 ~ '</div>' %}
+                        {% endif %}
+
+                        {% set liste1 = liste1 ~ '</td>' %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% for interclub in interclubs %}
+                {% if (interclub.teamhome and interclub.teamext) %}
+                    {% if (interclub.teamhome.slug == 'vip2' or interclub.teamext.slug == 'vip2') and journee == interclub.name[0:3] and interclub.SH1 != null %}
+                        {% set ligne2 = '<td class="text-center">' ~ interclub.dateRencontre|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM Y')|capitalize ~ 
+                        '<br>' ~ interclub.teamhome ~ ' / ' ~ interclub.teamext ~ '</td>' %}
+                        {% set liste2 = '<td><div class="row">
+                            <div class="col-md-auto text-left">
+                                SH 1 : ' ~ interclub.SH1 ~ '
+                            </div>
+                            <div class="col text-right">' ~
+                                interclub.SH1.classementsimple ~ '/' ~ interclub.SH1.classementdouble ~ '/' ~ interclub.SH1.classementmixte ~
+                            '</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-auto text-left">
+                                    SH 2 : ' ~ interclub.SH2 ~ '
+                                </div>'
+                        %}
+                        {% if (interclub.SH2) %}
+                            {% set liste2 = liste2 ~ '<div class="col text-right">' ~
+                                    interclub.SH2.classementsimple ~ '/' ~ interclub.SH2.classementdouble ~ '/' ~ interclub.SH2.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste2 = liste2 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste2 = liste2 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    SH 3 : ' ~ interclub.SH3 ~ '
+                                </div>' %}
+                        {% if (interclub.SH3) %}
+                            {% set liste2 = liste2 ~ '<div class="col text-right">' ~
+                                    interclub.SH3.classementsimple ~ '/' ~ interclub.SH3.classementdouble ~ '/' ~ interclub.SH3.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste2 = liste2 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste2 = liste2 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    SD : ' ~ interclub.SD ~ '
+                                </div>' %}
+                        {% if (interclub.SD) %}
+                            {% set liste2 = liste2 ~ '<div class="col text-right">' ~
+                                    interclub.SD.classementsimple ~ '/' ~ interclub.SD.classementdouble ~ '/' ~ interclub.SD.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste2 = liste2 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste2 = liste2 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    DD : ' ~ interclub.DDJoueuse1 ~ '
+                                </div>' %}
+                        {% if (interclub.DDJoueuse1) %}
+                            {% set liste2 = liste2 ~ '<div class="col text-right">' ~
+                                    interclub.DDJoueuse1.classementsimple ~ '/' ~ interclub.DDJoueuse1.classementdouble ~ '/' ~ interclub.DDJoueuse1.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste2 = liste2 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste2 = liste2 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;' ~ interclub.DDJoueuse2 ~ '
+                                </div>' %}
+                        {% if (interclub.DDJoueuse2) %}
+                            {% set liste2 = liste2 ~ '<div class="col text-right">' ~
+                                    interclub.DDJoueuse2.classementsimple ~ '/' ~ interclub.DDJoueuse2.classementdouble ~ '/' ~ interclub.DDJoueuse2.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste2 = liste2 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste2 = liste2 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    DH : ' ~ interclub.DH1Joueur1 ~ '
+                                </div>' %}
+                        {% if (interclub.DH1Joueur1) %}
+                            {% set liste2 = liste2 ~ '<div class="col text-right">' ~
+                                    interclub.DH1Joueur1.classementsimple ~ '/' ~ interclub.DH1Joueur1.classementdouble ~ '/' ~ interclub.DH1Joueur1.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste2 = liste2 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste2 = liste2 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;' ~ interclub.DH1Joueur2 ~ '
+                                </div>' %}
+                        {% if (interclub.DH1Joueur2) %}
+                            {% set liste2 = liste2 ~ '<div class="col text-right">' ~
+                                    interclub.DH1Joueur2.classementsimple ~ '/' ~ interclub.DH1Joueur2.classementdouble ~ '/' ~ interclub.DH1Joueur2.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste2 = liste2 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste2 = liste2 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    DM : ' ~ interclub.DMXJoueur ~ '
+                                </div>' %}
+                        {% if (interclub.DMXJoueur) %}
+                            {% set liste2 = liste2 ~ '<div class="col text-right">' ~
+                                    interclub.DMXJoueur.classementsimple ~ '/' ~ interclub.DMXJoueur.classementdouble ~ '/' ~ interclub.DMXJoueur.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste2 = liste2 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste2 = liste2 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;' ~ interclub.DMXJoueuse ~ '
+                                </div>' %}
+                        {% if (interclub.DMXJoueuse) %}
+                            {% set liste2 = liste2 ~ '<div class="col text-right">' ~
+                                    interclub.DMXJoueuse.classementsimple ~ '/' ~ interclub.DMXJoueuse.classementdouble ~ '/' ~ interclub.DMXJoueuse.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste2 = liste2 ~ '</div>' %}
+                        {% endif %}
+
+                        {% set liste2 = liste2 ~ '</td>' %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% for interclub in interclubs %}
+                {% if (interclub.teamhome and interclub.teamext) %}
+                    {% if (interclub.teamhome.slug == 'vip3' or interclub.teamext.slug == 'vip3') and journee == interclub.name[0:3] and interclub.SH1 != null %}
+                        {% set ligne3 = '<td class="text-center">' ~ interclub.dateRencontre|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM Y')|capitalize ~ 
+                        '<br>' ~ interclub.teamhome ~ ' / ' ~ interclub.teamext ~ '</td>' %}
+                        {% set liste3 = '<td><div class="row">
+                                <div class="col-md-auto text-left">
+                                    SH 1 : ' ~ interclub.SH1 ~ '
+                                </div>
+                                <div class="col text-right">' ~
+                                    interclub.SH1.classementsimple ~ '/' ~ interclub.SH1.classementdouble ~ '/' ~ interclub.SH1.classementmixte ~
+                                '</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-auto text-left">
+                                        SH 2 : ' ~ interclub.SH2 ~ '
+                                    </div>' 
+                        %}
+                        {% if (interclub.SH2) %}
+                            {% set liste3 = liste3 ~ '<div class="col text-right">' ~
+                                    interclub.SH2.classementsimple ~ '/' ~ interclub.SH2.classementdouble ~ '/' ~ interclub.SH2.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste3 = liste3 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste3 = liste3 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    SH 3 : ' ~ interclub.SH3 ~ '
+                                </div>' %}
+                        {% if (interclub.SH3) %}
+                            {% set liste3 = liste3 ~ '<div class="col text-right">' ~
+                                    interclub.SH3.classementsimple ~ '/' ~ interclub.SH3.classementdouble ~ '/' ~ interclub.SH3.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste3 = liste3 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste3 = liste3 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    SD : ' ~ interclub.SD ~ '
+                                </div>' %}
+                        {% if (interclub.SD) %}
+                            {% set liste3 = liste3 ~ '<div class="col text-right">' ~
+                                    interclub.SD.classementsimple ~ '/' ~ interclub.SD.classementdouble ~ '/' ~ interclub.SD.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste3 = liste3 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste3 = liste3 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    DD : ' ~ interclub.DDJoueuse1 ~ '
+                                </div>' %}
+                        {% if (interclub.DDJoueuse1) %}
+                            {% set liste3 = liste3 ~ '<div class="col text-right">' ~
+                                    interclub.DDJoueuse1.classementsimple ~ '/' ~ interclub.DDJoueuse1.classementdouble ~ '/' ~ interclub.DDJoueuse1.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste3 = liste3 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste3 = liste3 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;' ~ interclub.DDJoueuse2 ~ '
+                                </div>' %}
+                        {% if (interclub.DDJoueuse2) %}
+                            {% set liste3 = liste3 ~ '<div class="col text-right">' ~
+                                    interclub.DDJoueuse2.classementsimple ~ '/' ~ interclub.DDJoueuse2.classementdouble ~ '/' ~ interclub.DDJoueuse2.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste3 = liste3 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste3 = liste3 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    DH : ' ~ interclub.DH1Joueur1 ~ '
+                                </div>' %}
+                        {% if (interclub.DH1Joueur1) %}
+                            {% set liste3 = liste3 ~ '<div class="col text-right">' ~
+                                    interclub.DH1Joueur1.classementsimple ~ '/' ~ interclub.DH1Joueur1.classementdouble ~ '/' ~ interclub.DH1Joueur1.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste3 = liste3 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste3 = liste3 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;' ~ interclub.DH1Joueur2 ~ '
+                                </div>' %}
+                        {% if (interclub.DH1Joueur2) %}
+                            {% set liste3 = liste3 ~ '<div class="col text-right">' ~
+                                    interclub.DH1Joueur2.classementsimple ~ '/' ~ interclub.DH1Joueur2.classementdouble ~ '/' ~ interclub.DH1Joueur2.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste3 = liste3 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste3 = liste3 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    DM : ' ~ interclub.DMXJoueur ~ '
+                                </div>' %}
+                        {% if (interclub.DMXJoueur) %}
+                            {% set liste3 = liste3 ~ '<div class="col text-right">' ~
+                                    interclub.DMXJoueur.classementsimple ~ '/' ~ interclub.DMXJoueur.classementdouble ~ '/' ~ interclub.DMXJoueur.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste3 = liste3 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste3 = liste3 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;' ~ interclub.DMXJoueuse ~ '
+                                </div>' %}
+                        {% if (interclub.DMXJoueuse) %}
+                            {% set liste3 = liste3 ~ '<div class="col text-right">' ~
+                                    interclub.DMXJoueuse.classementsimple ~ '/' ~ interclub.DMXJoueuse.classementdouble ~ '/' ~ interclub.DMXJoueuse.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste3 = liste3 ~ '</div>' %}
+                        {% endif %}
+
+                        {% set liste3 = liste3 ~ '</td>' %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% for interclub in interclubs %}
+                {% if (interclub.teamhome and interclub.teamext) %}
+                    {% if (interclub.teamhome.slug == 'vip4' or interclub.teamext.slug == 'vip4') and journee == interclub.name[0:3] and interclub.SH1 != null %}
+                        {% set ligne4 = '<td class="text-center">' ~ interclub.dateRencontre|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM Y')|capitalize ~ 
+                        '<br>' ~ interclub.teamhome ~ ' / ' ~ interclub.teamext ~ '</td>' %}
+                        {% set liste4 = '<td><div class="row">
+                                <div class="col-md-auto text-left">
+                                    SH 1 : ' ~ interclub.SH1 ~ '
+                                </div>
+                                <div class="col text-right">' ~
+                                    interclub.SH1.classementsimple ~ '/' ~ interclub.SH1.classementdouble ~ '/' ~ interclub.SH1.classementmixte ~
+                                '</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-auto text-left">
+                                        SH 2 : ' ~ interclub.SH2 ~ '
+                                    </div>' 
+                        %}
+                        {% if (interclub.SH2) %}
+                            {% set liste4 = liste4 ~ '<div class="col text-right">' ~
+                                    interclub.SH2.classementsimple ~ '/' ~ interclub.SH2.classementdouble ~ '/' ~ interclub.SH2.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste4 = liste4 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste4 = liste4 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    SH 3 : ' ~ interclub.SH3 ~ '
+                                </div>' %}
+                        {% if (interclub.SH3) %}
+                            {% set liste4 = liste4 ~ '<div class="col text-right">' ~
+                                    interclub.SH3.classementsimple ~ '/' ~ interclub.SH3.classementdouble ~ '/' ~ interclub.SH3.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste4 = liste4 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste4 = liste4 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    SH 4 : ' ~ interclub.SH4 ~ '
+                                </div>' %}
+                        {% if (interclub.SH4) %}
+                            {% set liste4 = liste4 ~ '<div class="col text-right">' ~
+                                    interclub.SH4.classementsimple ~ '/' ~ interclub.SH4.classementdouble ~ '/' ~ interclub.SH4.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste4 = liste4 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste4 = liste4 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    DH 1 : ' ~ interclub.DH1Joueur1 ~ '
+                                </div>' %}
+                        {% if (interclub.DH1Joueur1) %}
+                            {% set liste4 = liste4 ~ '<div class="col text-right">' ~
+                                    interclub.DH1Joueur1.classementsimple ~ '/' ~ interclub.DH1Joueur1.classementdouble ~ '/' ~ interclub.DH1Joueur1.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste4 = liste4 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste4 = liste4 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;' ~ interclub.DH1Joueur2 ~ '
+                                </div>' %}
+                        {% if (interclub.DH1Joueur2) %}
+                            {% set liste4 = liste4 ~ '<div class="col text-right">' ~
+                                    interclub.DH1Joueur2.classementsimple ~ '/' ~ interclub.DH1Joueur2.classementdouble ~ '/' ~ interclub.DH1Joueur2.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste4 = liste4 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste4 = liste4 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    DH 2 : ' ~ interclub.DH2Joueur1 ~ '
+                                </div>' %}
+                        {% if (interclub.DH2Joueur1) %}
+                            {% set liste4 = liste4 ~ '<div class="col text-right">' ~
+                                    interclub.DH2Joueur1.classementsimple ~ '/' ~ interclub.DH2Joueur1.classementdouble ~ '/' ~ interclub.DH2Joueur1.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste4 = liste4 ~ '</div>' %}
+                        {% endif %}
+                        {% set liste4 = liste4 ~ '<div class="row">
+                                <div class="col-md-auto text-left">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;' ~ interclub.DH2Joueur2 ~ '
+                                </div>' %}
+                        {% if (interclub.DH2Joueur2) %}
+                            {% set liste4 = liste4 ~ '<div class="col text-right">' ~
+                                    interclub.DH2Joueur2.classementsimple ~ '/' ~ interclub.DH2Joueur2.classementdouble ~ '/' ~ interclub.DH2Joueur2.classementmixte ~
+                                    '</div>
+                                </div>'
+                            %}
+                        {% else %}
+                            {% set liste4 = liste4 ~ '</div>' %}
+                        {% endif %}
+
+                        {% set liste4 = liste4 ~ '</td>' %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if liste1 == '' %}
+                {% set liste1 = noCompo %}
+            {% endif %}
+            {% if liste2 == '' %}
+                {% set liste2 = noCompo %}
+            {% endif %}
+            {% if liste3 == '' %}
+                {% set liste3 = noCompo %}
+            {% endif %}
+            {% if liste4 == '' %}
+                {% set liste4 = noCompo %}
+            {% endif %}
+            {% if journee != tmp %}
+                {% if ligne1 == '' %} {% set ligne1 = '<td>&nbsp;</td>' %} {% endif %}
+                {% if ligne2 == '' %} {% set ligne2 = '<td>&nbsp;</td>' %} {% endif %}
+                {% if ligne3 == '' %} {% set ligne3 = '<td>&nbsp;</td>' %} {% endif %}
+                {% if ligne4 == '' %} {% set ligne4 = '<td>&nbsp;</td>' %} {% endif %}
+                {% set tableau = tableau ~ ligne1 ~ ligne2 ~ ligne3 ~ ligne4 ~ '</tr><tr>' ~ liste1 ~ liste2 ~ liste3 ~ liste4 ~ '</tr></tbody></table>' %}
+                {% if i == 0 and date(interclub.dateRencontre) >= date() %}
+                    <div class="tab-pane fade show active" id="pills-{{ journee }}" role="tabpanel" aria-labelledby="pills-{{ journee }}-tab">
+                        {{ tableau|raw }}
+                    </div>
+                    {% set i = 1 %}
+                {% else %}
+                    <div class="tab-pane fade" id="pills-{{ journee }}" role="tabpanel" aria-labelledby="pills-{{ journee }}-tab">
+                        {{ tableau|raw }}
+                    </div>
+                {% endif %}
+                {% set tableau = tab %}
+            {% endif %}
+            {% set liste1 = '' %}
+            {% set liste2 = '' %}
+            {% set liste3 = '' %}
+            {% set liste4 = '' %}
+            {% set ligne1 = '' %}
+            {% set ligne2 = '' %}
+            {% set ligne3 = '' %}
+            {% set ligne4 = '' %}
+            {% set tmp = journee %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

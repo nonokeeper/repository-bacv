@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trophee Jeunes{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="tab">&nbsp;</div>
+    <div class="card">
+        <div class="card-header"><h5 class="card-title">Liste des Compétitions Jeunes de la saison en cours ({{ saisoncourante }})</h5></div>
+        <div class="card-body">
+            Les Doubles sont en bleu foncé<br/>
+            Chaque catégorie a sa couleur
+        </div>
+    </div>
+    <div class="tab">&nbsp;</div>
+    <table class="table">
+        <thead class="bg-green">
+            <tr>
+                <th>Compétitions</th>
+                <th>Dates</th>
+                <th>Plaquette</th>
+                <th>Clubs</th>
+                <th>Dates limites d'insciption</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="bg-all">
+                <td>1er Trophée Jeunes</td>
+                <td>5 et 6 octobre 2019</td>
+                <td>Plaquette J1</td>
+                <td>Voisins-le-Bretonneux</td>
+                <td>mardi 24 septembre 2019</td>
+            </tr>
+            <tr class="table-warning">
+                <td>Poussins</td>
+                <td>12 octobre 2019</td>
+                <td>Plaquette Poussin 1</td>
+                <td>La-Queue-Lez-Yvelines</td>
+                <td>Mercredi 9 octobre 2019</td>
+            </tr>
+            <tr class="table-danger">
+                <td>D1/J2</td>
+                <td>9 et 10 novembre 2019</td>
+                <td>Plaquette D1/J2</td>
+                <td>Porcheville</td>
+                <td>Mercredi 30 octobre 2019</td>
+            </tr>
+            <tr class="table-success">
+                <td>D2/J2</td>
+                <td>30 nov et 1er Décembre 2019</td>
+                <td>Plaquette D2/J2</td>
+                <td>Le-Perray-en-Yvelines</td>
+                <td>Mardi 19 novembre 2019</td>
+            </tr>
+            <tr class="table-warning">
+                <td>Poussins</td>
+                <td>15 décembre 2019 matin</td>
+                <td>Plaquette Poussin 2</td>
+                <td>Carrières-Sur-Seine</td>
+                <td>Mercredi 11 décembre 2019</td>
+            </tr>
+            <tr class="table-primary">
+                <td>D3/J2</td>
+                <td>7 et 8 décembre 2019</td>
+                <td>Plaquette D3/J2</td>
+                <td>La-Queue-Lez-Yvelines</td>
+                <td>Jeudi 28 novembre 2019</td>
+            </tr>
+            <tr class="table-danger">
+                <td>D1/J3</td>
+                <td>18 et 19 Janvier 2020</td>
+                <td>Plaquette D1/J3</td>
+                <td>?</td>
+                <td>Mardi 7 janvier 2020</td>
+            </tr>
+            <tr class="table-warning">
+                <td>Poussins</td>
+                <td>25 janvier 2020</td>
+                <td>Plaquette Poussin 3</td>
+                <td>Montigny-le-Bretonneux</td>
+                <td>Jeudi 16 janvier 2020</td>
+            </tr>
+            <tr class="table-success">
+                <td>D2/J3</td>
+                <td>7 et 8 mars 2020</td>
+                <td>Plaquette D2/J3</td>
+                <td>Elancourt</td>
+                <td>Jeudi 25 février 2020</td>
+            </tr>
+            <tr class="bg-blue">
+                <td>Tournoi Duos</td>
+                <td>14 et 15 mars 2020</td>
+                <td>Plaquette Tournoi</td>
+                <td>Saint-Cyr-L'Ecole ??</td>
+                <td>Mardi 3 mars 2020</td>
+            </tr>
+            <tr class="table-primary">
+                <td>D3/J3</td>
+                <td>21-23 mars 2020</td>
+                <td>Plaquette D3/J3</td>
+                <td>Maurepas</td>
+                <td>Jeudi 12 mars 2020</td>
+            </tr>
+            <tr class="bg-blue">
+                <td>Doubles 1</td>
+                <td>1 et 2 février 2020</td>
+                <td>Plaquette Doubles 1</td>
+                <td>Maurecourt</td>
+                <td>Mardi 21 janvier 2020</td>
+            </tr>
+            <tr class="table-warning">
+                <td>Poussins</td>
+                <td>28 mars 2020</td>
+                <td>Plaquette Poussin 4</td>
+                <td>Elancourt</td>
+                <td>Jeudi 19 mars 2020</td>
+            </tr>
+            <tr class="table-success">
+                <td>D2/J4</td>
+                <td>25 et 26 avril 2020</td>
+                <td>Plaquette D2/J4</td>
+                <td>Carrières-sous-Poissy</td>
+                <td>Mardi 14 avril 2020</td>
+            </tr>
+            <tr class="table-primary">
+                <td>D3/J4</td>
+                <td>9 et 10 mai 2020</td>
+                <td>Plaquette D3/J4</td>
+                <td>Vélizy</td>
+                <td>Jeudi 30 avril 2020</td>
+            </tr>
+            <tr class="bg-blue">
+                <td>Doubles 2</td>
+                <td>16-17 mai 2020</td>
+                <td>Plaquette Doubles 2</td>
+                <td>Chambourcy</td>
+                <td>Mardi 5 mai 2020</td>
+            </tr>
+            <tr class="bg-all">
+                <td>Championnat Jeunes</td>
+                <td>6 et 7 juin 2020</td>
+                <td>Plaquette</td>
+                <td>Carrières-sur-Seine</td>
+                <td>?</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

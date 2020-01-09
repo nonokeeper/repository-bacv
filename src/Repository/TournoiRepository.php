@@ -19,6 +19,17 @@ class TournoiRepository extends ServiceEntityRepository
         parent::__construct($registry, Tournoi::class);
     }
 
+    public function findBySaison($saison)
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.saison = :saison')
+            ->setParameter('saison', $saison)
+            ->orderBy('t.date_debut', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Tournoi[] Returns an array of Tournoi objects
     //  */

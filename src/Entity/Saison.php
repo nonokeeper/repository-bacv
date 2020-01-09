@@ -29,12 +29,7 @@ class Saison
     private $slug;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="saison")
-     */
-    private $users;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Tournoi", mappedBy="saison", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Tournoi", mappedBy="saison")
      */
     private $tournois;
 
@@ -60,7 +55,6 @@ class Saison
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
         $this->tournois = new ArrayCollection();
         $this->teams = new ArrayCollection();
         $this->teamVeterans = new ArrayCollection();
@@ -93,34 +87,6 @@ class Saison
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->addSaison($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
-            $user->removeSaison($this);
-        }
 
         return $this;
     }
@@ -272,6 +238,13 @@ class Saison
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        if ($this->getName()) {
+            return $this->getName();
+        } else return '';
     }
 
 }

@@ -19,19 +19,14 @@ class Team
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=30, unique=true)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=10)
-     */
-    private $slug;
-
-    /**
      * @ORM\Column(type="string", length=20)
      */
-    private $type;
+    private $slug;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="team")
@@ -48,6 +43,16 @@ class Team
      * @ORM\JoinColumn(nullable=false)
      */
     private $club;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="teamManaged")
+     */
+    private $capitaine;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $mixte;
 
     public function __construct()
     {
@@ -84,18 +89,6 @@ class Team
         return $this;
     }
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
     /**
      * @return Collection|User[]
      */
@@ -108,7 +101,7 @@ class Team
     {
         if (!$this->users->contains($user)) {
             $this->users[] = $user;
-            $user->addTeam($this);
+            $user->setTeam($this);
         }
 
         return $this;
@@ -118,7 +111,9 @@ class Team
     {
         if ($this->users->contains($user)) {
             $this->users->removeElement($user);
-            $user->removeTeam($this);
+            if ($user->getTeam() === $this) {
+                $user->setTeam(null);
+            }
         }
 
         return $this;
@@ -158,6 +153,37 @@ class Team
     public function setClub(?Club $club): self
     {
         $this->club = $club;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        if ($this->getName()) {
+            return $this->getName();
+        } else return '';
+    }
+
+    public function getCapitaine(): ?User
+    {
+        return $this->capitaine;
+    }
+
+    public function setCapitaine(?User $capitaine): self
+    {
+        $this->capitaine = $capitaine;
+
+        return $this;
+    }
+
+    public function getMixte(): ?bool
+    {
+        return $this->mixte;
+    }
+
+    public function setMixte(?bool $mixte): self
+    {
+        $this->mixte = $mixte;
 
         return $this;
     }

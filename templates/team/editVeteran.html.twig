@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Modification Equipe Vétéran' %}
+
+{% block body %}
+<div class="container">
+    <a href="{{ path('team.index') }}"><i class="fas fa-arrow-alt-circle-left"></i>&nbsp;Retour à la liste des équipes</a>
+    <h4>Equipe ({{ teamVeteran.name }})</h4>
+    {{ form_start(formTeamVeteran) }}
+    {{ form_errors(formTeamVeteran) }}
+        <div class="row">
+            <div class="col">
+                <div class="col-md-auto">{{ form_row(formTeamVeteran.name, {'label': 'Nom Equipe *'}) }}</div>
+            </div>
+            <div class="col">
+                <div class="col-md-auto">{{ form_row(formTeamVeteran.slug, {'label': 'Slug Equipe *'}) }}</div>
+            </div>
+            <div class="col">
+                <div class="col-md-auto">{{ form_row(formTeamVeteran.club, {'label': 'Club'}) }}</div>
+            </div>
+        </div>
+         <div class="row">
+            <div class="col">
+                <div class="col-md-auto">{{ form_row(formTeamVeteran.users, {'label': 'Joueurs'}) }}</div>
+            </div>
+            <div class="col">
+                <div class="col-md-auto">{{ form_row(formTeamVeteran.saison, {'label': 'Saisons'}) }}</div>
+            </div>
+        </div>
+        <div class="form-inline">&nbsp;</div>
+        <div class="row justify-content-md-center">
+            <div class="col-md-auto">
+                <button class="btn btn-info">{{ button|default('Modifier') }}</button>
+            </div>
+            <div class="col-md-auto">
+                <a href="{{ path('team.index') }}" class="btn btn-secondary">Annuler</a>
+            </div>
+        </div>
+        <div class="form-inline">&nbsp;</div>
+    {{ form_end(formTeamVeteran) }}
+</div>
+{% endblock %}

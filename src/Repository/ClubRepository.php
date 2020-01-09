@@ -47,4 +47,15 @@ class ClubRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findClubBySlug($value): ?Club
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.slug = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+    
 }

@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use \Datetime;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TournoiRepository")
@@ -34,17 +35,12 @@ class Tournoi
     private $date_fin;
 
     /**
-     * @ORM\Column(type="string", length=20)
-     */
-    private $type;
-
-    /**
      * @ORM\Column(type="string", length=100)
      */
     private $lieu;
 
     /**
-     * @ORM\Column(type="string", length=100, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $lien_inscription;
 
@@ -69,12 +65,12 @@ class Tournoi
     private $date_inscription;
 
     /**
-     * @ORM\Column(type="string", length=100, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $lien_convocation;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $lien_description;
 
@@ -93,6 +89,11 @@ class Tournoi
      * @ORM\ManyToOne(targetEntity="App\Entity\Club")
      */
     private $club;
+
+    /**
+     * @var string Variable pour dire si le statut du Tournoi : terminé / à venir ou inscriptions closes
+     */
+    private $statut;
 
     public function __construct()
     {
@@ -136,18 +137,6 @@ class Tournoi
     public function setDateFin(\DateTimeInterface $date_fin): self
     {
         $this->date_fin = $date_fin;
-
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
 
         return $this;
     }
@@ -284,4 +273,43 @@ class Tournoi
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getStatut(): ?string
+    {
+        // valeur qui dépend de date_inscription / date_debut / date_fin
+        // retour "closed" si date courante > date_fin
+        // retour "open" si date courante < date_inscription
+        // retour "soon" si date courante > date_inscription et date courante < date_fin
+        $now = new DateTime('now');
+
+        if ($now >= $this->getDateFin()) {
+            $this->statut = 'closed';
+        } elseif ($now > $this->getDateInscription() or !$this->getDateInscription()) {
+            $this->statut = 'soon';
+        } else {
+            $this->statut = 'open';
+        }
+        
+        return $this->statut;
+    }
+
+    /**
+     * @param string $statut
+     * @return Tournoi
+     */
+    public function setStatut(string $statut): Tournoi
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        if ($this->getName()) {
+            return $this->getName();
+        } else return '';
+    }
 }

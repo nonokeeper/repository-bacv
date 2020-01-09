@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Modifier une rencontre Vétéran' %}
+
+{% block body %}
+<div class="container mt-4">
+    <a class="btn btn-primary" href="{{ path('interclubVeteran.index')}}"><i class="fas fa-list-alt">&nbsp;</i>Liste des rencontres</a>
+</div>
+<div class="container mt-4">
+    {{ form_start(interclubForm) }}
+    <h3>Rencontre <small class="text-muted">`{{ interclubsVeteran.name }}`</small></h3>
+    {{ form_start(interclubForm) }}
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(interclubForm.name) }}</div>
+        <div class="col-md-auto">{{ form_row(interclubForm.teamhome, {
+                attr: {
+                    'data-specific-teamhome-url': path('interclubveteran_teamhome_select'),
+                    'class': 'js-interclub-form-teamhome'
+                }
+            }) }}
+        </div>
+        <div class="col-md-auto">{{ form_row(interclubForm.teamext) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(interclubForm.dateRencontre) }}</div>
+        <div class="col-md-auto">{{ form_row(interclubForm.score) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto js-specific-teamhome-target">
+            {%  if interclubForm.location is defined %}
+                {{ form_row(interclubForm.location) }}
+            {% endif %}
+        </div>
+        <div class="col-md-auto">{{ form_row(interclubForm.saison) }}</div>
+    </div>
+    <button class="btn btn-primary">{{ button|default('Modifier') }}</button>
+    <div class="tab">&nbsp;</div>
+    {{ form_end(interclubForm) }}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/admin_interclub_form.js') }}"></script>
+{% endblock %}

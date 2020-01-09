@@ -14,9 +14,12 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class InterclubRepository extends ServiceEntityRepository
 {
+    private $currentSaison;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Interclub::class);
+        $this->currentSaison = $_ENV['SAISON'];
     }
 
     // /**
@@ -36,6 +39,118 @@ class InterclubRepository extends ServiceEntityRepository
     }
     */
 
+    /**
+    * @return Interclub[] Returns an array of Interclub objects
+    */
+    public function findAllCurrentSaison($saison)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.saison = :saison')
+            ->setParameter('saison', $saison)
+            ->orderBy('i.dateRencontre', 'ASC')
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return Interclub[] Returns an array of Interclub objects
+    */
+    public function findAllForCompo($saison)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.saison = :saison')
+            ->setParameter('saison', $saison)
+            ->orderBy('i.name', 'ASC')
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return Interclub Returns one Interclub for VIP1
+    * Filtre sur les identifiants des équipes respectivement
+    * Equipe 1 / Equipe 2 / Equipe 3 / Equipe 4 => 1 / 2 / 4 / 5 
+    */
+    public function findVIP1(): ?Interclub
+    {
+        $result = $this->createQueryBuilder('i')
+            ->andWhere('i.saison = :saison')
+            ->setParameter('saison', $this->currentSaison)
+            ->andWhere('i.dateRencontre >= :date')
+            ->setParameter('date', new \DateTime('now'))
+            ->andWhere('i.team_home = :vip or i.team_ext = :vip')
+            ->setParameter('vip', 1)
+            ->orderBy('i.dateRencontre', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return ($result? $result[0] : null);
+    }
+
+    /**
+    * @return Interclub Returns one Interclub for VIP2
+    */
+    public function findVIP2(): ?Interclub
+    {
+        $result = $this->createQueryBuilder('i')
+            ->andWhere('i.saison = :saison')
+            ->setParameter('saison', $this->currentSaison)
+            ->andWhere('i.dateRencontre >= :date')
+            ->setParameter('date', new \DateTime('now'))
+            ->andWhere('i.team_home = :vip or i.team_ext = :vip')
+            ->setParameter('vip', 2)
+            ->orderBy('i.dateRencontre', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return ($result? $result[0] : null);
+    }
+
+    /**
+    * @return Interclub Returns one Interclub for VIP3
+    */
+    public function findVIP3(): ?Interclub
+    {
+        $result = $this->createQueryBuilder('i')
+            ->andWhere('i.saison = :saison')
+            ->setParameter('saison', $this->currentSaison)
+            ->andWhere('i.dateRencontre >= :date')
+            ->setParameter('date', new \DateTime('now'))
+            ->andWhere('i.team_home = :vip or i.team_ext = :vip')
+            ->setParameter('vip', 4)
+            ->orderBy('i.dateRencontre', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return ($result? $result[0] : null);
+    }
+
+    /**
+    * @return Interclub Returns one Interclub for VIP4
+    */
+    public function findVIP4(): ?Interclub
+    {
+        $result = $this->createQueryBuilder('i')
+            ->andWhere('i.saison = :saison')
+            ->setParameter('saison', $this->currentSaison)
+            ->andWhere('i.dateRencontre >= :date')
+            ->setParameter('date', new \DateTime('now'))
+            ->andWhere('i.team_home = :vip or i.team_ext = :vip')
+            ->setParameter('vip', 5)
+            ->orderBy('i.dateRencontre', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return ($result? $result[0] : null);
+    }
+
     /*
     public function findOneBySomeField($value): ?Interclub
     {
@@ -47,4 +162,5 @@ class InterclubRepository extends ServiceEntityRepository
         ;
     }
     */
+    
 }

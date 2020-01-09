@@ -58,9 +58,46 @@ class Article
      */
     private $categories;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="articles")
+     */
+    private $auteur;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $excerpt;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
+    }
+
+    public static function slugify($text)
+    {
+        // replace non letter or digits by -
+        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        // trim
+        $text = trim($text, '-');
+
+        // remove duplicate -
+        $text = preg_replace('~-+~', '-', $text);
+
+        // lowercase
+        $text = strtolower($text);
+
+        if (empty($text)) {
+            return 'n-a';
+        }
+
+        return $text;
     }
 
     public function getId(): ?int
@@ -88,7 +125,7 @@ class Article
     public function setTitle(?string $title): self
     {
         $this->title = $title;
-
+        $this->slug = $this->slugify($this->title);
         return $this;
     }
 
@@ -99,7 +136,10 @@ class Article
 
     public function setSlug(string $slug): self
     {
-        $this->slug = $slug;
+        //$this->slug = slugifier($this->title);
+        if ($slug) {
+            $this->slug = $slug;
+        }
 
         return $this;
     }
@@ -177,4 +217,34 @@ class Article
 
         return $this;
     }
+
+    public function getAuteur(): ?User
+    {
+        return $this->auteur;
+    }
+
+    public function setAuteur(?User $auteur): self
+    {
+        $this->auteur = $auteur;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
+
+    public function getExcerpt(): ?string
+    {
+        return $this->excerpt;
+    }
+
+    public function setExcerpt(?string $excerpt): self
+    {
+        $this->excerpt = $excerpt;
+
+        return $this;
+    }
+
 }

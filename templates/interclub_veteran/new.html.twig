@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Créer une rencontre Vétéran' %}
+
+{% block body %}
+<div class="container mt-4">
+    <a href="{{ path('interclubVeteran.index')}}">Retour à la liste des rencontres</a>
+</div>
+<div class="container mt-4">
+    <h1>Créer une rencontre Vétéran</h1>
+    {{ form_start(interclubForm) }}
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(interclubForm.name) }}</div>
+        <div class="col-md-auto">{{ form_row(interclubForm.saison) }}</div>
+        
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(interclubForm.dateRencontre) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(interclubForm.teamhome, {
+                attr: {
+                    'data-specific-teamhome-url': path('interclub_teamhome_select'),
+                    'class': 'js-interclub-form-teamhome'
+                }
+            }) }}
+        </div>
+        <div class="col-md-auto">{{ form_row(interclubForm.teamext) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(interclubForm.score) }}</div>
+        <div class="col-md-auto js-specific-teamhome-target">
+            {%  if interclubForm.location is defined %}
+                {{ form_row(interclubForm.location) }}
+            {% endif %}
+        </div>
+    </div>
+    <button class="btn btn-primary">{{ button|default('Créer') }}</button>
+
+    {{ form_end(interclubForm) }}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/admin_interclub_form.js') }}"></script>
+{% endblock %}

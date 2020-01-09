@@ -5,7 +5,14 @@
 {% block body %}
 
 <div class="container mt-4">
-    <h1>Liste des articles</h1>
+    <div class="form-inline">
+        <div class="form-group mb-2">
+            <h4>Liste des articles du Blog</h4>
+        </div>
+        <div class="form-group mx-sm-4 mb-3">
+            <a href="{{ path('article.new') }}" class="btn btn-success center" role="button"><i class="fas fa-plus-circle">&nbsp;</i>Créer un nouvel article</a>
+        </div>
+    </div>
     {% for message in app.flashes('success') %}
         <div class="alert alert-success">
             {{ message }}
@@ -15,17 +22,21 @@
         <thead>
             <tr>
                 <th>Titre</th>
-                <th>Contenu</th>
+                <th>Date</th>
+                <th>Extrait</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             {% for article in articles %}
             <tr>
                 <td>{{ article.title }}</td>
+                <td>{{ article.lastUpdateDate|date("d/m/Y") }}</td>
+                <td>{{ article.excerpt }}</td>
                 <td>
-                    <a href="{{ path('article.edit', {slug: article.slug}) }}" class="btn btn-secondary">Modifier</a>
+                    <a href="{{ path('article.edit', {slug: article.slug}) }}" class="btn btn-primary">Modifier</a>
                     <form method="POST" action="{{ path('article.delete', {slug: article.slug}) }}"
-                        style="display:inline-block" onsubmit="return confirm('Etes-vous sûr ?')">
+                        style="display:inline-block" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer cet article ?')">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ article.slug) }}">
                         <button class="btn btn-danger">Supprimer</button>
@@ -35,9 +46,5 @@
             {% endfor %}
         </tbody>
     </table>
-    <div class="text-right">
-        <a href="{{ path('article.new') }}" class="btn btn-primary">
-        Créer un nouvel article</a>
-    </div>
 </div>
 {% endblock %}

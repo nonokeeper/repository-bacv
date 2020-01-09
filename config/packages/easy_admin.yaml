@@ -1,37 +1,83 @@
-#easy_admin:
-#    entities:
-#        # List the entity class name you want to manage
-#        - App\Entity\Product
-#        - App\Entity\Category
-#        - App\Entity\User
-
 easy_admin:
+  site_name: 'BACV - Derrière le bureau'
   design:
+    brand_color: '#17a2b8'
     menu:
-      - label: 'Gestion des Articles'
+      - {label: 'Retour Site BACV', route: 'homepage', icon: 'arrow-up'}
+      - label: 'Gestion des Articles et des Catégories'
         icon: 'newspaper-o'
         children:
           - {entity: 'Articles'}
           - {entity: 'Categories'}
-      - label: 'Gestion des Joueurs et des Equipes'
+      - label: 'Gestion des Joueurs, des Clubs et des Equipes'
         icon: 'users'
         children:
           - {entity: 'Joueurs'}
           - {entity: 'Equipes'}
+          - {entity: 'Equipes_Veteran', label: 'Equipes Vétéran'}
+          - {entity: 'Clubs'}
+          - {entity: 'CategorieAge'}
+      - label: 'Gestion des Tournois'
+        icon: 'users'
+        children:
+          - {entity: 'Tournois'}
+          - {entity: 'TournoisUser', label: 'Joueurs-Tournois'}
+      - label: 'Gestion des Interclubs et des Saisons'
+        icon: 'users'
+        children:
+          - {entity: 'Saison'}
+          - {entity: 'Interclubs'}
+          - {entity: 'InterclubsVeteran', label: 'Interclubs Vétéran'}
+          - {entity: 'Lieu', label: 'Lieux des rencontres'}
   entities:
     Articles:
       class: App\Entity\Article
+    Clubs:
+      class: App\Entity\Club
     Categories:
       class: App\Entity\Category
+    CategorieAge:
+      class: App\Entity\AgeCategory
     Joueurs:
       class: App\Entity\User
       form:
         fields:
-          - {property: 'Username'}
-          - {property: 'Email'}
-          - {property: 'Password', type: 'password', label: 'Mot de passe' }
+          - {property: 'username', label: 'Identifiant'}
+          - {property: 'active', label: 'Inscrit cette saison'}
+          - {property: 'email', type: 'email'}
+          - {property: 'mobile', type: 'tel'}
+          - {property: 'team', type: 'easyadmin_autocomplete', type_options: { class: 'App\Entity\Team' } }
+          - {property: 'teamVeteran', type: 'easyadmin_autocomplete', type_options: { class: 'App\Entity\TeamVeteran' } }
+          - {property: 'club', type: 'easyadmin_autocomplete', type_options: { class: 'App\Entity\Club' } }
+          - {property: 'category', label: 'Groupe', type: 'choice', type_options: {
+              choices: { 'Aucun': null, 'Compétiteur': 'Compétiteur', 'Loisir': 'Loisir', 
+              'Loisir avec Interclub': 'Loisir avec Interclub','Jeune': 'Jeune'}
+              }
+            }
+          - {property: 'teamManaged', label: 'Equipe gérée en tant que capitaine'}
+          - {property: 'teamVeteranManaged', label: 'Equipe Vétéran gérée en tant que capitaine'}
+#          - {property: 'roles', type: 'choice', type_options: { expanded: true }
+#            }
       list:
-        fields: ['Username', 'Email', { property: 'Password', type: 'password', label: 'Mot de passe' }]
-        sort: ['id', 'ASC']
+        fields: [{ property: 'firstName', label: 'Prénom' }, { property: 'lastName', label: 'Nom' }, 
+          'email', { property: 'active', label: 'Inscrit' }, {property: 'mobile', type: 'tel'},
+          { property: 'team', label: 'Equipe IC' }, {property: 'category', label: 'Groupe'}]
+        sort: ['lastName', 'ASC']
+      search:
+        fields: ['firstName', 'lastName', 'email']
     Equipes:
       class: App\Entity\Team
+    Equipes_Veteran:
+      class: App\Entity\TeamVeteran
+    Saison:
+      class: App\Entity\Saison
+    Tournois:
+      class: App\Entity\Tournoi
+    TournoisUser:
+      class: App\Entity\TournoiUser
+    Interclubs:
+      class: App\Entity\Interclub
+    InterclubsVeteran:
+      class: App\Entity\InterclubVeteran
+    Lieu:
+      class: App\Entity\Lieu

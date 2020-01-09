@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Créer une rencontre' %}
+
+{% block body %}
+<div class="container mt-4">
+    <a href="{{ path('interclub.index')}}">Retour à la liste des rencontres</a>
+</div>
+<div class="container mt-4">
+    <h3>Créer une rencontre Interclub Mixte</h3>
+    {{ form_start(interclubForm) }}
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(interclubForm.name) }}</div>
+        <div class="col-md-auto">{{ form_row(interclubForm.saison) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(interclubForm.dateRencontre) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(interclubForm.teamhome, {
+                attr: {
+                    'data-specific-teamhome-url': path('interclub_newteamhome_select'),
+                    'class': 'js-interclub-form-teamhome'
+                }
+            }) }}
+        </div>
+        <div class="col-md-auto">{{ form_row(interclubForm.teamext) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(interclubForm.score) }}</div>
+        <div class="col-md-auto js-specific-teamhome-target">
+            {%  if interclubForm.location is defined %}
+                {{ form_row(interclubForm.location) }}
+            {% endif %}
+        </div>
+    </div>
+    <h3>Composition de l'équipe</h3>
+        <div class="row">
+            <div class="col-md-auto">{{ form_row(interclubForm.SH1) }}</div>
+            <div class="col-md-auto">{{ form_row(interclubForm.SH2) }}</div>
+            <div class="col-md-auto">{{ form_row(interclubForm.SH3) }}</div>
+            <div class="col-md-auto">{{ form_row(interclubForm.SD) }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-auto">{{ form_row(interclubForm.DH1Joueur1) }}</div>
+            <div class="col-md-auto">{{ form_row(interclubForm.DH1Joueur2) }}</div>
+            <div class="col-md-auto">{{ form_row(interclubForm.DDJoueuse1) }}</div>
+            <div class="col-md-auto">{{ form_row(interclubForm.DDJoueuse2) }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-auto">{{ form_row(interclubForm.DMXJoueur) }}</div>
+            <div class="col-md-auto">{{ form_row(interclubForm.DMXJoueuse) }}</div>
+        </div>
+        <button class="btn btn-success">{{ button|default('Créer') }}</button>
+
+    {{ form_end(interclubForm) }}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/admin_interclub_form.js') }}"></script>
+{% endblock %}

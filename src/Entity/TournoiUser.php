@@ -27,11 +27,6 @@ class TournoiUser
     private $participation;
 
     /**
-     * @ORM\Column(type="string", length=30, nullable=true)
-     */
-    private $resultat;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Tournoi")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -44,9 +39,69 @@ class TournoiUser
     private $user;
 
     /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $resultatSimple;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $resultatDouble;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $resultatMixte;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nbTableaux;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $inscriptionSimple;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $inscriptionDouble;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $inscriptionMixte;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $participationSimple;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $participationDouble;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $participationMixte;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      */
-    private $partenaire;
+    private $partenaireDouble;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $partenaireMixte;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $InscriptionConfirmee;
 
     public function getId(): ?int
     {
@@ -77,18 +132,6 @@ class TournoiUser
         return $this;
     }
 
-    public function getResultat(): ?string
-    {
-        return $this->resultat;
-    }
-
-    public function setResultat(?string $resultat): self
-    {
-        $this->resultat = $resultat;
-
-        return $this;
-    }
-
     public function getTournoi(): ?Tournoi
     {
         return $this->tournoi;
@@ -113,14 +156,158 @@ class TournoiUser
         return $this;
     }
 
-    public function getPartenaire(): ?User
+    public function getResultatSimple(): ?string
     {
-        return $this->partenaire;
+        return $this->resultatSimple;
     }
 
-    public function setPartenaire(?User $partenaire): self
+    public function setResultatSimple(?string $resultatSimple): self
     {
-        $this->partenaire = $partenaire;
+        $this->resultatSimple = $resultatSimple;
+
+        return $this;
+    }
+
+    public function getResultatDouble(): ?string
+    {
+        return $this->resultatDouble;
+    }
+
+    public function setResultatDouble(?string $resultatDouble): self
+    {
+        $this->resultatDouble = $resultatDouble;
+
+        return $this;
+    }
+
+    public function getResultatMixte(): ?string
+    {
+        return $this->resultatMixte;
+    }
+
+    public function setResultatMixte(?string $resultatMixte): self
+    {
+        $this->resultatMixte = $resultatMixte;
+
+        return $this;
+    }
+
+    public function getNbTableaux(): ?int
+    {
+        return $this->nbTableaux;
+    }
+
+    public function setNbTableaux(?int $nbTableaux): self
+    {
+        $this->nbTableaux = $nbTableaux;
+
+        return $this;
+    }
+
+    public function getInscriptionSimple(): ?bool
+    {
+        return $this->inscriptionSimple;
+    }
+
+    public function setInscriptionSimple(?bool $inscriptionSimple): self
+    {
+        $this->inscriptionSimple = $inscriptionSimple;
+
+        return $this;
+    }
+
+    public function getInscriptionDouble(): ?bool
+    {
+        return $this->inscriptionDouble;
+    }
+
+    public function setInscriptionDouble(?bool $inscriptionDouble): self
+    {
+        $this->inscriptionDouble = $inscriptionDouble;
+
+        return $this;
+    }
+
+    public function getInscriptionMixte(): ?bool
+    {
+        return $this->inscriptionMixte;
+    }
+
+    public function setInscriptionMixte(?bool $inscriptionMixte): self
+    {
+        $this->inscriptionMixte = $inscriptionMixte;
+
+        return $this;
+    }
+
+    public function getParticipationSimple(): ?bool
+    {
+        return $this->participationSimple;
+    }
+
+    public function setParticipationSimple(?bool $participationSimple): self
+    {
+        $this->participationSimple = $participationSimple;
+
+        return $this;
+    }
+
+    public function getParticipationDouble(): ?bool
+    {
+        return $this->participationDouble;
+    }
+
+    public function setParticipationDouble(?bool $participationDouble): self
+    {
+        $this->participationDouble = $participationDouble;
+
+        return $this;
+    }
+
+    public function getParticipationMixte(): ?bool
+    {
+        return $this->participationMixte;
+    }
+
+    public function setParticipationMixte(?bool $participationMixte): self
+    {
+        $this->participationMixte = $participationMixte;
+
+        return $this;
+    }
+
+    public function getPartenaireDouble(): ?User
+    {
+        return $this->partenaireDouble;
+    }
+
+    public function setPartenaireDouble(?User $partenaireDouble): self
+    {
+        $this->partenaireDouble = $partenaireDouble;
+
+        return $this;
+    }
+
+    public function getPartenaireMixte(): ?User
+    {
+        return $this->partenaireMixte;
+    }
+
+    public function setPartenaireMixte(?User $partenaireMixte): self
+    {
+        $this->partenaireMixte = $partenaireMixte;
+
+        return $this;
+    }
+
+    public function getInscriptionConfirmee(): ?bool
+    {
+        return $this->InscriptionConfirmee;
+    }
+
+    public function setInscriptionConfirmee(?bool $InscriptionConfirmee): self
+    {
+        $this->InscriptionConfirmee = $InscriptionConfirmee;
 
         return $this;
     }

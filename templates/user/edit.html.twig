@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Modification Joueur' %}
+
+{% block body %}
+<div class="container">
+    <div class="tab">&nbsp;</div>
+    <a class="btn btn-primary" href="{{ path('user.index') }}"><i class="far fa-address-book">&nbsp;</i>Retour à la liste des joueurs</a>
+    <div class="tab">&nbsp;</div>
+    <h4>Joueur ({{ user.firstName ~ ' ' ~ user.lastName }})</h4>
+        {{ form_start(formUser) }}
+        {{ form_errors(formUser) }}
+        <div class="row justify-content-md-center">
+            <div class="col-md-auto">
+                <button class="btn btn-info">{{ button|default('Modifier le joueur') }}</button>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">&nbsp;</div>
+        <div class="row">
+            <div class="col">
+                <fieldset class="myfieldset">
+                    <legend class="mylegend">Contact</legend>
+                    <div class="row">
+                        <div class="col">
+                            <div class="col-md-auto">{{ form_row(formUser.username, {'label': 'Nom d\'utilisateur *'}) }}</div>
+                            <div class="col-md-auto">{{ form_row(formUser.firstName, {'label': 'Prénom *'}) }}</div>
+                            <div class="col-md-auto">{{ form_row(formUser.mobile, {'label': 'N° Portable'}) }}</div>
+                        </div>
+                        <div class="col">
+                            <div class="col-md-auto">{{ form_row(formUser.email, {'label': 'E-mail *'}) }}</div>
+                            <div class="col-md-auto">{{ form_row(formUser.lastName, {'label': 'Nom *'}) }}</div>
+                            <div class="col-md-auto">{{ form_row(formUser.mobile_parent, {'label': 'N° Portable Parent'}) }}</div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col">
+                <fieldset class="myfieldset">
+                    <legend class="mylegend">Adresse postale</legend>
+                    <div class="row">
+                        <div class="col-md-10">{{ form_row(formUser.rue) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-auto">{{ form_row(formUser.code_postal) }}</div>
+                        <div class="col-md-auto">{{ form_row(formUser.ville) }}</div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <fieldset class="myfieldset">
+                    <legend class="mylegend">Détails sportifs</legend>
+                    <div class="row">
+                        <div class="col">
+                            <div class="col-md-auto">{{ form_row(formUser.category, {'label': 'Groupe'}) }}</div>
+                            <div class="col-md-auto">{{ form_row(formUser.gender, {'label': 'Sexe'}) }}</div>
+                            <div class="col-md-auto" {{ is_granted('ROLE_SUPER_ADMIN') ? '' : 'id="hide"' }}>{{ form_row(formUser.roles) }}</div>
+                        </div>
+                        <div class="col">
+                            <div class="col-md-auto">{{ form_row(formUser.birthDate, {'label': 'Date de naissance'}) }}</div>
+                            <div class="col-md-auto">{{ form_row(formUser.ageCategory) }}</div>
+                            <div class="col-md-auto">{{ form_row(formUser.active, {'label': 'Inscrit cette saison' }) }}</div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col">
+                <fieldset class="myfieldset">
+                <legend class="mylegend">Compétition</legend>
+                <div class="row">
+                    <div class="col">
+                        <div class="col-md-auto">{{ form_row(formUser.license, {'label': 'N° de licence'}) }}</div>
+                        <div class="col-md-auto">{{ form_row(formUser.team) }}</div>
+                        <div class="col-md-auto">{{ form_row(formUser.teamVeteran) }}</div>
+                    </div>
+                    <div class="col">
+                        <div class="col-md-auto">{{ form_row(formUser.classement_simple, {'label': 'Classement Simple'}) }}</div>
+                        <div class="col-md-auto">{{ form_row(formUser.classement_double, {'label': 'Classement Double'}) }}</div>
+                        <div class="col-md-auto">{{ form_row(formUser.classement_mixte, {'label': 'Classement Mixte'}) }}</div>
+                    </div>
+                </div>
+                </fieldset>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">&nbsp;</div>
+        <div class="row justify-content-md-center">
+            <div class="col-md-auto">
+                <button class="btn btn-info">{{ button|default('Modifier le joueur') }}</button>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">&nbsp;</div>
+        {{ form_end(formUser) }}
+</div>
+{% endblock %}

@@ -1,0 +1,400 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Equipes BACV{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col"><hr></div>
+        <div class="col-auto"><h5>Equipes Interclubs (Saison {{ saisoncourante }})</h5></div>
+        <div class="col"><hr></div>
+    </div>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {# Partie pour les équipes Interclub Mixte et Masculin #}
+    {% set team1 = '' %}
+    {% set team2 = '' %}
+    {% set team3 = '' %}
+    {% set team4 = '' %}
+    {% set users1 = '' %}
+    {% set users2 = '' %}
+    {% set users3 = '' %}
+    {% set users4 = '' %}
+    {% set capitaine1 = '' %}
+    {% set capitaine2 = '' %}
+    {% set capitaine3 = '' %}
+    {% set capitaine4 = '' %}
+    {% set entete = '<table class="table">
+                <thead class="bg-green">
+                    <tr>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Mobile</th>
+                        <th>Simple</th>
+                        <th>Double</th>
+                        <th>Mixte</th>
+                        <th>Licence</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>'
+    %}
+    {% for team in teams %}
+        {% set linkEdit = '<a class="btn btn-info" href="/team/' ~ team.slug ~ '">Modifier cette équipe</a><div class="margin">&nbsp;</div>' %}
+        {% if level not in ['A','B'] %}
+            {% set linkEdit = '' %}
+        {% endif %}
+        {% if team.slug == 'vip1' %}
+            {% set capitaine1 = '<div class="capitaine">' ~ team.name ~ ' | Capitaine : ' ~ team.capitaine ~ '</div>' %}
+            {% for user in usersVIP1 %}
+                {% if level not in ['A','B'] %}
+                    {% set email = '<i class="fas fa-eye-slash"></i>' %}
+                    {% set mobile = '<i class="fas fa-eye-slash"></i>' %}
+                {% else %}
+                    {% set email = user.email %}
+                    {% set mobile = user.mobile %}
+                {% endif %}
+                {% if user.gender == 'H' %}
+                    {% set users1 = users1 ~ '<tr class="homme">' %}
+                {% else %}
+                    {% set users1 = users1 ~ '<tr class="femme">' %}
+                {% endif %}
+                {% set users1 = users1 ~
+                        '<td>
+                            ' ~ user.firstName ~ '
+                        </td>
+                        <td>
+                            ' ~ user.lastName ~ '
+                        </td>
+                        <td>
+                            ' ~ mobile ~ '
+                        </td>
+                        <td>
+                            ' ~ user.classementSimple ~ '
+                        </td>
+                        <td>
+                            ' ~ user.classementDouble ~ '
+                        </td>
+                        <td>
+                            ' ~ user.classementMixte ~ '
+                        </td>
+                        <td>
+                            ' ~ user.license ~ '
+                        </td>
+                        <td>
+                            ' ~ email ~ '
+                        </td>
+                    </tr>'
+                %}
+            {% endfor %}
+            {% set team1 = linkEdit ~ capitaine1 ~ entete ~ users1 ~ '</tbody></table>' %}
+        {% endif %}
+        {% if team.slug == 'vip2' %}
+            {% set capitaine2 = '<div class="capitaine">' ~ team.name ~ ' | Capitaine : ' ~ team.capitaine ~ '</div>' %}
+            {% for user in usersVIP2 %}
+                {% if level not in ['A','B'] %}
+                    {% set email = '<i class="fas fa-eye-slash"></i>' %}
+                    {% set mobile = '<i class="fas fa-eye-slash"></i>' %}
+                {% else %}
+                    {% set email = user.email %}
+                    {% set mobile = user.mobile %}
+                {% endif %}
+                {% if user.gender == 'H' %}
+                    {% set users2 = users2 ~ '<tr class="homme">' %}
+                {% else %}
+                    {% set users2 = users2 ~ '<tr class="femme">' %}
+                {% endif %}
+                {% set users2 = users2 ~
+                        '<td>
+                            ' ~ user.firstName ~ '
+                        </td>
+                        <td>
+                            ' ~ user.lastName ~ '
+                        </td>
+                        <td>
+                            ' ~ mobile ~ '
+                        </td>
+                        <td>
+                            ' ~ user.classementSimple ~ '
+                        </td>
+                        <td>
+                            ' ~ user.classementDouble ~ '
+                        </td>
+                        <td>
+                            ' ~ user.classementMixte ~ '
+                        </td>
+                        <td>
+                            ' ~ user.license ~ '
+                        </td>
+                        <td>
+                            ' ~ email ~ '
+                        </td>
+                    </tr>'
+                %}
+            {% endfor %}
+            {% set team2 = linkEdit ~ capitaine2 ~ entete ~ users2 ~ '</tbody></table>' %}
+        {% endif %}
+        {% if team.slug == 'vip3' %}
+            {% set capitaine3 = '<div class="capitaine">' ~ team.name ~ ' | Capitaine : ' ~ team.capitaine ~ '</div>' %}
+            {% for user in usersVIP3 %}
+                {% if level not in ['A','B'] %}
+                    {% set email = '<i class="fas fa-eye-slash"></i>' %}
+                    {% set mobile = '<i class="fas fa-eye-slash"></i>' %}
+                {% else %}
+                    {% set email = user.email %}
+                    {% set mobile = user.mobile %}
+                {% endif %}
+                {% if user.gender == 'H' %}
+                    {% set users3 = users3 ~ '<tr class="homme">' %}
+                {% else %}
+                    {% set users3 = users3 ~ '<tr class="femme">' %}
+                {% endif %}
+                {% set users3 = users3 ~
+                        '<td>
+                            ' ~ user.firstName ~ '
+                        </td>
+                        <td>
+                            ' ~ user.lastName ~ '
+                        </td>
+                        <td>
+                            ' ~ mobile ~ '
+                        </td>
+                        <td>
+                            ' ~ user.classementSimple ~ '
+                        </td>
+                        <td>
+                            ' ~ user.classementDouble ~ '
+                        </td>
+                        <td>
+                            ' ~ user.classementMixte ~ '
+                        </td>
+                        <td>
+                            ' ~ user.license ~ '
+                        </td>
+                        <td>
+                            ' ~ email ~ '
+                        </td>
+                    </tr>'
+                %}
+            {% endfor %}
+            {% set team3 = linkEdit ~ capitaine3 ~ entete ~ users3 ~ '</tbody></table>' %}
+        {% endif %}
+        {% if team.slug == 'vip4' %}
+            {% set capitaine4 = '<div class="capitaine">' ~ team.name ~ ' | Capitaine : ' ~ team.capitaine ~ '</div>' %}
+            {% for user in usersVIP4 %}
+                {% if level not in ['A','B'] %}
+                    {% set email = '<i class="fas fa-eye-slash"></i>' %}
+                    {% set mobile = '<i class="fas fa-eye-slash"></i>' %}
+                {% else %}
+                    {% set email = user.email %}
+                    {% set mobile = user.mobile %}
+                {% endif %}
+                {% if user.gender == 'H' %}
+                    {% set users4 = users4 ~ '<tr class="homme">' %}
+                {% else %}
+                    {% set users4 = users4 ~ '<tr class="femme">' %}
+                {% endif %}
+                {% set users4 = users4 ~
+                        '<td>
+                            ' ~ user.firstName ~ '
+                        </td>
+                        <td>
+                            ' ~ user.lastName ~ '
+                        </td>
+                        <td>
+                            ' ~ mobile ~ '
+                        </td>
+                        <td>
+                            ' ~ user.classementSimple ~ '
+                        </td>
+                        <td>
+                            ' ~ user.classementDouble ~ '
+                        </td>
+                        <td>
+                            ' ~ user.classementMixte ~ '
+                        </td>
+                        <td>
+                            ' ~ user.license ~ '
+                        </td>
+                        <td>
+                            ' ~ email ~ '
+                        </td>
+                    </tr>'
+                %}
+            {% endfor %}
+            {% set team4 = linkEdit ~ capitaine4 ~ entete ~ users4 ~ '</tbody></table>' %}
+        {% endif %}
+    {% endfor %}
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="pills-vip1-tab" data-toggle="pill" href="#pills-vip1" role="tab" aria-controls="pills-vip1" aria-selected="true">Villepreux 1</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pills-vip2-tab" data-toggle="pill" href="#pills-vip2" role="tab" aria-controls="pills-vip2" aria-selected="false">Villepreux 2</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pills-vip3-tab" data-toggle="pill" href="#pills-vip3" role="tab" aria-controls="pills-vip3" aria-selected="false">Villepreux 3</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pills-vip4-tab" data-toggle="pill" href="#pills-vip4" role="tab" aria-controls="pills-vip4" aria-selected="false">Villepreux 4</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-vip1" role="tabpanel" aria-labelledby="pills-vip1-tab">{{ team1|raw }}</div>
+        <div class="tab-pane fade" id="pills-vip2" role="tabpanel" aria-labelledby="pills-vip2-tab">{{ team2|raw }}</div>
+        <div class="tab-pane fade" id="pills-vip3" role="tabpanel" aria-labelledby="pills-vip3-tab">{{ team3|raw }}</div>
+        <div class="tab-pane fade" id="pills-vip4" role="tabpanel" aria-labelledby="pills-vip4-tab">{{ team4|raw }}</div>
+    </div>
+
+    <div class="container mt-4">&nbsp;</div>
+    {# Partie pour les équipes Interclub Vétéran #}
+    {% set teamVet1 = '' %}
+    {% set teamVet2 = '' %}
+    {% set usersVet1 = '' %}
+    {% set usersVet2 = '' %}
+    {% set capitaineVet1 = '' %}
+    {% set capitaineVet2 = '' %}
+    {% set enteteVet = '<table class="table">
+                <thead class="bg-success">
+                    <tr>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Mobile</th>
+                        <th>Simple</th>
+                        <th>Double</th>
+                        <th>Mixte</th>
+                        <th>Licence</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>'
+    %}
+    {% set i = 0 %}
+    
+    {% for teamVeteran in teamsVeteran %}
+        {% set i = i + 1 %}
+        {% set linkEdit = '<a class="btn btn-info" href="/teamVeteran/' ~ teamVeteran.slug ~ '">Modifier cette équipe</a><div class="margin">&nbsp;</div>' %}
+        {% if level not in ['A','B'] %}
+            {% set linkEdit = '' %}
+        {% endif %}
+        {% if teamVeteran.slug == 'VIP_One' %}
+            {% set capitaineVet1 = '<div class="capitaineVet">' ~ teamVeteran.name ~ ' | Capitaine : ' ~ teamVeteran.capitaine ~ '</div>' %}
+            {% for user in teamVeteran.users %}
+                {% if level not in ['A','B'] %}
+                    {% set email = '<i class="fas fa-eye-slash"></i>' %}
+                    {% set mobile = '<i class="fas fa-eye-slash"></i>' %}
+                {% else %}
+                    {% set email = user.email %}
+                    {% set mobile = user.mobile %}
+                {% endif %}
+                {% if user.gender == 'H' %}
+                    {% set usersVet1 = usersVet1 ~ '<tr class="homme">' %}
+                {% else %}
+                    {% set usersVet1 = usersVet1 ~ '<tr class="femme">' %}
+                {% endif %}
+                {% set usersVet1 = usersVet1 ~
+                        '<td>
+                            ' ~ user.firstName ~ '
+                        </td>
+                        <td>
+                            ' ~ user.lastName ~ '
+                        </td>
+                        <td>
+                            ' ~ mobile ~ '
+                        </td>
+                        <td>
+                            ' ~ user.classementSimple ~ '
+                        </td>
+                        <td>
+                            ' ~ user.classementDouble ~ '
+                        </td>
+                        <td>
+                            ' ~ user.classementMixte ~ '
+                        </td>
+                        <td>
+                            ' ~ user.license ~ '
+                        </td>
+                        <td>
+                            ' ~ email ~ '
+                        </td>
+                    </tr>'
+                %}
+            {% endfor %}
+            {% set teamVet1 = linkEdit ~ capitaineVet1 ~ enteteVet ~ usersVet1 ~ '</tbody></table>' %}
+        {% endif %}
+        {% if teamVeteran.slug == 'VIP_Two' %}
+            {% set capitaineVet2 = '<div class="capitaineVet">' ~ teamVeteran.name ~ ' | Capitaine : ' ~ teamVeteran.capitaine ~ '</div>' %}
+            {% for user in teamVeteran.users %}
+                {% if level not in ['A','B'] %}
+                    {% set email = '<i class="fas fa-eye-slash"></i>' %}
+                    {% set mobile = '<i class="fas fa-eye-slash"></i>' %}
+                {% else %}
+                    {% set email = user.email %}
+                    {% set mobile = user.mobile %}
+                {% endif %}
+                {% if user.gender == 'H' %}
+                    {% set usersVet2 = usersVet2 ~ '<tr class="homme">' %}
+                {% else %}
+                    {% set usersVet2 = usersVet2 ~ '<tr class="femme">' %}
+                {% endif %}
+                {% set usersVet2 = usersVet2 ~
+                        '<td>
+                            ' ~ user.firstName ~ '
+                        </td>
+                        <td>
+                            ' ~ user.lastName ~ '
+                        </td>
+                        <td>
+                            ' ~ mobile ~ '
+                        </td>
+                        <td>
+                            ' ~ user.classementSimple ~ '
+                        </td>
+                        <td>
+                            ' ~ user.classementDouble ~ '
+                        </td>
+                        <td>
+                            ' ~ user.classementMixte ~ '
+                        </td>
+                        <td>
+                            ' ~ user.license ~ '
+                        </td>
+                        <td>
+                            ' ~ email ~ '
+                        </td>
+                    </tr>'
+                %}
+            {% endfor %}
+            {% set teamVet2 = linkEdit ~ capitaineVet2 ~ enteteVet ~ usersVet2 ~ '</tbody></table>' %}
+        {% endif %}
+    {% endfor %}
+    <div class="row">
+        <div class="col"><hr></div>
+        <div class="col-auto"><h5>Equipes Interclubs Vétéran (Saison {{ saisoncourante }})</h5></div>
+        <div class="col"><hr></div>
+    </div>
+    {% if i == 0 or usersVet1 == '' %}
+        <div class="container">A venir...</div>
+    {% else %}
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="pills-vet1-tab" data-toggle="pill" href="#pills-vet1" role="tab" aria-controls="pills-vet1" aria-selected="true">Villepreux Vétéran 1</a>
+            </li>
+            {% if i == 2 %}
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-vet2-tab" data-toggle="pill" href="#pills-vet2" role="tab" aria-controls="pills-vet2" aria-selected="false">Villepreux Vétéran 2</a>
+                </li>
+            {% endif %}
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-vet1" role="tabpanel" aria-labelledby="pills-vet1-tab">{{ teamVet1|raw }}</div>
+            {% if i == 2 %}
+                <div class="tab-pane fade" id="pills-vet2" role="tabpanel" aria-labelledby="pills-vet2-tab">{{ teamVet2|raw }}</div>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

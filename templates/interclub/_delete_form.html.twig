@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('interclub.delete', {'id': interclub.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ interclub.id) }}">
+    <button class="btn btn-danger"><i class="fas fa-trash-alt">&nbsp;</i>Supprimer la rencontre</button>
+</form>

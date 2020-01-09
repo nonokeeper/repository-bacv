@@ -1,0 +1,178 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Le Club{% endblock %}
+
+{% block body %}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header"><h5 class="card-title">La Présentation du Club BACV</h5></div>
+        <div class="card-body">
+            <p class="card-text">Le BACV (Badminton Club de Villepreux) a été créé en 1974 par Philippe Bisserier.<br/>
+                Il fut l’un des tous premiers clubs de badminton d’Ile de France.<br/>
+                Cette saison ({{ saisoncourante }}), le BACV est déclaré <b>E</b>cole <b>F</b>rançaise de <b>B</b>adminton 2 étoiles</p>
+            <a href="http://www.ffbad.org/badminton-pour-tous/le-bad-pour-les-jeunes/ecoles-francaises-de-badminton/" target="_blank" class="card-link"><img src="/images/EFB2.png">&nbsp;+ d'infos sur ffbad.org</a>
+        </div>
+    </div>
+    <div class="tab">&nbsp;</div>
+    <div class="card">
+        <div class="card-header"><h5 class="card-title">Le Bureau</h5></div>
+        <div class="card-body">
+            <p class="card-text">Pour les sujets autour de l'inscription au club, contactez la Secrétaire du Club<br/>
+                Pour les sujets autour du site Web, contactez le Webmaster<br/>
+                Enfin, Le Président sera ravi de répondre à toute question &#128521;</p>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped table-responsive w-70">
+                <thead>
+                    <tr>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Poste</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">N° de téléphone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Eric Perret</td>
+                        <td>Président</td>
+                        <td>perret.jcde@wanadoo.fr</td>
+                        <td>01 30 56 35 05</td>
+                    </tr>
+                    <tr>
+                        <td>Stéphane Robert</td>
+                        <td>Vice-Président</td>
+                        <td>robertstephane.44@gmail.com</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Joseph Khairallah</td>
+                        <td>Trésorier</td>
+                        <td>jkairal@hotmail.com</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Sandrine Pouligny</td>
+                        <td>Secrétaire</td>
+                        <td>spouligny@gmail.com</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="tab">&nbsp;</div>
+    <div class="card">
+        <div class="card-header"><h5 class="card-title">Le Règlement intérieur</h5></div>
+        <div class="card-body">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="pills-vip1-tab" data-toggle="pill" href="#pills-vip1" role="tab" aria-controls="pills-vip1" aria-selected="true">Article 1</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-vip2-tab" data-toggle="pill" href="#pills-vip2" role="tab" aria-controls="pills-vip2" aria-selected="false">Article 2</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-vip3-tab" data-toggle="pill" href="#pills-vip3" role="tab" aria-controls="pills-vip3" aria-selected="false">Article 3</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-vip4-tab" data-toggle="pill" href="#pills-vip4" role="tab" aria-controls="pills-vip4" aria-selected="false">Article 4</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-vip5-tab" data-toggle="pill" href="#pills-vip5" role="tab" aria-controls="pills-vip5" aria-selected="false">Article 5</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-vip6-tab" data-toggle="pill" href="#pills-vip6" role="tab" aria-controls="pills-vip6" aria-selected="false">Article 6</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-vip1" role="tabpanel" aria-labelledby="pills-vip1-tab">
+                    HORAIRES<br/><br/>
+                    <p>Les séances d’entraînement et de jeu libre ont lieu aux horaires suivants :<br/></p>
+
+                    <table class="table table-striped table-responsive w-70">
+                        <thead>
+                            <tr>
+                                <th scope="col">Jour</th>
+                                <th scope="col">Horaires</th>
+                                <th scope="col">Type de Jeu</th>
+                                <th scope="col">Gymnase</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Lundi</td>
+                                <td>21 h 00 / 22 h 45</td>
+                                <td>Jeu libre Loisirs et Compétiteurs</td>
+                                <td>Jeu de Paume</td>
+                            </tr>
+                            <tr>
+                                <td>Mardi</td>
+                                <td>19 h 00 / 20 h 30</td>
+                                <td>Entraînement Ecole de Jeunes</td>
+                                <td>Jeu de Paume</td>
+                            </tr>
+                            <tr>
+                                <td>Mardi</td>
+                                <td>20 h 45 / 22 h 30</td>
+                                <td>Entraînement Adultes Loisirs</td>
+                                <td>Jeu de Paume</td>
+                            </tr>
+                            <tr>
+                                <td>Mercredi</td>
+                                <td>20 h 00 / 22 h 30</td>
+                                <td>Entraînement compétiteurs</td>
+                                <td>Mimoun</td>
+                            </tr>
+                            <tr>
+                                <td>Vendredi</td>
+                                <td>20 h 00 / 22 h 30</td>
+                                <td>Jeu libre pour tous</td>
+                                <td>Mimoun</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>Interclubs des équipes 1 et 2 parfois le Vendredi dans le gymnase Mimoun</p>
+                    <p>Les gymnases sont fermés en général la deuxième semaine des congés scolaire</p>
+                </div>
+                <div class="tab-pane fade" id="pills-vip2" role="tabpanel" aria-labelledby="pills-vip2-tab">
+                    INSCRIPTIONS<br/><br/>
+                    Il est précisé à tous les adhérents qu’un dossier retourné incomplet ne peut être pris en compte.<br/>
+                    A cet effet, une date limite est fixée pour la remise des dossiers d’inscription : le 15 Octobre.<br/>
+                    Le Président du BACV et les entraîneurs ont tout pouvoir de décision quant à l’acceptation <br/>des dossiers d’inscription ou de ré-inscription.
+                </div>
+                <div class="tab-pane fade" id="pills-vip3" role="tabpanel" aria-labelledby="pills-vip3-tab">
+                    TENUE<br/><br/>
+                    Il est rappelé à tous les adhérents qu’ils doivent impérativement avoir avec eux, sans exception, une deuxième paire de chaussures de sport propre leur permettant d’accéder sur les courts.
+                    <br/>Par ailleurs, une tenue de sport correcte est exigée (pas de jean, pull-over, etc…) : short ou pantalon de sport, tee-shirt ou sweat-shirt.
+                    <br/>Dans les deux cas, en cas de non-respect de ces impératifs, le joueur ne pourra pas accéder aux terrains.
+                </div>
+                <div class="tab-pane fade" id="pills-vip4" role="tabpanel" aria-labelledby="pills-vip4-tab">ENTRAÎNEMENTS<br/><br/>
+                    En ce qui concerne les entraînements des jeunes le mardi soir (Ecole des Jeunes), le nombre d’inscriptions est limité à 35 joueurs.
+                    <br/>Seuls sont acceptés les enfants désirant faire de la compétition, ce qui implique le respect de la discipline et des entraîneurs pour travailler dans les meilleures conditions possibles.
+
+                    <br/>En cas de non respect de ces règles, les entraîneurs prendront toute décision qui leur semblera utile au bon déroulement de l’entraînement (avertissement, exclusion temporaire, voire exclusion définitive).
+                    <br/>En cas d’exclusion définitive, le montant de la cotisation ne sera pas remboursé.
+                    <br/>Le nombre d’inscriptions pour les débutants adultes, pour l’entraînement du mardi soir, est limité à 45.
+                    <br/>Tous les joueurs, jeunes ou adultes, sont priés d’arriver impérativement à l’heure aux entraînements.
+                    <br/>Les membres du Club devront assurer la propreté du gymnase et sa remise en état après chaque séance.
+                    <br/>Tout matériel prêté par le BACV doit être redonné aux entraîneurs (ou aux responsables présents) dès la fin de la séance.
+                    <br/>Les joueurs NC doivent impérativement jouer avec des volants en plastique, sauf lorsqu’ils rencontrent des joueurs classés.
+                    <br/>Des volants plume sont alors utilisés.
+                </div>
+                <div class="tab-pane fade" id="pills-vip5" role="tabpanel" aria-labelledby="pills-vip5-tab">CHAMPIONNAT INTERCLUBS<br/><br/>
+                    Dans le cadre des interclubs, deux vendredis par mois, les équipes 1 et 2 du BACV reçoivent un autre club des Yvelines.
+                    <br/>es soirs-là, les équipes évoluent sur 5 terrains, donc le jeu libre est très limité (2 terrains).
+                    <br/>Les équipes 3 et 4 reçoivent le lundi soir à 21h00 en alternance.
+                </div>
+                <div class="tab-pane fade" id="pills-vip6" role="tabpanel" aria-labelledby="pills-vip6-tab">ACCEPTATION DU PRÉSENT RÈGLEMENT INTÉRIEUR<br/><br/>
+                    Le présent Règlement Intérieur est remis à chaque membre du BACV.
+                    <br/>L’attestation jointe audit Règlement Intérieur doit être remise au Président de l’Association, lors de l’inscription,
+                    <br/>dûment paraphée et signée. La signature des parents est obligatoire pour les mineurs.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab">&nbsp;</div>
+</div>    
+{% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\TeamVeteran;
+use App\Repository\ClubRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -17,6 +18,7 @@ class TeamVeteranRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, TeamVeteran::class);
+        $this->registry = $registry;
     }
 
     // /**
@@ -47,4 +49,29 @@ class TeamVeteranRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+    * @return TeamVeteran[] Equipes Vétéran du BACV pour la saison en cours
+    */
+    public function findAllBACV($saison)
+    {
+        $repositoryClub = new ClubRepository($this->registry);
+        $club = $repositoryClub->findClubBySlug('BACV');
+
+        $teamsVeteran = $this->createQueryBuilder('s')
+                ->join('s.saison', 'saison', 'WITH', 'saison = :saison')
+                ->setParameter('saison',$saison)
+                ->getQuery()
+                ->getResult();
+
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.id IN (:id)')
+            ->setParameter('id', $teamsVeteran)
+            ->andWhere('t.club = :val')
+            ->setParameter('val', $club)
+            ->orderBy('t.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

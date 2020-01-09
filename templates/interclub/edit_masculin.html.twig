@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Modifier une rencontre' %}
+
+{% block body %}
+<div class="container mt-4">
+    <a class="btn btn-primary" href="{{ path('interclub.index')}}"><i class="fas fa-list-alt">&nbsp;</i>Liste des rencontres</a>
+</div>
+<div class="container mt-4">
+    {{ form_start(interclubForm) }}
+    <h3>Rencontre <small class="text-muted">`{{ interclub.name }}`</small></h3>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(interclubForm.name) }}</div>
+        <div class="col-md-auto">{{ form_row(interclubForm.teamhome, {
+                attr: {
+                    'data-specific-teamhome-url': path('interclub_masculinteamhome_select'),
+                    'class': 'js-interclub-form-teamhome'
+                }
+            }) }}
+        </div>
+        <div class="col-md-auto">{{ form_row(interclubForm.teamext) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(interclubForm.dateRencontre) }}</div>
+        <div class="col-md-auto">{{ form_row(interclubForm.score) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto js-specific-teamhome-target">
+            {%  if interclubForm.location is defined %}
+                {{ form_row(interclubForm.location) }}
+            {% endif %}
+        </div>
+        <div class="col-md-auto">{{ form_row(interclubForm.saison) }}</div>
+    </div>
+    <h3>Composition de l'équipe</h3>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(interclubForm.SH1) }}</div>
+        <div class="col-md-auto">{{ form_row(interclubForm.SH2) }}</div>
+        <div class="col-md-auto">{{ form_row(interclubForm.SH3) }}</div>
+        <div class="col-md-auto">{{ form_row(interclubForm.SH4) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(interclubForm.DH1Joueur1) }}</div>
+        <div class="col-md-auto">{{ form_row(interclubForm.DH1Joueur2) }}</div>
+        <div class="col-md-auto">{{ form_row(interclubForm.DH2Joueur1) }}</div>
+        <div class="col-md-auto">{{ form_row(interclubForm.DH2Joueur2) }}</div>
+    </div>
+    <div class="row">
+            <div class="col-md-auto">
+                <button class="btn btn-primary"><i class="far fa-save">&nbsp;</i>{{ button|default('Sauvegarder les modifications') }}</button>
+            </div>
+    {{ form_end(interclubForm) }}
+            <div class="col-md-auto">
+                    {{ include('interclub/_delete_form.html.twig') }}
+            </div>
+        </div>
+    <div class="tab">&nbsp;</div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/admin_interclub_form.js') }}"></script>
+{% endblock %}

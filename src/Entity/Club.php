@@ -24,34 +24,29 @@ class Club
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="string", length=30)
      */
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="club", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="club")
      */
     private $users;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Lieu", inversedBy="club", cascade={"persist", "remove"})
-     */
-    private $lieu;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Lieu2", inversedBy="club", cascade={"persist", "remove"})
-     */
-    private $lieu2;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Team", mappedBy="club", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Team", mappedBy="club")
      */
     private $teams;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TeamVeteran", mappedBy="club", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\TeamVeteran", mappedBy="club")
      */
     private $teamVeterans;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Lieu", mappedBy="club")
+     */
+    private $lieux;
 
     public function __construct()
     {
@@ -59,6 +54,7 @@ class Club
         $this->interclubs = new ArrayCollection();
         $this->teams = new ArrayCollection();
         $this->teamVeterans = new ArrayCollection();
+        $this->lieux = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -121,30 +117,6 @@ class Club
         return $this;
     }
 
-    public function getLieu(): ?Lieu
-    {
-        return $this->lieu;
-    }
-
-    public function setLieu(Lieu $lieu): self
-    {
-        $this->lieu = $lieu;
-
-        return $this;
-    }
-
-    public function getLieu2(): ?Lieu2
-    {
-        return $this->lieu2;
-    }
-
-    public function setLieu2(?Lieu2 $lieu2): self
-    {
-        $this->lieu2 = $lieu2;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Team[]
      */
@@ -167,7 +139,6 @@ class Club
     {
         if ($this->teams->contains($team)) {
             $this->teams->removeElement($team);
-            // set the owning side to null (unless already changed)
             if ($team->getClub() === $this) {
                 $team->setClub(null);
             }
@@ -201,6 +172,44 @@ class Club
             // set the owning side to null (unless already changed)
             if ($teamVeteran->getClub() === $this) {
                 $teamVeteran->setClub(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        if ($this->getName()) {
+            return $this->getName();
+        } else return '';
+    }
+
+    /**
+     * @return Collection|Lieu[]
+     */
+    public function getLieux(): Collection
+    {
+        return $this->lieux;
+    }
+
+    public function addLieux(Lieu $lieux): self
+    {
+        if (!$this->lieux->contains($lieux)) {
+            $this->lieux[] = $lieux;
+            $lieux->setClub($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLieux(Lieu $lieux): self
+    {
+        if ($this->lieux->contains($lieux)) {
+            $this->lieux->removeElement($lieux);
+            // set the owning side to null (unless already changed)
+            if ($lieux->getClub() === $this) {
+                $lieux->setClub(null);
             }
         }
 

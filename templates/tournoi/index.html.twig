@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Tournois' %}
+
+{% block body %}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Tournois de la saison en cours ({{ saisoncourante }})</h5>
+            {% if level in ['A','B'] %}
+                <a href="{{ path('tournoi.new') }}" class="btn btn-success center" role="button"><i class="fas fa-plus-circle">&nbsp;</i>Créer un tournoi</a>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted"><i class="far fa-list-alt">&nbsp;</i>Liste limitée au département des Yvelines</h6>
+            <p class="card-text">Pour la liste exhaustive et à jour des tournois, RDV sur les liens suivants :</p>
+            <i class="fas fa-arrow-circle-right">&nbsp;&nbsp;</i><a href="https://myffbad.fr/recherche/tournoi" target="_blank" class="card-link">MyFFBaD&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <i class="fas fa-arrow-circle-right">&nbsp;&nbsp;</i><a href="http://badiste.fr/liste-tournoi-badminton" target="_blank" class="card-link">Badiste</a>
+        </div>
+    </div>
+    <div class="tab">&nbsp;</div>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm closed">
+                Tournois terminés
+            </div>
+            <div class="col-sm soon">
+                Tournoi avec inscriptions closes
+            </div>
+            <div class="col-sm open">
+                Tournoi à venir
+            </div>
+        </div>
+    </div>
+    <div class="tab">&nbsp;</div>
+    <table class="table-smallfont table table-bordered">
+        <thead>
+            <tr>
+                <th class="text-center">Date</th>
+                <th class="text-center">Nom</th>
+                <th class="text-center">Lieu</th>
+                <th class="text-center">Lien Inscription</th>
+                <th class="text-center">Tableaux / Classements</th>
+                <th class="text-center">Date limite</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tournoi in tournois %}
+                {% set moisDebut = tournoi.dateDebut|localizeddate('none', 'none', 'fr', null, 'MMM')|capitalize %}
+                {% set jourDebut = tournoi.dateDebut|localizeddate('none', 'none', 'fr', null, 'dd') %}
+                {% set moisFin = tournoi.dateFin|localizeddate('none', 'none', 'fr', null, 'MMM')|capitalize %}
+                {% set jourFin = tournoi.dateFin|localizeddate('none', 'none', 'fr', null, 'dd') %}
+                {% set jourMoisDebut = jourDebut ~ ' ' ~ moisDebut %}
+                {% set anneeFin = tournoi.dateFin|localizeddate('none', 'none', 'fr', null, 'y') %}
+                {% set anneeDebut = tournoi.dateDebut|localizeddate('none', 'none', 'fr', null, 'y') %}
+                {% set dateDebut = jourMoisDebut ~ ' ' ~ anneeDebut %}
+                {% set dateFin = jourFin ~ ' ' ~ moisFin ~ ' ' ~ anneeFin %}
+                <tr class="{{ tournoi.statut }}">
+                    {% if (dateDebut == dateFin) %}
+                        <td>{{ dateDebut }}</td>
+                    {% elseif (moisDebut == moisFin) %}
+                        <td>{{ jourDebut ~ '/' ~ dateFin }}</td>
+                        {% else %}
+                        <td>{{ jourMoisDebut ~ '/' ~ dateFin }}</td>
+                    {% endif %}
+                    <td>{{ tournoi.name }}</td>
+                    <td>{{ tournoi.lieu }}</td>
+                    {% if app.user %}
+                        {% if level in ['A','B','C'] %}
+                            <td>
+                                {% if tournoi.lienInscription %}
+                                    <a href="{{ tournoi.lienInscription }}" target="_blank">ICI</a>
+                                {% else %}
+                                    ?
+                                {% endif %}
+                            </td>
+                        {% else %}
+                            <td>Non autorisé</td>
+                        {% endif %}
+                    {% else %}
+                        <td><a href="{{ path('app_login') }}">Connexion requise</a></td>
+                    {% endif %}
+                    <td>{{ tournoi.tableaux|raw }}</td>
+                    {% if tournoi.dateInscription %}
+                        <td>{{ tournoi.dateInscription|localizeddate('none', 'none', 'fr', null, 'dd/MM/y') }}</td>
+                    {% else %}
+                        <td>-</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="tab">&nbsp;</div>
+    {% if level in ['A','B'] %}
+        <a href="{{ path('tournoi.new') }}" class="btn btn-success center" role="button"><i class="fas fa-plus-circle">&nbsp;</i>Créer un tournoi</a>
+    {% endif %}
+    <div class="tab">&nbsp;</div>
+</div>
+{% endblock %}

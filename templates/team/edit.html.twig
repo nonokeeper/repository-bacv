@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Modification Equipe' %}
+
+{% block body %}
+<div class="container">
+    <a href="{{ path('team.index') }}"><i class="fas fa-arrow-alt-circle-left"></i>&nbsp;Retour à la liste des équipes</a>
+    <h4>Equipe ({{ team.name }})</h4>
+    {{ form_start(formTeam) }}
+    {{ form_errors(formTeam) }}
+        <div class="row">
+            <div class="col">
+                <div class="col-md-auto">{{ form_row(formTeam.name, {'label': 'Nom Equipe'}) }}</div>
+            </div>
+            <div class="col">
+                <div class="col-md-auto">{{ form_row(formTeam.slug, {'label': 'Code Equipe'}) }}</div>
+            </div>
+            <div class="col">
+                <div class="col-md-auto">{{ form_row(formTeam.capitaine, {'label': 'Capitaine'}) }}</div>
+            </div>
+            <div class="col">
+                <div class="col-md-auto">{{ form_row(formTeam.club, {'label': 'Club'}) }}</div>
+            </div>
+        </div>
+         <div class="row">
+            <div class="col">
+                <div class="col-md-auto">{{ form_row(formTeam.users, {'label': 'Joueurs'}) }}</div>
+            </div>
+            <div class="col">
+                <div class="col-md-auto">{{ form_row(formTeam.saison, {'label': 'Saisons'}) }}</div>
+            </div>
+            <div class="col">
+                <div class="col-md-auto">{{ form_row(formTeam.mixte) }}</div>
+            </div>
+        </div>
+        <div class="form-inline">&nbsp;</div>
+        <div class="row justify-content-md-center">
+            <div class="col-md-auto">
+                <button class="btn btn-info">{{ button|default('Modifier') }}</button>
+            </div>
+            <div class="col-md-auto">
+                <a href="{{ path('team.index') }}" class="btn btn-secondary">Annuler</a>
+            </div>
+        </div>
+        <div class="form-inline">&nbsp;</div>
+    {{ form_end(formTeam) }}
+</div>
+{% endblock %}

@@ -38,6 +38,26 @@ class InterclubVeteran
      */
     private $score;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\TeamVeteran")
+     */
+    private $team_home;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\TeamVeteran")
+     */
+    private $team_ext;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Lieu", inversedBy="interclubVeterans")
+     */
+    private $lieu;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $location;
+
     public function __construct()
     {
         $this->team = new ArrayCollection();
@@ -92,6 +112,61 @@ class InterclubVeteran
     public function setScore(?string $score): self
     {
         $this->score = $score;
+
+        return $this;
+    }
+
+    public function getTeamHome(): ?TeamVeteran
+    {
+        return $this->team_home;
+    }
+
+    public function setTeamHome(?TeamVeteran $team_home): self
+    {
+        $this->team_home = $team_home;
+
+        return $this;
+    }
+
+    public function getTeamExt(): ?TeamVeteran
+    {
+        return $this->team_ext;
+    }
+
+    public function setTeamExt(?TeamVeteran $team_ext): self
+    {
+        $this->team_ext = $team_ext;
+
+        return $this;
+    }
+
+    public function getLieu(): ?Lieu
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(?Lieu $lieu): self
+    {
+        $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        if ($this->getName()) {
+            return $this->getName();
+        } else return '';
+    }
+
+    public function getLocation(): ?string
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?string $location): self
+    {
+        $this->location = $location;
 
         return $this;
     }

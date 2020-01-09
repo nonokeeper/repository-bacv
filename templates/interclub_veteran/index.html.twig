@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Interclubs Vétéran' %}
+
+{% block body %}
+<!-- 
+    Code un peu 'en dur' car hypothèse d'avoir 2 équipes maxi
+    Villepreux One / Villepreux Two
+ -->
+{% set debut = '<table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Rencontre</th>
+                <th>Date</th>
+                <th>Equipe domicile</th>
+                <th>Equipe extérieure</th>
+                <th>Score</th>
+                <th>Lieu</th>
+            </tr>
+        </thead>
+        <tbody>' %}
+{% set saison = '' %}
+{% set liste1 = '' %}
+{% set liste2 = '' %}
+{% set liste = '' %}
+{% set var = '' %}
+{% set fin = '</tbody>
+    </table>' %}
+
+{% for interclubVeteran in interclubsVeteran %}
+    {% if level in ['A','B'] %}
+        {% set link = '<a href="' ~ path('interclubVeteran.edit', {id: interclubVeteran.id}) ~ '">' ~ interclubVeteran.name ~ '</a>' %}
+    {% else %}
+        {% set link = interclubVeteran.name %}
+    {% endif %}
+    {% if interclubVeteran.location and interclubVeteran.lieu %}
+            {% set lieu = '<a href="/lieu/' ~ interclubVeteran.location ~ '">' ~ interclubVeteran.lieu.name ~ '</a>' %}
+        {% else %}
+            {% set lieu = '?' %}
+    {% endif %}
+    {% set var = '<tr>
+        <td>' ~ link ~ '</td>
+        <td>' ~ interclubVeteran.dateRencontre|date("d/m/Y") ~ '</td>
+        <td>' ~ interclubVeteran.teamhome ~ '</td>
+        <td>' ~ interclubVeteran.teamext ~ '</td>
+        <td>' ~ interclubVeteran.score ~ '</td>
+        <td>' ~ lieu ~ '</td>
+    </tr>' %}
+    {% set liste = liste ~ var %}
+
+    {% if interclubVeteran.teamhome == 'Villepreux One' or interclubVeteran.teamext == 'Villepreux One' %}
+        {% set liste1 = liste1 ~ liste %}
+        {% set liste = '' %}
+    {% endif %}
+    {% if interclubVeteran.teamhome == 'Villepreux Two' or interclubVeteran.teamext == 'Villepreux Two' %}
+        {% set liste2 = liste2 ~ liste %}
+        {% set liste = '' %}
+    {% endif %}
+    {% set saison = interclubVeteran.saison %}
+{% endfor %}
+
+{% set liste1 = debut ~ liste1 ~ fin %}
+{% set liste2 = debut ~ liste2 ~ fin %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Interclubs Vétéran - Saison {{ saisoncourante }}</h5>
+        </div>
+        <div class="card-body">
+        {% if level in ['A','B'] %}
+            <a class="btn btn-success" href="{{ path('interclubVeteran.new') }}">Créer une rencontre</a>
+            <a class="btn btn-danger disabled" href="#">Voir les compositions (en construction)</a>
+        {% elseif level in ['C','D'] %}
+            <a class="btn btn-danger disabled" href="#">Voir les compositions (en construction)</a>
+        {% else %}&nbsp;
+        {% endif %}
+        </div>
+    </div>
+    <div class="tab">&nbsp;</div>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="pills-vip1-tab" data-toggle="pill" href="#pills-vip1" role="tab" aria-controls="pills-vip1" aria-selected="true">Villepreux One</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pills-vip2-tab" data-toggle="pill" href="#pills-vip2" role="tab" aria-controls="pills-vip2" aria-selected="false">Villepreux Two</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-vip1" role="tabpanel" aria-labelledby="pills-vip1-tab">{{ liste1|raw }}</div>
+        <div class="tab-pane fade" id="pills-vip2" role="tabpanel" aria-labelledby="pills-vip2-tab">{{ liste2|raw }}</div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Créer un Tournoi' %}
+
+{% block body %}
+<div class="container mt-4">
+    <a href="{{ path('tournoi.index')}}">Retour à la liste des Tournois</a>
+</div>
+<div class="container mt-4">
+    <h3>Créer un Tournoi</h3>
+    {{ form_start(form) }}
+        <button class="btn btn-success">{{ button|default('Créer') }}</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% if user.gender == 'H' %}
+    <tr class="homme">
+{% else %}
+    <tr class="femme">
+{% endif %}
+    <td>{{ user.firstName }}</td>
+    <td>{{ user.lastName }}</td>
+    <td>{{ user.email }}</td>
+    <td>{{ user.mobile }}</td>
+    <td>{{ user.category }}</td>
+    <td>
+        <a class="btn btn-outline-info" href="{{ path('user.edit', {username: user.userName}) }}">Modifier</a>
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <a class="btn btn-outline-danger" href="{{ path('user.delete', {username: user.userName}) }}" onclick="return confirm('Tu veux supprimer définitivement {{ user.userName }} ?')">Supprimer</a>
+            <a class="btn btn-outline-dark" href="{{ path('user.reset', {username: user.userName}) }}">Reset du mot de passe</a>
+        {% endif %}
+    </td>
+</tr>

@@ -110,7 +110,7 @@ class SecurityController extends AbstractController
             
             if ($request->request->get('password') !== $request->request->get('password2'))
             {
-                $this->addFlash('danger', 'Le mot de passe mal confirmé');
+                $this->addFlash('danger', 'Les mots de passe ne correspondent pas !');
                 return $this->redirectToRoute('app_reset_password', ['token' => $token]);
             }
             /**

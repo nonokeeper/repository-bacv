@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Joueurs' %}
+
+{% block body %}
+<!--
+    Hypothèse d'avoir Catégorie = 1 <=> Compétition + Catégorie = 3 <=> Loisirs avec Interclub
+    Catégorie = 2 <=> Loisirs sans Interclub + Catégorie = 4 <=> Jeunes
+ -->
+{% set debut = '<table class="table table-sm"><thead><tr>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Groupe</th>
+                <th>Action</th>
+            </tr></thead><tbody>' %}
+{% set liste1 = '' %}
+{% set liste2 = '' %}
+{% set liste3 = '' %}
+{% set liste4 = '' %}
+{% set liste = '' %}
+{% set var = '' %}
+{% set fin = '</tbody></table>' %}
+
+<div class="container mt-4">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="form-inline">
+        <div class="form-group mb-2">
+            <h4>Liste des Joueurs du club (Saison {{ saisoncourante }})</h4>
+        </div>
+        <div class="form-group mx-sm-4 mb-3">
+            <a href="{{ path('user.new') }}" class="btn btn-success center" role="button"><i class="fas fa-user-plus">&nbsp;</i>Créer un joueur</a>
+        </div>
+    </div>
+    <div class="row">
+        &nbsp;
+    </div>
+        {{ form_start(formSearch) }}
+        <div class="form-inline">    
+            <div class="form-group mb-2">
+                {{ form_row(formSearch.category) }}
+            </div>
+            <div class="tab">&nbsp;</div>
+            <div class="form-group mb-2">
+                {{ form_row(formSearch.team) }}
+            </div>
+            <div class="tab">&nbsp;</div>
+            <div class="form-group mb-2">
+                {{ form_row(formSearch.libre) }}
+            </div>
+            <div class="tab">&nbsp;</div>
+            <div class="form-group mb-2">
+                <button class="btn btn-info" title="Recherche">Filtrer</button>
+            </div>
+            <div class="tab">&nbsp;</div>
+            <div class="form-group mx-sm-1 mb-2">
+                <a class="btn btn-secondary" href="{{ path('user.index') }}">Reset</a>
+            </div>
+            <div class="pagination col-md-auto offset-md-3">
+                {{ knp_pagination_render(users) }}
+            </div>
+        </div>
+        {{ form_end(formSearch) }}
+        {% if count > 0 %} 
+            <div class="text-right">{{ count ~ ' résultats' }}</div>
+            {{ debut|raw }}
+            {% for user in users %}
+                {% include 'user/_users.html.twig' %}
+            {% endfor %}
+            {{ fin|raw }}
+        {% else %}
+            <div class="tab">&nbsp;</div>
+            <div class="container">Aucun résultat<br/>&nbsp;&nbsp;&nbsp; => Modifier vos critères ou cliquez sur Reset</div>
+            <div class="tab">&nbsp;</div>
+        {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvel Evènement{% endblock %}
+
+{% block body %}
+<div class="container w-50">
+    <div class="tab">&nbsp;</div>
+    <a class="btn btn-primary" href="{{ path('event_index') }}"><i class="far fa-calendar-alt">&nbsp;</i>Liste des événements</a>
+    &nbsp;&nbsp;<a class="btn btn-info" href="{{ path('event_calendar') }}"><i class="fas fa-calendar-alt">&nbsp;</i>Retour au Calendrier</a>
+    <div class="tab">&nbsp;</div>
+    <h3>Nouvel Evènement</h3>
+
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.beginAt, {'label': 'Date de début'}) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.endAt, {'label': 'Date de fin'}) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.titre, {'label': 'Titre'}) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.description, {'label': 'Description'}) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.category, {'label': 'Catégorie'}) }}
+        </div>
+        <div class="col">
+            &nbsp;
+        </div>
+    </div>
+    <button class="btn btn-success"><i class="fas fa-plus-circle">&nbsp;</i>{{ button_label|default('Créer') }}</button>
+    {{ form_end(form) }}
+    <div class="tab">&nbsp;</div>
+</div>
+{% endblock %}

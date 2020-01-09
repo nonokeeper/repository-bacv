@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Evénement{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="tab">&nbsp;</div>
+    
+    <a href="{{ path('event_calendar') }}"><button type="button" class="btn btn-outline-success"><i class="fas fa-arrow-circle-left">&nbsp;</i>Retour Calendrier</button></a>
+    <div class="tab">&nbsp;</div>
+    <div class="card w-auto limit">
+        <h5 class="card-header">
+            <div class="row">
+                <div class="col text-left">{{ event.titre }}</div>
+                <div class="col text-right"><a href="{{ path('event_calendar') }}"><i class="fas fa-times-circle"></i></a></div>
+            </div>
+        </h5>
+        <div class="card-body">
+            <h5 class="card-title">{{ event.category }}</h5>
+            <p class="card-text">{{ event.beginAt ? event.beginAt|date('Y-m-d H:i:s') : '' }} / {{ event.endAt ? event.endAt|date('Y-m-d H:i:s') : '' }}</p>
+            <p class="card-text">{{ event.description }}</p>
+            <div class="row">
+                <div class="col-auto">
+                    <a href="{{ path('event_edit', {'id': event.id}) }}" class="btn btn-primary">Modifier</a>
+                </div>
+                <div class="col-auto">
+                    {{ include('event/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+{% endblock %}

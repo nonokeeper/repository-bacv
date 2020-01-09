@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Evènement{% endblock %}
+
+{% block body %}
+<div class="container w-50">
+    <div class="tab">&nbsp;</div>
+    <a class="btn btn-primary" href="{{ path('event_index') }}"><i class="far fa-calendar-alt">&nbsp;</i>Liste des événements</a>
+    &nbsp;&nbsp;<a class="btn btn-info" href="{{ path('event_calendar') }}"><i class="fas fa-calendar-alt">&nbsp;</i>Retour au Calendrier</a>
+    <div class="tab">&nbsp;</div>
+    <h3>Evènement <small class="text-muted">`{{ event.titre }}`</small></h3>
+
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.beginAt, {'label': 'Date de début'}) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.endAt, {'label': 'Date de fin'}) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.titre, {'label': 'Titre'}) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.description, {'label': 'Description'}) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.category, {'label': 'Catégorie'}) }}
+        </div>
+        <div class="col">
+            &nbsp;
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary"><i class="fas fa-edit">&nbsp;</i>{{ button_label|default('Modifier') }}</button>
+        </div>
+    {{ form_end(form) }}
+        <div class="col">
+            {{ include('event/_delete_form.html.twig') }}
+        </div>
+        <div class="col">
+            &nbsp;
+        </div>
+        <div class="col">
+            &nbsp;
+        </div>
+    </div>
+</div>
+{% endblock %}

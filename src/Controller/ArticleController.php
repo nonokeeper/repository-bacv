@@ -5,11 +5,14 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Article;
+use App\Entity\User;
+use Symfony\Component\Security\Core\Security;
 use App\Repository\ArticleRepository;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Form\ArticleType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class ArticleController extends AbstractController
 {
@@ -18,15 +21,17 @@ class ArticleController extends AbstractController
      * @var ArticleRepository
      */
     private $repository;
+
     /**
-     * @var ObjectManager
+     * @var EntityManagerInterface
      */
     private $em;
 
-    public function __construct(ArticleRepository $repository, ObjectManager $em)
+    public function __construct(ArticleRepository $repository, EntityManagerInterface $em, Security $security)
     {
         $this->repository = $repository;
         $this->em = $em;
+        $this->security = $security;
     }
 
     /**
@@ -46,6 +51,7 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/article/new", name="article.new")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function create(Request $request)
     {
@@ -55,9 +61,12 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            $article->setPublicationDate(new \DateTime('now'));
+            $article->setLastUpdateDate(new \DateTime('now'));
+            $article->setAuteur($this->getUser());
             $this->em->persist($article);
             $this->em->flush();
-            $this->addFlash('success','Article créé');
+            $this->addFlash('success','Article "'.$article->getTitle().'" bien créé !');
             return $this->redirectToRoute('article.index');
         }
 
@@ -68,22 +77,47 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/article/{slug}", name="article.edit")
+     * @IsGranted("ROLE_ADMIN")
      */
-    public function edit(Article $article)
+    public function edit(Article $article, Request $request)
     {
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $article->setLastUpdateDate(new \DateTime('now'));
+            $this->em->flush();
+            $this->addFlash('success','Article "'.$article->getTitle().'" modifié avec succès !');
+            return $this->redirectToRoute('article.index');
+        }
+
         return $this->render('article/edit.html.twig', [
-            'article'    => $article
+            'article'   => $article,
+            'form'      => $form->createView()
         ]);
     }
 
     /**
-     * @Route("/article/{slug}/delete", name="article.delete")
+     * @Route("/article/{slug}/delete", name="article.delete", methods="DELETE")
+     * @IsGranted("ROLE_ADMIN")
      */
-    public function delete(Article $article)
+    public function delete(Article $article, Request $request)
     {
-        return $this->render('article/delete.html.twig', [
-            'article'    => $article
-        ]);
+        if ($this->isCsrfTokenValid('delete'.$article->getSlug(), $request->get('_token')))
+        {
+            $title = $article->getTitle();
+            $this->em->remove($article);
+            $this->em->flush();
+            $this->addFlash('success','Article "'.$title.'" supprimé avec succès');
+        }
+        return $this->redirectToRoute('article.index');
+    }
+    
+    protected function getUser() : User
+    {
+        $user = $this->security->getUser();
+        return $user;
     }
 
 }

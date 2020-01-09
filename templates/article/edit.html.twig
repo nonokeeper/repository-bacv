@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Modifier un article' %}
+
+{% block body %}
+<div class="container mt-4">
+    <a href="{{ path('article.index')}}">Retour à la liste des articles</a>
+</div>
+<div class="container mt-4">
+    <h1>Modifier l'article</h1>
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-4">{{ form_row(form.title) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(form.content) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(form.excerpt) }}</div>
+    </div>
+    {{ form_rest(form) }}
+    <button class="btn btn-primary">{{ button|default('Modifier') }}</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

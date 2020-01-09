@@ -1,54 +1,105 @@
 {% extends 'base.html.twig' %}
 
-{% form_theme formUser 'bootstrap_4_layout.html.twig' %}
-
 {% block title 'Mon compte' %}
 
 {% block body %}
-<div class="w-50 p-2 mx-auto">
+<div class="container">
     {% for message in app.flashes('success') %}
+        <div class="form-inline">&nbsp;</div>
         <div class="alert alert-success">
             {{ message }}
         </div>
     {% endfor %}
-    <h4>Mon Espace Joueur ({{ user.username }})</h4>
+    <div class="form-inline">&nbsp;</div>
+    <div class="form-inline">
+        <div class="form-group mb-2">
+            <h4>Mon Compte ({{ user.fullName }})</h4>
+        </div>
+        <div class="form-group mx-sm-4 mb-3">
+            <button type="button" class="btn btn-success center" data-toggle="modal" data-target="#exampleModal" data-whatever="{{ user.username }}"><i class="fas fa-key">&nbsp;</i>Changer le mot de passe</button>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-key">&nbsp;</i>Changer le mot de passe</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(formMdp) }}
+                    {{ form_errors(formMdp) }}
+                    <div class="form-group">
+                        {{ form_row(formMdp.oldPassword, {'label': 'Ancien mot de passe'}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(formMdp.plainPassword) }}
+                    </div>
+                    {{ form_end(formMdp) }}
+                </div>
+            </div>
+        </div>
+    </div>
 
     {{ form_start(formUser) }}
     {{ form_errors(formUser) }}
-    <div class="row">
-        <div class="col-md-auto">{{ form_row(formUser.firstName, {'label': 'Prénom'}) }}</div>
-        <div class="col-md-auto">{{ form_row(formUser.lastName, {'label': 'Nom'}) }}</div>
+    <div class="row justify-content-md-left">
+        <div class="col-md-auto">
+            <button class="btn btn-info">{{ button|default('Modifier') }}</button>
+        </div>
+        <div class="col-md-auto">
+            <a href="{{ path('homepage') }}" class="btn btn-secondary">Annuler</a>
+        </div>
     </div>
-    <div class="row">
-        <div class="col-md-auto">{{ form_row(formUser.email) }}</div>
-        <div class="col-md-auto">{{ form_row(formUser.mobile, {'label': 'Portable'}) }}</div>
+    <fieldset class="myfieldset">
+        <legend class="mylegend">Contact &nbsp;&nbsp; (Lien <a href="https://myffbad.fr/joueur/{{ user.license }}" target="_blank"><img src="/images/myffbad.png"/></a>)</legend>
+        <div class="row">
+            <div class="col-md-auto">{{ form_row(formUser.firstName, {'label': 'Prénom *'}) }}</div>
+            <div class="col-md-auto">{{ form_row(formUser.lastName, {'label': 'Nom *'}) }}</div>
+            <div class="col-md-auto">{{ form_row(formUser.gender, {'label': 'Sexe'}) }}</div>
+            <div class="col-md-auto">{{ form_row(formUser.birthDate, {'label': 'Date de naissance'}) }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-auto">{{ form_row(formUser.email, {'label': 'E-mail *'}) }}</div>
+            <div class="col-md-auto">{{ form_row(formUser.mobile, {'label': 'Mobile'}) }}</div>
+            <div class="col-md-auto">{{ form_row(formUser.mobile_parent, {'label': 'Mobile Parent'}) }}</div>
+            <div class="col-md-auto">{{ form_row(formUser.ageCategory) }}</div>
+        </div>
+    </fieldset>
+    <fieldset class="myfieldset">
+        <legend class="mylegend">Infos sportives (classements figés de début de saison)</legend>
+        <div class="row">
+            <div class="col-md-auto">{{ form_row(formUser.license, {'label': 'Licence'}) }}</div>
+            <div class="col-md-auto">{{ form_row(formUser.classement_simple) }}</div>
+            <div class="col-md-auto">{{ form_row(formUser.classement_double) }}</div>
+            <div class="col-md-auto">{{ form_row(formUser.classement_mixte) }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-auto">{{ form_row(formUser.team) }}</div>
+            <div class="col-md-auto">{{ form_row(formUser.teamVeteran) }}</div>
+        </div>
+    </fieldset>
+    <fieldset class="myfieldset">
+        <legend class="mylegend">Adresse postale</legend>
+        <div class="row">
+            <div class="col-md-6">{{ form_row(formUser.rue) }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-auto">{{ form_row(formUser.code_postal) }}</div>
+            <div class="col-md-auto">{{ form_row(formUser.ville) }}</div>
+        </div>
+    </fieldset>
+    <div class="row justify-content-md-left">
+        <div class="col-md-auto">
+            <button class="btn btn-info">{{ button|default('Modifier') }}</button>
+        </div>
+        <div class="col-md-auto">
+            <a href="{{ path('homepage') }}" class="btn btn-secondary">Annuler</a>
+        </div>
     </div>
-    <div class="row">
-        <div class="col-md-auto">{{ form_row(formUser.birthDate) }}</div>
-        <div class="col-md-auto">{{ form_row(formUser.license, {'label': 'Licence'}) }}</div>
-    </div>
-    <div class="row">
-        <div class="col-md-auto">{{ form_row(formUser.classement_simple) }}</div>
-        <div class="col-md-auto">{{ form_row(formUser.classement_double) }}</div>
-        <div class="col-md-auto">{{ form_row(formUser.classement_mixte) }}</div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">{{ form_row(formUser.rue) }}</div>
-    </div>
-    <div class="row">
-        <div class="col-md-auto">{{ form_row(formUser.code_postal) }}</div>
-        <div class="col-md-auto">{{ form_row(formUser.ville) }}</div>
-    </div>
-    <div class="row">
-        <div class="col-md-auto">{{ form_row(formUser.saison) }}</div>
-        <div class="col-md-auto">{{ form_row(formUser.team) }}</div>
-        <div class="col-md-auto">{{ form_row(formUser.teamVeteran) }}</div>
-    </div>
-
-    <button class="btn btn-info">{{ button|default('Modifier') }}</button>
+    <div class="form-inline">&nbsp;</div>
     {{ form_end(formUser) }}
 </div>
 {% endblock %}
-
-
-
