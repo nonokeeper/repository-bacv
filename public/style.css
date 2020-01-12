@@ -157,6 +157,18 @@ a:hover {
     text-decoration: underline;
 }
 
+img.w50 {
+	max-width: 50%;
+	height: auto;
+}
+
+img.w375 {
+	max-width: 375px;
+	height: auto;
+}
+
+
+
 .container .nav .active {
     color: #cde7ec;
     background-color: #084a57;

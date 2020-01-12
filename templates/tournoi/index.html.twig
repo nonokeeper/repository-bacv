@@ -46,7 +46,8 @@
                 <th class="text-center">Nom</th>
                 <th class="text-center">Lieu</th>
                 <th class="text-center">Lien Inscription</th>
-                <th class="text-center">Tableaux / Classements</th>
+                <th class="text-center">Tableaux</th>
+                <th class="text-center">Classements</th>
                 <th class="text-center">Date limite</th>
             </tr>
         </thead>
@@ -69,7 +70,11 @@
                         {% else %}
                         <td>{{ jourMoisDebut ~ '/' ~ dateFin }}</td>
                     {% endif %}
-                    <td>{{ tournoi.name }}</td>
+                    {% if level in ['A','B'] %}
+                        <td><a href="{{ path('tournoi.edit', {id: tournoi.id}) }}">{{ tournoi.name }}</a></td>
+                    {% else %}
+                        <td>{{ tournoi.name }}</td>
+                    {% endif %}
                     <td>{{ tournoi.lieu }}</td>
                     {% if app.user %}
                         {% if level in ['A','B','C'] %}
@@ -87,6 +92,7 @@
                         <td><a href="{{ path('app_login') }}">Connexion requise</a></td>
                     {% endif %}
                     <td>{{ tournoi.tableaux|raw }}</td>
+                    <td>{{ tournoi.classements|raw }}</td>
                     {% if tournoi.dateInscription %}
                         <td>{{ tournoi.dateInscription|localizeddate('none', 'none', 'fr', null, 'dd/MM/y') }}</td>
                     {% else %}

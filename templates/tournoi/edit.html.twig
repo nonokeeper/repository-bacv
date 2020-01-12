@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Modifier un Tournoi' %}
+
+{% block body %}
+<div class="container mt-4">
+    <a class="btn btn-info" href="{{ path('tournoi.index')}}"><i class="fas fa-trophy">&nbsp;</i>Retour à la liste des Tournois</a>
+</div>
+<div class="container mt-4">
+    <h3>Modifier le Tournoi <small class="text-muted">`{{ tournoi.name }}`</small></h3>
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-4">{{ form_row(form.name) }}</div>
+        <div class="col-md-3">{{ form_row(form.lieu) }}</div>
+        <div class="col-md-2">{{ form_row(form.saison) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(form.date_debut) }}</div>
+        <div class="col-md-3">{{ form_row(form.date_fin) }}</div>
+        <div class="col-md-auto">{{ form_row(form.date_inscription) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">{{ form_row(form.lien_inscription) }}</div>
+        <div class="col-md-6">{{ form_row(form.lien_description) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">{{ form_row(form.tableaux) }}</div>
+        <div class="col-md-4">{{ form_row(form.classements) }}</div>
+        <div class="col-md-4">{{ form_row(form.categories) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">
+            <button class="btn btn-primary"><i class="far fa-save">&nbsp;</i>{{ button|default('Sauvegarder les modifications') }}</button>
+        </div>
+    {{ form_end(form) }}
+        <div class="col-md-auto">
+                {{ include('tournoi/_delete_form.html.twig') }}
+        </div>
+    </div>
+    <div class="tab">&nbsp;</div>
+</div>
+{% endblock %}

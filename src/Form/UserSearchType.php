@@ -59,9 +59,6 @@ class UserSearchType extends AbstractType
             'label'     =>  false,
             'required'  =>  false,
         ])
-
-        
-
         ;
     }
 

@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Form\TournoiType;
+use App\Entity\Tournoi;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class TournoiController extends AbstractController
@@ -43,7 +44,6 @@ class TournoiController extends AbstractController
             'form'      => $form->createView()
         ]);
     }
-
 
     /**
      * @Route("/tournoi/new", name="tournoi.new")
@@ -83,6 +83,42 @@ class TournoiController extends AbstractController
         return $this->render('tournoi/new.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/tournoi/{id}", name="tournoi.edit")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function edit(Tournoi $tournoi, Request $request): Response
+    {
+        $form = $this->createForm(TournoiType::class, $tournoi);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $this->em->flush();
+            $this->addFlash('success','Tournoi "'.$tournoi->getName().'" modifié avec succès !');
+            return $this->redirectToRoute('tournoi.index');
+        }
+
+        return $this->render('tournoi/edit.html.twig', [
+            'form'      => $form->createView(),
+            'tournoi'   => $tournoi
+        ]);
+    }
+
+    /**
+     * @Route("/tournoiDelete/{id}", name="tournoi.delete", methods="DELETE")
+     * @IsGranted("ROLE_ADMIN")
+     */
+
+    public function delete(Tournoi $tournoi, Request $request)
+    {
+        $name = $tournoi->getName();
+        $this->em->remove($tournoi);
+        $this->em->flush();
+        $this->addFlash('success','Tournoi `'.$name.'` supprimé avec succès');
+        return $this->redirectToRoute('interclub.index');
     }
 
 }

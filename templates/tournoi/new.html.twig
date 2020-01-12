@@ -4,12 +4,32 @@
 
 {% block body %}
 <div class="container mt-4">
-    <a href="{{ path('tournoi.index')}}">Retour à la liste des Tournois</a>
+    <a class="btn btn-info" href="{{ path('tournoi.index')}}"><i class="fas fa-trophy">&nbsp;</i>Retour à la liste des Tournois</a>
 </div>
 <div class="container mt-4">
     <h3>Créer un Tournoi</h3>
     {{ form_start(form) }}
-        <button class="btn btn-success">{{ button|default('Créer') }}</button>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(form.name) }}</div>
+        <div class="col-md-auto">{{ form_row(form.lieu) }}</div>
+        <div class="col-md-auto">{{ form_row(form.saison) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(form.date_debut) }}</div>
+        <div class="col-md-auto">{{ form_row(form.date_fin) }}</div>
+        <div class="col-md-auto">{{ form_row(form.date_inscription) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">{{ form_row(form.lien_inscription) }}</div>
+        <div class="col-md-4">{{ form_row(form.lien_description) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">{{ form_row(form.tableaux) }}</div>
+        <div class="col-md-auto">{{ form_row(form.classements) }}</div>
+        <div class="col-md-auto">{{ form_row(form.categories) }}</div>
+    </div>
+        <button class="btn btn-success"><i class="fas fa-plus-circle">&nbsp;</i>{{ button|default('Créer') }}</button>
+    <div class="tab">&nbsp;</div>
     {{ form_end(form) }}
 </div>
 {% endblock %}

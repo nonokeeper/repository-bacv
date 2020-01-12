@@ -14,16 +14,22 @@ class TournoiType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('date_debut')
-            ->add('date_fin')
+            ->add('date_debut', DateType::class, [
+                'format' => 'd/MMM/y',
+                ])
+            ->add('date_fin', DateType::class, [
+                'format' => 'd/MMM/y',
+                ])
             ->add('lieu')
             ->add('lien_inscription')
             ->add('classements')
             ->add('categories')
             ->add('tableaux')
-            ->add('date_inscription')
+            ->add('date_inscription', DateType::class,[
+                'label' => 'Date limite d\'inscription',
+                'format' => 'd/MMM/y',
+            ])
             ->add('lien_description')
-            ->add('club')
             ->add('saison')
         ;
     }

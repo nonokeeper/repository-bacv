@@ -9,8 +9,9 @@
             {{ message }}
         </div>
     {% endfor %}
-    <a href="{{ path('user.index') }}"><i class="fas fa-arrow-alt-circle-left"></i>&nbsp;Retour vers la liste des Joueurs</a>
-    <h4>Réinitialiser le mot de passe de "{{ user.username }}"</h4>
+    <a class="btn btn-primary" href="{{ path('user.index') }}"><i class="far fa-address-book">&nbsp;</i>Retour Liste des joueurs</a>
+    <div class="tab">&nbsp;</div>
+    <h3>Réinitialiser le mot de passe de <small class="text-muted">`{{ user.username }}`</small></h3>
 
     {{ form_start(formResetUser) }}
     <div class="row">

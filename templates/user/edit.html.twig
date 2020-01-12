@@ -5,7 +5,7 @@
 {% block body %}
 <div class="container">
     <div class="tab">&nbsp;</div>
-    <a class="btn btn-primary" href="{{ path('user.index') }}"><i class="far fa-address-book">&nbsp;</i>Retour à la liste des joueurs</a>
+    <a class="btn btn-primary" href="{{ app.request.headers.get('referer') }}"><i class="far fa-address-book">&nbsp;</i>Retour à la liste des joueurs</a>
     <div class="tab">&nbsp;</div>
     <h4>Joueur ({{ user.firstName ~ ' ' ~ user.lastName }})</h4>
         {{ form_start(formUser) }}

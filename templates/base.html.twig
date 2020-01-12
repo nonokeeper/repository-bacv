@@ -123,39 +123,41 @@
                     <div class="col-xs-12 col-sm-4">
                         <h5>Le Club</h5>
                         <ul class="list-unstyled quick-links">
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Accueil</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Présentation du Club</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Calendrier du Club</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Photos et Vidéos</a></li>
+                            <li><a href="{{ path('homepage') }}"><i class="fa fa-angle-double-right"></i>Accueil</a></li>
+                            <li><a href="{{ path('presentation') }}"><i class="fa fa-angle-double-right"></i>Présentation du Club</a></li>
+                            <li><a href="{{ path('event_calendar') }}"><i class="fa fa-angle-double-right"></i>Calendrier du Club</a></li>
+                            <li><a href="{{ path('medias') }}"><i class="fa fa-angle-double-right"></i>Photos et Vidéos</a></li>
                         </ul>
                     </div>
                     <div class="col-xs-12 col-sm-4">
                         <h5>Les Compétitions</h5>
                         <ul class="list-unstyled quick-links">
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Les Equipes de Villepreux</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Les Rencontres Interclubs</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Compétitions Jeunes</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Les Tournois</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Interclubs Vétéran</a></li>
+                            <li><a href="{{ path('team.index') }}"><i class="fa fa-angle-double-right"></i>Les Equipes de Villepreux</a></li>
+                            <li><a href="{{ path('interclub.index') }}"><i class="fa fa-angle-double-right"></i>Les Rencontres Interclubs</a></li>
+                            <li><a href="{{ path('tropheejeunes') }}"><i class="fa fa-angle-double-right"></i>Compétitions Jeunes</a></li>
+                            <li><a href="{{ path('tournoi.index') }}"><i class="fa fa-angle-double-right"></i>Les Tournois</a></li>
+                            <li><a href="{{ path('interclubVeteran.index') }}"><i class="fa fa-angle-double-right"></i>Interclubs Vétéran</a></li>
                         </ul>
                     </div>
                     <div class="col-xs-12 col-sm-4">
                         <h5>Pour aller plus loin</h5>
                         <ul class="list-unstyled quick-links">
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Le Blog du Club</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Les Joueurs de Villepreux</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>La Page Facebook du Club</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>La Chaine Youtube du Club</a></li>
-                            <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Nous Contacter par Email</a></li>
+                            {% if level in ['A','B'] %}
+                            <li><a href="{{ path('article.index') }}"><i class="fa fa-angle-double-right"></i>Le Blog du Club</a></li>
+                            <li><a href="{{ path('user.index') }}"><i class="fa fa-angle-double-right"></i>Les Joueurs de Villepreux</a></li>
+                            {% endif %}
+                            <li><a href="https://www.facebook.com/BACVillepreux/" target="_blank"><i class="fa fa-angle-double-right"></i>La Page Facebook du Club</a></li>
+                            <li><a href="https://www.youtube.com/channel/UClajQwyNBJSgjJeIe5R8WaA/" target="_blank"><i class="fa fa-angle-double-right"></i>La Chaine Youtube du Club</a></li>
+                            <li><a href="mailto:bacv78.villepreux@gmail.com" target="_blank"><i class="fa fa-angle-double-right"></i>Nous Contacter par Email</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-5">
                         <ul class="list-unstyled list-inline social text-center">
-                            <li class="list-inline-item"><a title="Notre page Facebook" href="javascript:void();"><i class="fab fa-facebook-square">&nbsp;</i></a></li>
-                            <li class="list-inline-item"><a title="Notre chaine Youtube" href="javascript:void();"><i class="fab fa-youtube">&nbsp;</i></a></li>
-                            <li class="list-inline-item"><a title="Contactez-nous par E-mail" href="javascript:void();" target="_blank"><i class="fa fa-envelope">&nbsp;</i></a></li>
+                            <li class="list-inline-item"><a title="Notre page Facebook" href="https://www.facebook.com/BACVillepreux/" target="_blank"><i class="fab fa-facebook-square">&nbsp;</i></a></li>
+                            <li class="list-inline-item"><a title="Notre chaine Youtube" href="https://www.youtube.com/channel/UClajQwyNBJSgjJeIe5R8WaA/" target="_blank"><i class="fab fa-youtube">&nbsp;</i></a></li>
+                            <li class="list-inline-item"><a title="Contactez-nous par E-mail" href="mailto:bacv78.villepreux@gmail.com" target="_blank"><i class="fa fa-envelope">&nbsp;</i></a></li>
                         </ul>
                     </div>
                     </hr>

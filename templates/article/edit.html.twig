@@ -4,22 +4,28 @@
 
 {% block body %}
 <div class="container mt-4">
-    <a href="{{ path('article.index')}}">Retour à la liste des articles</a>
+    <a class="btn btn-info" href="{{ path('article.index')}}"><i class="fas fa-clipboard-list">&nbsp;</i>Retour Liste des articles</a>
 </div>
 <div class="container mt-4">
-    <h1>Modifier l'article</h1>
+    <h3>Modifier l'article <small class="text-muted">`{{ article.title }}`</small></h3>
     {{ form_start(form) }}
     <div class="row">
         <div class="col-md-4">{{ form_row(form.title) }}</div>
+        <div class="col-md-6">{{ form_row(form.excerpt) }}</div>
     </div>
     <div class="row">
         <div class="col-md-auto">{{ form_row(form.content) }}</div>
     </div>
     <div class="row">
-        <div class="col-md-auto">{{ form_row(form.excerpt) }}</div>
+        <div class="col-md-4">{{ form_row(form.categories) }}</div>
+        <div class="col-md-4">{{ form_row(form.isPublished) }}</div>
     </div>
-    {{ form_rest(form) }}
-    <button class="btn btn-primary">{{ button|default('Modifier') }}</button>
+    <div class="row">
+        <div class="col-md-auto">
+            <button class="btn btn-primary"><i class="far fa-save">&nbsp;</i>{{ button|default('Sauvegarder les modifications') }}</button>
+        </div>
+    </div>
+    <div class="tab">&nbsp;</div>
     {{ form_end(form) }}
 </div>
 {% endblock %}

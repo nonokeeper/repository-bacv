@@ -7,6 +7,11 @@
 <div class="container mt-4">
     <a class="btn btn-primary" href="{{ path('article.index') }}"><i class="fas fa-clipboard-list">&nbsp;</i>Retour liste des articles</a>
     <div class="tab">&nbsp;</div>
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
     <h3>Nouvel Article</h3>
     {{ form_errors(form) }}
     {{ form_start(form) }}
@@ -18,7 +23,6 @@
         <div class="col-md-9">{{ form_row(form.content) }}</div>
     </div>
     <div class="row">
-        <div class="col-md-4">{{ form_row(form.picture) }}</div>
         <div class="col-md-3">{{ form_row(form.categories) }}</div>
         <div class="col-md-2">{{ form_row(form.isPublished) }}</div>
     </div>

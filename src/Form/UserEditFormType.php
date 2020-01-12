@@ -90,7 +90,7 @@ class UserEditFormType extends AbstractType
                 'choices'  => [
                     'Joueur Simple' => 'ROLE_USER',
                     'Bureau ou Capitaine' => 'ROLE_ADMIN',
-                    'Administrateur' => 'ROLE_SUPER_ADMIN',
+                //    'Administrateur' => 'ROLE_SUPER_ADMIN',
                 ],
             ])
             ->add('active', CheckboxType::class)

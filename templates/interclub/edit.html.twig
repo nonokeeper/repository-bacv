@@ -7,8 +7,8 @@
     <a class="btn btn-primary" href="{{ path('interclub.index')}}"><i class="fas fa-list-alt">&nbsp;</i>Liste des rencontres</a>
 </div>
 <div class="container mt-4">
-    {{ form_start(interclubForm) }}
     <h3>Rencontre <small class="text-muted">`{{ interclub.name }}`</small></h3>
+    {{ form_start(interclubForm) }}
     <div class="row">
         <div class="col-md-auto">{{ form_row(interclubForm.name) }}</div>
         <div class="col-md-auto">{{ form_row(interclubForm.teamhome, {

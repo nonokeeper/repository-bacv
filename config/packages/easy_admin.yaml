@@ -1,7 +1,10 @@
 easy_admin:
   site_name: 'BACV - Derrière le bureau'
   design:
-    brand_color: '#17a2b8'
+    form_theme: # Both themes are for ckeditor integration
+            - "@EasyAdmin/form/bootstrap_4.html.twig"
+            - "@FOSCKEditor/Form/ckeditor_widget.html.twig"
+    brand_color: '#FF0000' #d6eaf8
     menu:
       - {label: 'Retour Site BACV', route: 'homepage', icon: 'arrow-up'}
       - label: 'Gestion des Articles et des Catégories'
@@ -32,6 +35,28 @@ easy_admin:
   entities:
     Articles:
       class: App\Entity\Article
+      form:
+        fields:
+          - {property: 'content', label: 'Contenu Article', type: 'fos_ckeditor'}
+          - {property: 'title', label: 'Titre'}
+          - {property: 'auteur', label: 'Auteur'}
+          - {property: 'lastUpdateDate', label: 'Date MAJ'}
+          - {property: 'excerpt', label: 'Extrait'}
+          - {property: 'isPublished', label: 'Publié'}
+          - {property: 'pictures', type: 'file_upload', type_options: {
+              upload_dir: 'public/uploads/article/',
+              multiple: true,
+              download_path: 'uploads/article/'
+            }}
+      list:
+        fields:
+          - {property: 'title', label: 'Titre'}
+          - {property: 'excerpt', label: 'Extrait'}
+          - {property: 'isPublished', label: 'Publié'}
+          - {property: 'lastUpdateDate', label: 'Date MAJ'}
+          - {property: 'pictures', label: 'Images'}
+          - {property: 'auteur', label: 'Auteur'}
+
     Clubs:
       class: App\Entity\Club
     Categories:

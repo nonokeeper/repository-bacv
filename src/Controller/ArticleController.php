@@ -61,6 +61,15 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            $title = $form->get('title')->getData();
+            if (!$title)
+            {
+                $this->addFlash('error','Merci de saisir un titre pour cet article');
+                return $this->render('article/new.html.twig', [
+                    'form' => $form->createView()
+                ]);
+            }
+            
             $article->setPublicationDate(new \DateTime('now'));
             $article->setLastUpdateDate(new \DateTime('now'));
             $article->setAuteur($this->getUser());

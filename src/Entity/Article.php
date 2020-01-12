@@ -68,6 +68,16 @@ class Article
      */
     private $excerpt;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $pictures = [];
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $srcImages = [];
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -175,6 +185,10 @@ class Article
 
     public function setLastUpdateDate(\DateTimeInterface $lastUpdateDate): self
     {
+        if (!$lastUpdateDate) {
+            $lastUpdateDate = new \DateTime('now');
+        }
+
         $this->lastUpdateDate = $lastUpdateDate;
 
         return $this;
@@ -225,6 +239,9 @@ class Article
 
     public function setAuteur(?User $auteur): self
     {
+        if (!$auteur) {
+            $auteur = $this->getUser();
+        }
         $this->auteur = $auteur;
 
         return $this;
@@ -243,6 +260,45 @@ class Article
     public function setExcerpt(?string $excerpt): self
     {
         $this->excerpt = $excerpt;
+
+        return $this;
+    }
+
+    public function getPictures(): ?array
+    {
+        return $this->pictures;
+    }
+
+    public function setPictures(?array $pictures): self
+    {
+        //    Usage: $url = "$protocol://$host/images/something.jpg";
+        $host = $_SERVER['HTTP_HOST'];
+        $protocol=$_SERVER['PROTOCOL'] = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? 'https' : 'http';
+        $url = $protocol.'://'.$host.'/uploads/article/';
+        $images = [];
+        if ($pictures) {
+            foreach ($pictures as $cle => $valeur) {
+                $valeurs = explode( '/', $valeur );
+                foreach ($valeurs as $key => $value) {
+                    $images[$cle] = $url.$value;
+                }
+            }
+            $this->setSrcImages($images);
+        }
+
+        $this->pictures = $pictures;
+
+        return $this;
+    }
+
+    public function getSrcImages(): ?array
+    {
+        return $this->srcImages;
+    }
+
+    public function setSrcImages(?array $srcImages): self
+    {
+        $this->srcImages = $srcImages;
 
         return $this;
     }

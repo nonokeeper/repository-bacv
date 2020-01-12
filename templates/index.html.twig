@@ -15,9 +15,18 @@
                 </div>
                 <div class="card-body">
                     {{ article.content|raw }}
+                    <div class="row">
+                    {% if (article.srcImages) %}
+                        {% for srcImage in article.srcImages %}
+                        <div class="col-md-auto">
+                            <img src="{{ srcImage }}" class="w375"/>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                    </div>
                 </div>
                 <div class="card-footer blog">
-                    Publié le : {{ article.publicationDate|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM Y')|capitalize }} par : {{ article.auteur.firstName }}
+                    Publié le : {{ article.publicationDate|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM Y')|capitalize }} par : {{ article.auteur ? article.auteur.firstName : "Webmaster" }}
                 </div>
             </div>
             <div class="tab">&nbsp;</div>

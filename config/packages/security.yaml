@@ -44,3 +44,5 @@ security:
     #    - { path: ^/users, roles: ROLE_ADMIN }
     #    - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/user, roles: ROLE_ADMIN }
+        - { path: ^/efconnect, roles: ROLE_ADMIN }
+        - { path: ^/elfinder, roles: ROLE_ADMIN }
