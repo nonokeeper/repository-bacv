@@ -8,7 +8,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use FM\ElfinderBundle\Form\Type\ElFinderType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class ArticleType extends AbstractType
 {
@@ -21,7 +22,39 @@ class ArticleType extends AbstractType
             ])
         //    ->add('auteur')
         //    ->add('slug')
-            ->add('content', CKEditorType::Class, [
+            ->add('Image', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '4096k',
+                        'mimeTypes' => [
+                            'image/jpg',
+                            'image/png',
+                            'image/jpeg',
+                            'image/gif',
+                        ],
+                        'mimeTypesMessage' => 'Merci de sélectionner une image valide',
+                    ])
+                ],
+            ])
+            ->add('Image2', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '4096k',
+                        'mimeTypes' => [
+                            'image/jpg',
+                            'image/png',
+                            'image/jpeg',
+                            'image/gif',
+                        ],
+                        'mimeTypesMessage' => 'Merci de sélectionner une image valide',
+                    ])
+                ],
+            ])
+            ->add('content', CKEditorType::class, [
                 'label' => 'Contenu de l\'article',
             ])
             ->add('excerpt', null, [

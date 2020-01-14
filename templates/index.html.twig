@@ -16,12 +16,15 @@
                 <div class="card-body">
                     {{ article.content|raw }}
                     <div class="row">
-                    {% if (article.srcImages) %}
-                        {% for srcImage in article.srcImages %}
+                    {% if (article.imageFilename) %}
                         <div class="col-md-auto">
-                            <img src="{{ srcImage }}" class="w375"/>
+                            <img src="{{ asset('uploads/images/' ~ article.imageFilename) }}" class="w375" />
                         </div>
-                        {% endfor %}
+                    {% endif %}
+                    {% if (article.image2Filename) %}
+                        <div class="col-md-auto">
+                            <img src="{{ asset('uploads/images/' ~ article.image2Filename) }}" class="w375" />
+                        </div>
                     {% endif %}
                     </div>
                 </div>

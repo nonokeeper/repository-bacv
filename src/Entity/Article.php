@@ -78,6 +78,16 @@ class Article
      */
     private $srcImages = [];
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imageFilename;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image2Filename;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -299,6 +309,30 @@ class Article
     public function setSrcImages(?array $srcImages): self
     {
         $this->srcImages = $srcImages;
+
+        return $this;
+    }
+
+    public function getImageFilename(): ?string
+    {
+        return $this->imageFilename;
+    }
+
+    public function setImageFilename(?string $imageFilename): self
+    {
+        $this->imageFilename = $imageFilename;
+
+        return $this;
+    }
+
+    public function getImage2Filename(): ?string
+    {
+        return $this->image2Filename;
+    }
+
+    public function setImage2Filename(?string $image2Filename): self
+    {
+        $this->image2Filename = $image2Filename;
 
         return $this;
     }

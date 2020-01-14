@@ -4,7 +4,7 @@ easy_admin:
     form_theme: # Both themes are for ckeditor integration
             - "@EasyAdmin/form/bootstrap_4.html.twig"
             - "@FOSCKEditor/Form/ckeditor_widget.html.twig"
-    brand_color: '#FF0000' #d6eaf8
+    brand_color: '#084a57' #d6eaf8
     menu:
       - {label: 'Retour Site BACV', route: 'homepage', icon: 'arrow-up'}
       - label: 'Gestion des Articles et des Catégories'

@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Form\ArticleType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class ArticleController extends AbstractController
@@ -49,6 +50,29 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    private function getFileName(?UploadedFile $imageFile)
+    {
+        if ($imageFile) {
+            $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+            // this is needed to safely include the file name as part of the URL
+            $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+            // Move the file to the directory where images are stored
+            try {
+                $imageFile->move(
+                    $this->getParameter('images_directory'),
+                    $newFilename
+                );
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+            return $newFilename;
+        } else {
+            return null;
+        }
+    }
+
     /**
      * @Route("/article/new", name="article.new")
      * @IsGranted("ROLE_ADMIN")
@@ -61,7 +85,13 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            /** Récupère les noms de fichiers téléversés et MAJ de l'article si non null */
+            $newFilename = $this->getFileName($form['Image']->getData());
+            if ($newFilename) { $article->setImageFilename($newFilename); }
+            $newFilename2 = $this->getFileName($form['Image2']->getData());
+            if ($newFilename2) { $article->setImage2Filename($newFilename2); }
             $title = $form->get('title')->getData();
+
             if (!$title)
             {
                 $this->addFlash('error','Merci de saisir un titre pour cet article');
@@ -77,6 +107,13 @@ class ArticleController extends AbstractController
             $this->em->flush();
             $this->addFlash('success','Article "'.$article->getTitle().'" bien créé !');
             return $this->redirectToRoute('article.index');
+        }
+
+        if ($form->isSubmitted() && !$form->isValid()) {
+            $this->addFlash('error','Merci de fournir des images au format jpg/gif/jpeg/png');
+                return $this->render('article/new.html.twig', [
+                    'form' => $form->createView()
+                ]);
         }
 
         return $this->render('article/new.html.twig', [
@@ -95,10 +132,23 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            /** Récupère les noms de fichiers téléversés et MAJ de l'article si non null */
+            $newFilename = $this->getFileName($form['Image']->getData());
+            if ($newFilename) { $article->setImageFilename($newFilename); }
+            $newFilename2 = $this->getFileName($form['Image2']->getData());
+            if ($newFilename2) { $article->setImage2Filename($newFilename2); }
+
             $article->setLastUpdateDate(new \DateTime('now'));
             $this->em->flush();
             $this->addFlash('success','Article "'.$article->getTitle().'" modifié avec succès !');
             return $this->redirectToRoute('article.index');
+        }
+        if ($form->isSubmitted() && !$form->isValid()) {
+            $this->addFlash('error','Merci de fournir des images au format jpg/gif/jpeg/png');
+                return $this->render('article/edit.html.twig', [
+                    'article'   => $article,
+                    'form' => $form->createView()
+                ]);
         }
 
         return $this->render('article/edit.html.twig', [

@@ -20,11 +20,17 @@
         <div class="col-md-6">{{ form_row(form.excerpt) }}</div>
     </div>
     <div class="row">
-        <div class="col-md-9">{{ form_row(form.content) }}</div>
+        <div class="col-md-10">{{ form_row(form.content) }}</div>
     </div>
     <div class="row">
-        <div class="col-md-3">{{ form_row(form.categories) }}</div>
+        <div class="col-md-2">{{ form_row(form.categories) }}</div>
         <div class="col-md-2">{{ form_row(form.isPublished) }}</div>
+        <div class="col-md-3">
+            {{ form_widget(form.Image, { 'attr': {'placeholder': 'Choisir Image N°1'} }) }}
+        </div>
+        <div class="col-md-3">
+            {{ form_widget(form.Image2, { 'attr': {'placeholder': 'Choisir Image N°2'} }) }}
+        </div>
     </div>
     <button class="btn btn-success"><i class="fas fa-plus-circle">&nbsp;</i>{{ button_label|default('Créer') }}</button>
     {{ form_end(form) }}

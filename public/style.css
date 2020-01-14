@@ -157,8 +157,13 @@ a:hover {
     text-decoration: underline;
 }
 
-img.w50 {
-	max-width: 50%;
+img.w100 {
+	max-width: 100px;
+	height: auto;
+}
+
+img.w150 {
+	max-width: 150px;
 	height: auto;
 }
 
