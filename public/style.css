@@ -172,7 +172,9 @@ img.w375 {
 	height: auto;
 }
 
-
+.custom-file-label::after {
+    content: "Parcourir";
+}
 
 .container .nav .active {
     color: #cde7ec;
