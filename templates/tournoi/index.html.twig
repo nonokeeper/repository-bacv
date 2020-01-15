@@ -43,6 +43,7 @@
         <thead>
             <tr>
                 <th class="text-center">Date</th>
+                <th class="text-center">Infos</th>
                 <th class="text-center">Nom</th>
                 <th class="text-center">Lieu</th>
                 <th class="text-center">Lien Inscription</th>
@@ -69,6 +70,11 @@
                         <td>{{ jourDebut ~ '/' ~ dateFin }}</td>
                         {% else %}
                         <td>{{ jourMoisDebut ~ '/' ~ dateFin }}</td>
+                    {% endif %}
+                    {% if tournoi.lienDescription %}
+                        <td><a href="{{ tournoi.lienDescription }}" target="_blank"><i class="fas fa-info"></i></a></td>
+                    {% else %}
+                        <td>&nbsp;</td>
                     {% endif %}
                     {% if level in ['A','B'] %}
                         <td><a href="{{ path('tournoi.edit', {id: tournoi.id}) }}">{{ tournoi.name }}</a></td>
