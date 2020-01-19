@@ -3,13 +3,60 @@
 {% block title %}Photos et Vidéos{% endblock %}
 
 {% block body %}
+{% dump content %}
+{% dump base %}
+{% dump parent %}
 <div class="container mt-4">
     <div class="card">
-        <div class="card-header"><h5 class="card-title">Page en construction...</h5></div>
+        <div class="card-header"><h5 class="card-title">Galerie Photos du BACV</h5></div>
         <div class="card-body">
-            Merci de revenir vers fin Janvier 2020
+            {{ base|split('/')|last }}
         </div>
     </div>
+    <div class="tab">&nbsp;</div>
+    {% if parent|length >= 13 %}
+    <div class="container">
+        <a class="btn btn-primary" href="{{ path('medias') ~ '?base=' ~ parent }}"><i class="fas fa-level-up-alt">&nbsp;</i>Remonter d'un niveau</a>
+    </div>
+    <div class="tab">&nbsp;</div>
+    {% endif %}
+    {% if content and not images %} <!-- Cas d'une liste de dossiers -->
+        <div class="row">
+        {% for dossier in content %}
+            <!-- Superposition image et texte -->
+            <div class="overlay-image _bk">
+                <a href="{{ path('medias') ~ '?base=' ~ base ~ '/' ~ dossier }}">
+                    <img class="image _bl " src="images/dossier.jpg" alt="Ouvrir" />
+                    <div class="text _2">{{ dossier }}</div>
+                </a>
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+    {% if content and images %} <!-- Cas d'une liste d'images -->
+        {% for image in content %}
+            {% set idModal = image[0] %}
+            <!-- Lien pour ouvrir l'image dans une Modal -->
+            <a data-toggle="modal" data-target="#{{ idModal }}" href="#"><img src="{{ base ~ '/' ~ image[0]}}"/></a>
+
+            <!-- Modal -->
+            <div class="modal fade" id="{{ idModal }}" tabindex="-1" role="dialog" aria-labelledby="Image" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{ image[1] }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="{{ base ~ '/' ~ image[1]}}" class="p100"/>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
     <div class="tab">&nbsp;</div>
 </div>
 {% endblock %}

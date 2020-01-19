@@ -58,6 +58,9 @@ class UserSearchType extends AbstractType
         ->add('libre', SearchType::class,[
             'label'     =>  false,
             'required'  =>  false,
+            'attr' => [
+                'placeholder' => 'Recherche par nom',
+            ],
         ])
         ;
     }
