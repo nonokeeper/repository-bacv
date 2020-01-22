@@ -18,12 +18,12 @@
                     <div class="row">
                     {% if (article.imageFilename) %}
                         <div class="col-md-auto">
-                            <img src="{{ asset('uploads/images/' ~ article.imageFilename) }}" class="w375" />
+                            <img src="{{ asset('uploads/images/' ~ article.imageFilename) }}" class="w315" />
                         </div>
                     {% endif %}
                     {% if (article.image2Filename) %}
                         <div class="col-md-auto">
-                            <img src="{{ asset('uploads/images/' ~ article.image2Filename) }}" class="w375" />
+                            <img src="{{ asset('uploads/images/' ~ article.image2Filename) }}" class="w315" />
                         </div>
                     {% endif %}
                     </div>
@@ -46,53 +46,53 @@
                             <div class="row">
                                 <div class="col-md-2" id="cercle">1</div>
                                 {% if (match1) %}
-                                    <div class="col-md-auto interclub text-left"><span>{{ match1.dateRencontre|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM Y')|capitalize }}</span></div>
+                                    <div class="col interclub"><span>{{ match1.dateRencontre|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM Y')|capitalize }}</span></div>
                                 {% else %}
-                                    <div class="col-md-auto interclub text-left"><span>Saison terminée !</span></div>
+                                    <div class="col interclub"><span>Saison terminée !</span></div>
                                 {% endif %}
                             </div>
                             {% if (match1) %}
                             <div class="row">
-                                <div class="col petit text-left">{{ match1.name }}</div>
+                                <div class="col petit">{{ match1.name }}</div>
                             </div>
                             {% endif %}
                             <div class="row">
                                 <div class="col-md-2" id="cercle">2</div>
                                 {% if (match2) %}
-                                    <div class="col-md-auto interclub text-left"><span>{{ match2.dateRencontre|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM Y')|capitalize }}</span></div>
+                                    <div class="col interclub"><span>{{ match2.dateRencontre|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM Y')|capitalize }}</span></div>
                                 {% else %}
-                                    <div class="col-md-auto interclub text-left"><span>Saison terminée !</span></div>
+                                    <div class="col interclub"><span>Saison terminée !</span></div>
                                 {% endif %}
                             </div>
                             {% if (match2) %}
                             <div class="row">
-                                <div class="col petit text-left">{{ match2.name }}</div>
+                                <div class="col petit">{{ match2.name }}</div>
                             </div>
                             {% endif %}
                             <div class="row">
                                 <div class="col-md-2" id="cercle">3</div>
                                 {% if (match3) %}
-                                    <div class="col-md-auto interclub text-left"><span>{{ match3.dateRencontre|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM Y')|capitalize }}</span></div>
+                                    <div class="col interclub"><span>{{ match3.dateRencontre|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM Y')|capitalize }}</span></div>
                                 {% else %}
-                                    <div class="col-md-auto interclub text-left"><span>Saison terminée !</span></div>
+                                    <div class="col interclub"><span>Saison terminée !</span></div>
                                 {% endif %}
                             </div>
                             {% if (match3) %}
                             <div class="row">
-                                <div class="col petit text-left">{{ match3.name }}</div>
+                                <div class="col petit">{{ match3.name }}</div>
                             </div>
                             {% endif %}
                             <div class="row">
                                 <div class="col-md-2" id="cercle">4</div>
                                 {% if (match4) %}
-                                    <div class="col-md-auto interclub text-left"><span>{{ match4.dateRencontre|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM Y')|capitalize }}</span></div>
+                                    <div class="col interclub"><span>{{ match4.dateRencontre|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM Y')|capitalize }}</span></div>
                                 {% else %}
-                                    <div class="col-md-auto text-left"><span>Saison terminée !</span></div>
+                                    <div class="col"><span>Saison terminée !</span></div>
                                 {% endif %}
                             </div>
                             {% if (match4) %}
                             <div class="row">
-                                <div class="col petit interclub text-left">{{ match4.name }}</div>
+                                <div class="col petit interclub">{{ match4.name }}</div>
                             </div>
                             {% endif %}
                         </li>       
