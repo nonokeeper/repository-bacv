@@ -40,8 +40,8 @@
                 <div class="collapse navbar-collapse">
                     
                     <ul class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
-                        <li class="nav-item text-left">
-                            <a href="{{ path('event_calendar') }}"><i class="fas fa-calendar-alt">&nbsp;</i>Calendrier du Club</a><br/><br/>
+                        <a class="btn btn-outline btn-outline-primary" href="{{ path('event_calendar') }}"><i class="fas fa-calendar-alt">&nbsp;</i>Calendrier du Club</a><br/>
+                        <li class="nav-item text-left">                     
                             <h5>Prochains Interclubs<br/></h5>
                             <div class="row">
                                 <div class="col-md-2" id="cercle">1</div>
@@ -95,7 +95,8 @@
                                 <div class="col petit interclub">{{ match4.name }}</div>
                             </div>
                             {% endif %}
-                        </li>       
+                        </li>
+                        <br/><a target="_blank" class="btn btn-outline btn-outline-primary" href="https://icmanager.ffbad.org/index.php?Page=championnat&Action=view&ID_Championnat=4915"><i class="fas fa-balance-scale-right">&nbsp;</i>IC Manager</a>     
                     </ul>
                 </div>
             </nav>
