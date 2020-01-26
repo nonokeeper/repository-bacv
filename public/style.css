@@ -121,7 +121,7 @@ tr.closed {
     text-align: center;
 }
 
-.open {
+.ouvert {
     background-color: rgb(226, 243, 241);
     text-align: center;
 }
@@ -257,7 +257,8 @@ section .section-title {
     background: #084a57 !important;
 }
 #footer h4{
-	padding-left: 10px;
+	padding-left: 5px;
+	vertical-align: bottom;
     padding-bottom: 6px;
     margin-bottom: 20px;
     color:#ffffff;

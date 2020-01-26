@@ -280,7 +280,7 @@ class Tournoi
     {
         // valeur qui dépend de date_inscription / date_debut / date_fin
         // retour "closed" si date courante > date_fin
-        // retour "open" si date courante < date_inscription
+        // retour "ouvert" si date courante < date_inscription
         // retour "soon" si date courante > date_inscription et date courante < date_fin
         $now = new DateTime('now');
 
@@ -289,7 +289,7 @@ class Tournoi
         } elseif ($now > $this->getDateInscription() or !$this->getDateInscription()) {
             $this->statut = 'soon';
         } else {
-            $this->statut = 'open';
+            $this->statut = 'ouvert';
         }
         
         return $this->statut;

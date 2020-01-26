@@ -26,16 +26,16 @@
         <div class="col-md-2">{{ form_row(form.isPublished) }}</div>
         <div class="col-md-3">
             {% if form.vars.value.ImageFilename is not null %}
-                {{ form_widget(form.Image, { 'attr': {'placeholder': 'Image N°1'} }) }}
-                <img src="{{ asset('uploads/images/' ~ form.vars.value.ImageFilename) }}" class="w150" />
+                {{ form_widget(form.Image, { 'attr': {'placeholder': 'Image No1'} }) }}
+                <img src="{{ asset('public/uploads/images/' ~ form.vars.value.ImageFilename) }}" class="w150" />
             {% else %}
                 {{ form_widget(form.Image) }}
             {% endif %}
         </div>
         <div class="col-md-3">
             {% if form.vars.value.Image2Filename is not null %}
-                {{ form_widget(form.Image2, { 'attr': {'placeholder': 'Image N°2'} }) }}
-                <img src="{{ asset('uploads/images/' ~ form.vars.value.Image2Filename) }}" class="w150" />
+                {{ form_widget(form.Image2, { 'attr': {'placeholder': 'Image No2'} }) }}
+                <img src="{{ asset('public/uploads/images/' ~ form.vars.value.Image2Filename) }}" class="w150" />
             {% else %}
                 {{ form_widget(form.Image2) }}
             {% endif %}
