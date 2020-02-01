@@ -100,8 +100,8 @@ class ArticleController extends AbstractController
                 ]);
             }
             
-            $article->setPublicationDate(new \DateTime('now'));
-            $article->setLastUpdateDate(new \DateTime('now'));
+            $article->setPublicationDate(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
+            $article->setLastUpdateDate(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
             $article->setAuteur($this->getUser());
             $this->em->persist($article);
             $this->em->flush();
@@ -138,7 +138,7 @@ class ArticleController extends AbstractController
             $newFilename2 = $this->getFileName($form['Image2']->getData());
             if ($newFilename2) { $article->setImage2Filename($newFilename2); }
 
-            $article->setLastUpdateDate(new \DateTime('now'));
+            $article->setLastUpdateDate(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
             $this->em->flush();
             $this->addFlash('success','Article "'.$article->getTitle().'" modifié avec succès !');
             return $this->redirectToRoute('article.index');

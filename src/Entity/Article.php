@@ -196,7 +196,7 @@ class Article
     public function setLastUpdateDate(\DateTimeInterface $lastUpdateDate): self
     {
         if (!$lastUpdateDate) {
-            $lastUpdateDate = new \DateTime('now');
+            $lastUpdateDate = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
         }
 
         $this->lastUpdateDate = $lastUpdateDate;

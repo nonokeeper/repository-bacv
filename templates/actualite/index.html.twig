@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Actualités' %}
+
+{% block body %}
+
+<div class="container mt-4">
+    <div class="form-inline">
+        <div class="form-group mb-2">
+            <h4>Liste des Actualités</h4>
+        </div>
+        <div class="form-group mx-sm-4 mb-3">
+            <a href="{{ path('actualite.new') }}" class="btn btn-success center" role="button"><i class="fas fa-plus-circle">&nbsp;</i>Créer une nouvelle actualité</a>
+        </div>
+    </div>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Texte</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for actualite in actualites %}
+            <tr>
+                <td>{{ actualite.name }}</td>
+                <td>{{ actualite.content }}</td>
+                <td>{{ actualite.startDate|date("d/m/Y") }}</td>
+                <td>{{ actualite.endDate|date("d/m/Y") }}</td>
+                <td>
+                    <a href="{{ path('actualite.edit', {slug: actualite.slug}) }}" class="btn btn-primary">Modifier</a>
+                    <form method="POST" action="{{ path('actualite.delete', {slug: actualite.slug}) }}"
+                        style="display:inline-block" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer cette actualité ?')">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ actualite.slug) }}">
+                        <button class="btn btn-danger">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+

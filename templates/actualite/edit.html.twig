@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Modifier une Actualité' %}
+
+{% block body %}
+
+<div class="container mt-4">
+    <a class="btn btn-primary" href="{{ path('actualite.index') }}"><i class="fas fa-clipboard-list">&nbsp;</i>Retour Liste des Actualités</a>
+    <div class="tab">&nbsp;</div>
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <h3>Actualité `{{ actualite.name }}`</h3>
+    {{ form_errors(form) }}
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-3">{{ form_row(form.name) }}</div>
+        <div class="col-md-6">{{ form_row(form.content) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">{{ form_row(form.startDate) }}</div>
+        <div class="col-md-4">{{ form_row(form.endDate) }}</div>
+    </div>
+    <button class="btn btn-primary"><i class="far fa-save">&nbsp;</i>{{ button|default('Sauvegarder les modifications') }}</button>
+    {{ form_end(form) }}
+    <div class="tab">&nbsp;</div>
+</div>
+{% endblock %}

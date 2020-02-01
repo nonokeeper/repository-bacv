@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ArticleRepository;
+use App\Repository\ActualiteRepository;
 use App\Repository\InterclubRepository;
 use App\Repository\InterclubVeteranRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -16,8 +17,9 @@ class HomeController extends AbstractController
         $this->registry = $registry;
     }
 
-    public function index(ArticleRepository $articleRepository)
+    public function index(ArticleRepository $articleRepository, ActualiteRepository $actuRepository)
     {
+        // Construction des articles du Blog à afficher en page d'accueil
         $articles = $articleRepository->findAllPublished();
         $match1 = '';
         $match2 = '';
@@ -33,7 +35,12 @@ class HomeController extends AbstractController
         $match4 = $interclubRepository->findVIP4();
         $matchVet = $interclubVetRepository->findVet1();
         $matchVet2 = $interclubVetRepository->findVet2();
+
+        // Construction de l'actualité du jour à afficher en page d'accueil
+        $actualite = $actuRepository->findLastOne();
+        
         return $this->render('index.html.twig', [
+            'actualite' => $actualite,
             'articles'  => $articles,
             'match1'    => $match1,
             'match2'    => $match2,

@@ -465,3 +465,41 @@ section .section-title {
 }
 
 /* Fin Animation CSS */
+
+/* Code pour texte défilant */
+
+.h25 {
+    height: 25px;
+}
+
+.marquee-rtl {
+    max-width: 50em;                      /* largeur de la fenêtre */
+    margin: 0em auto 0em;
+/*    border: 1px solid #e2b728; */
+    overflow: hidden;                     /* masque tout ce qui dépasse */
+    box-shadow: 0 .25em .5em #f8d7da,inset 0 0 1em .25em #f8d7da;
+}
+
+/* le bloc défilant */
+.marquee-rtl > :first-child {
+    display: inline-block;                /* modèle de boîte en ligne */
+    padding-right: 2em;                   /* un peu d'espace pour la transition */
+    padding-left: 100%;                   /* placement à droite du conteneur */
+    white-space: nowrap;                  /* pas de passage à la ligne */
+    animation: defilement-rtl 15s infinite linear;
+}
+
+.marquee-rtl:hover :first-child {
+    animation-play-state: paused;
+}
+
+@keyframes defilement-rtl {
+    0% {
+      transform: translate3d(0,0,0);      /* position initiale à droite */
+    }
+    100% {
+      transform: translate3d(-100%,0,0);  /* position finale à gauche */
+    }
+  }
+
+/* Fin Code pour texte défilant */

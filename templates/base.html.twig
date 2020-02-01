@@ -63,15 +63,18 @@
                             <a class="dropdown-item" href="{{ path('interclubVeteran.index') }}"><i class="fab fa-android">&nbsp;</i>Interclubs Vétéran</a>
                         </div>
                     </li>
-                    <li class="nav-item {% if app.request.attributes.get('_route') == 'tropheejeunes' %}active{% endif %}">    
+                    <li class="nav-item {% if app.request.attributes.get('_route') == 'tropheejeunes' %}active{% endif %}">
                         <a class="nav-link" href="{{ path('tropheejeunes') }}"><i class="fas fa-child">&nbsp;</i>Trophée Jeunes</a>
                     </li>
                     {% if level in ['A','B'] %}
-                    <li class="nav-item {% if app.request.attributes.get('_route') == 'user.index' %}active{% endif %}">    
+                    <li class="nav-item {% if app.request.attributes.get('_route') == 'user.index' %}active{% endif %}">
                         <a class="nav-link" href="{{ path('user.index') }}"><i class="fas fa-users">&nbsp;</i>Les Joueurs</a>
                     </li>
-                    <li class="nav-item {% if app.request.attributes.get('_route') == 'article.index' %}active{% endif %}">    
+                    <li class="nav-item {% if app.request.attributes.get('_route') == 'article.index' %}active{% endif %}">
                         <a class="nav-link" href="{{ path('article.index') }}"><i class="fas fa-blog">&nbsp;</i>Blog</a>
+                    </li>
+                    <li class="nav-item {% if app.request.attributes.get('_route') == 'actualite.index' %}active{% endif %}">
+                        <a class="nav-link" href="{{ path('actualite.index') }}"><i class="fas fa-info-circle">&nbsp;</i>Actualités</a>
                     </li>
                     {% endif %}
                 </ul>
