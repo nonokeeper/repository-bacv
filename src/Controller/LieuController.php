@@ -21,7 +21,6 @@ class LieuController extends AbstractController
 
     /**
      * @Route("/lieu/{id}", name="lieu.edit")
-     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Lieu $lieu)
     {
