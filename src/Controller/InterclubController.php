@@ -95,11 +95,7 @@ class InterclubController extends AbstractController
             $end = $interclub->getDateRencontre();
             $titre = $interclub->getName();
             $desc = 'Evénement créé par la création de la rencontre '.$interclub->getName();
-            if ($interclub->getTeamHome()->getMixte()) {
-                $cat = 'Interclub Mixte';
-            } else {
-                $cat = 'Interclub Masculin';
-            }
+            $cat = 'Interclub';
             
             // Appel de la création de l'événement depuis son Controller avec l'EntityManager
             $ec->create($this->em, $start, $end, $titre, $desc, $cat);
