@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\Security;
 use App\Repository\ActualiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\ActualiteType;
+use App\Form\ActualiteNewType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -55,7 +56,7 @@ class ActualiteController extends AbstractController
     public function create(Request $request)
     {
         $actualite = new Actualite();
-        $form = $this->createForm(ActualiteType::class, $actualite);
+        $form = $this->createForm(ActualiteNewType::class, $actualite);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())

@@ -71,7 +71,7 @@ $(document).ready(function() {
             center: 'title',
             right: 'month, agendaWeek, agendaDay'
         },
-        timezone: ('Europe/London'),
+        timezone: ('Europe/Paris'),
         businessHours: {
             start: '09:00',
             end: '18:30',

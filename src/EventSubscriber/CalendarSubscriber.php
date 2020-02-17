@@ -62,17 +62,38 @@ class CalendarSubscriber implements EventSubscriberInterface
              */
 
             // Test couleur en fonction de la catégorie de l'événement :)
-            if($event->getCategory() == "Tournoi") {
+            if($event->getCategory() == "Fermeture Gymnases") {
                 $eventEvent->setOptions([
-                    'backgroundColor' => 'red',
+                    'backgroundColor' => '#f04856',
                     'borderColor' => 'black',
-                ]);
-            } else {
-                $eventEvent->setOptions([
-                    'backgroundColor' => 'blue',
-                    'borderColor' => 'black',
+                    'textColor'     => 'white',
                 ]);
             }
+            if ($event->getCategory() == "Tournoi") {
+                $eventEvent->setOptions([
+                    'backgroundColor' => '#084a57',
+                    'borderColor'   => 'black',
+                    'textColor'     => '#ebfbff',
+                ]);
+            }
+            if ($event->getCategory() == "Interclub") {
+                $eventEvent->setOptions([
+                    'backgroundColor' => '#ffcf00',
+                    'borderColor' => 'black',
+                    'textColor'     => 'black',
+                ]);
+            }
+            // Autres cas non gérés individuellement
+            if (!in_array($event->getCategory(), ["Interclub","Tournoi","Fermeture Gymnases"])) {
+                $eventEvent->setOptions([
+                    'backgroundColor' => '#d2f8d2',
+                    'borderColor' => 'black',
+                    'textColor'     => 'black',
+                ]);
+            }
+            
+
+
             $eventEvent->addOption(
                 'url',
                 $this->router->generate('event_show', [
