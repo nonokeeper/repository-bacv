@@ -139,6 +139,20 @@ class InterclubController extends AbstractController
             /** @var Interclub $interclub */
             $interclub = $form->getData();
 
+            // Récupère l'entity manager de Event
+            $ec = new EventController();
+
+            // Set des données pour cet événement
+            $start = $interclub->getDateRencontre();
+            $end = $interclub->getDateRencontre();
+            $titre = $interclub->getName();
+            $desc = 'Evénement créé par la création de la rencontre '.$interclub->getName();
+            $cat = 'Interclub';
+            
+            // Appel de la création de l'événement depuis son Controller avec l'EntityManager
+            $ec->create($this->em, $start, $end, $titre, $desc, $cat);
+            $this->addFlash('success','Evénement créé avec succès !');
+
             // Récupère l'objet Team pour le nom donné en paramètre de la query method GET
             $lieuRepository = new LieuRepository($this->registry);
             if ($interclub->getLocation()) {

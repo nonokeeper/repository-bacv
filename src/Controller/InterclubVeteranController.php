@@ -65,8 +65,22 @@ class InterclubVeteranController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            /** @var InterclubVeteran $interclub */
+            /** @var InterclubVeteran $interclubsVeteran */
             $interclubsVeteran = $form->getData();
+
+            // Récupère l'entity manager de Event
+            $ec = new EventController();
+
+            // Set des données pour cet événement
+            $start = $interclubsVeteran->getDateRencontre();
+            $end = $interclubsVeteran->getDateRencontre();
+            $titre = $interclubsVeteran->getName();
+            $desc = 'Evénement créé par la création de la rencontre '.$interclubsVeteran->getName();
+            $cat = 'Interclub';
+            
+            // Appel de la création de l'événement depuis son Controller avec l'EntityManager
+            $ec->create($this->em, $start, $end, $titre, $desc, $cat);
+            $this->addFlash('success','Evénement créé avec succès !');
 
             // Récupère l'objet Team pour le nom donné en paramètre de la query method GET
             $lieuRepository = new LieuRepository($this->registry);
