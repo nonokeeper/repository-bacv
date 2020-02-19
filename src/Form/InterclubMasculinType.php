@@ -58,8 +58,8 @@ class InterclubMasculinType extends AbstractType
                 'query_builder' => function (TeamRepository $tr) {
                     return $tr->createQueryBuilder('t')
                         ->andWhere('t.mixte = :mixte')
-                        ->setParameter('mixte', false)
-                        ;
+                        ->setParameter('mixte', 0)
+                        ->orderBy('t.name', 'ASC');
                 },
                 'required' => false,
                 'label' => 'Equipe Domicile',
@@ -70,6 +70,12 @@ class InterclubMasculinType extends AbstractType
             ->add('teamext', EntityType::class, [
                 'class' => Team::class,
                 'placeholder' => '-- Aucune --',
+                'query_builder' => function (TeamRepository $tr) {
+                    return $tr->createQueryBuilder('t')
+                        ->andWhere('t.mixte = :mixte')
+                        ->setParameter('mixte', 0)
+                        ->orderBy('t.name', 'ASC');
+                },
                 'required' => false,
                 'label' => 'Equipe Extérieur',
                 'choice_label' => 'name',

@@ -20,6 +20,7 @@ use Symfony\Component\Form\FormInterface;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use App\Repository\UserRepository;
 use App\Repository\ClubRepository;
+use App\Repository\TeamRepository;
 
 class InterclubNewMasculinType extends AbstractType
 {
@@ -53,6 +54,12 @@ class InterclubNewMasculinType extends AbstractType
             ->add('teamhome', EntityType::class, [
                 'class' => Team::class,
                 'placeholder' => '-- Aucune --',
+                'query_builder' => function (TeamRepository $tr) {
+                    return $tr->createQueryBuilder('t')
+                        ->andWhere('t.mixte = :mixte')
+                        ->setParameter('mixte', 0)
+                        ->orderBy('t.name', 'ASC');
+                },
                 'required' => false,
                 'label' => 'Equipe Domicile :',
                 'choice_label' => 'name',
@@ -62,6 +69,12 @@ class InterclubNewMasculinType extends AbstractType
             ->add('teamext', EntityType::class, [
                 'class' => Team::class,
                 'placeholder' => '-- Aucune --',
+                'query_builder' => function (TeamRepository $tr) {
+                    return $tr->createQueryBuilder('t')
+                        ->andWhere('t.mixte = :mixte')
+                        ->setParameter('mixte', 0)
+                        ->orderBy('t.name', 'ASC');
+                },
                 'required' => false,
                 'label' => 'Equipe Extérieur :',
                 'choice_label' => 'name',

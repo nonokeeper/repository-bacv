@@ -242,6 +242,42 @@ input:required {
     border-left: 3px solid rgb(177, 9, 9);
 }
 
+/* Login form */
+.form-signin-heading {
+    text-align:center;
+}
+
+.bg-login {
+    background-color: #084a57;
+    color: #cde7ec;
+}
+
+#login {
+    align-items: center;
+}
+
+.login {
+    max-width: 480px;
+}
+
+.login button {
+    margin: 10px;
+}
+
+.login input {
+    max-width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.text-login {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-size: 1.6em;
+}
+
 /* Footer */
 section {
     padding: 10px 0;
