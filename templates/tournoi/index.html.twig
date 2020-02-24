@@ -95,7 +95,7 @@
                             <td>Non autorisé</td>
                         {% endif %}
                     {% else %}
-                        <td><a href="{{ path('app_login') }}">Connexion requise</a></td>
+                        <td><a href="{{ path('app_login') }}"><i class="fas fa-sign-in-alt"></i></a></td>
                     {% endif %}
                     <td>{{ tournoi.tableaux|raw }}</td>
                     <td>{{ tournoi.classements|raw }}</td>
