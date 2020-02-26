@@ -10,7 +10,15 @@
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
         {% block stylesheets %}{% endblock %}
     </head>
-    <body>
+    <body>{# Gestion des droits pour l'ensemble du site
+                Z par défaut : utilisateur lambda non connecté
+                F : utilisateur connecté mais sans aucun droit/catégorie
+                E : Jeune
+                D : Loisirs avec Interclub
+                C : Compétiteurs
+                B : Membres du bureau + capitaines
+                A : Grand chef avec tous les droits
+            #}
         {% set level = 'Z' %}
         {% if app.user %}
             {% set level = 'F' %}
