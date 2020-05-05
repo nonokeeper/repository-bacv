@@ -70,6 +70,8 @@ easy_admin:
           - {property: 'username', label: 'Identifiant'}
           - {property: 'active', label: 'Inscrit cette saison'}
           - {property: 'email', type: 'email'}
+          - {property: 'teamManaged', label: 'Equipe gérée en tant que capitaine'}
+          - {property: 'teamVeteranManaged', label: 'Equipe Vétéran gérée en tant que capitaine'}
           - {property: 'mobile', type: 'tel'}
           - {property: 'team', type: 'easyadmin_autocomplete', type_options: { class: 'App\Entity\Team' } }
           - {property: 'teamVeteran', type: 'easyadmin_autocomplete', type_options: { class: 'App\Entity\TeamVeteran' } }
@@ -79,8 +81,6 @@ easy_admin:
               'Loisir avec Interclub': 'Loisir avec Interclub','Jeune': 'Jeune'}
               }
             }
-          - {property: 'teamManaged', label: 'Equipe gérée en tant que capitaine'}
-          - {property: 'teamVeteranManaged', label: 'Equipe Vétéran gérée en tant que capitaine'}
       list:
         fields: [{ property: 'firstName', label: 'Prénom' }, { property: 'lastName', label: 'Nom' }, 
           'email', { property: 'active', label: 'Inscrit' }, {property: 'mobile', type: 'tel'},

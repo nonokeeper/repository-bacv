@@ -9,3 +9,10 @@ fos_ck_editor:
         default:
             uiColor:  "#cde7ec"
             language: fr
+            toolbar:
+                - { name: "styles", items: ['Format','Font','FontSize', '-', 'Bold', 'Italic', 'Underline', 'Strike', 'Blockquote', '-', 'Image', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Table', '-', 'TextColor', 'BGColor'] }
+            filebrowserBrowseRoute: elfinder
+            filebrowserBrowseRouteParameters: []
+        admin:
+            toolbar:
+                - { name: "styles", items: ['Bold', 'Italic', 'Underline', 'Image', 'Link'] }

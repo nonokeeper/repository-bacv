@@ -16,10 +16,11 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\UserRepository;
 use App\Repository\ClubRepository;
 use App\Repository\TeamRepository;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class InterclubType extends AbstractType
 {
@@ -83,6 +84,8 @@ class InterclubType extends AbstractType
                 'label' => 'Lieu',
                 'required' => false,
             ])
+            ->add('save', SubmitType::class, ['label' => 'Sauvegarder'])
+            ->add('saveAndQuit', SubmitType::class, ['label' => 'Sauvegarder et Quitter'])        
             ->add('SH1', EntityType::class, [
                 'placeholder' => '-- Non défini --',
                 'class'     => User::class,

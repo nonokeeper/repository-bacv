@@ -509,6 +509,29 @@ section .section-title {
     height: 25px;
 }
 
+.h10 {
+    height: 10px;
+}
+
+.mw-800 {
+    max-width: 800px;
+}
+
+.myheader {
+    height: 25px;
+    color: #cdedf3;
+    background-color: #084a57;
+    text-align: center;
+    font-style: italic;
+}
+
+.secondheader {
+    height: 25px;
+    color: #000;
+    background-color: #ecf6f8;
+    text-align: center;
+}
+
 .marquee-rtl {
     max-width: 50em;                      /* largeur de la fenêtre */
     margin: 0em auto 0em;
@@ -540,3 +563,138 @@ section .section-title {
   }
 
 /* Fin Code pour texte défilant */
+
+/* Boite de message div */
+.message {
+    margin-top: 5px;
+    height: 35px;
+}
+
+.alert-ok {
+    color: #10a16a;
+    width: auto;
+    margin-left: 8%;
+    height: 25px;
+}
+
+
+/* Aspect de la coche radio */
+input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+  
+    border: 1px solid rgb(41, 107, 107);;
+    transition: 0.2s all linear;
+    margin-right: 1px;
+    margin-left: 10px;
+
+    vertical-align: text-bottom;
+}
+
+label[disabled]{
+    opacity: 0.5;
+}
+
+/* Modify style when checked */
+input[type="radio"]#oui:checked {
+    border: 6px solid #28a745;
+}
+
+/* Modify style when checked */
+input[type="radio"]#non:checked {
+    border: 6px solid rgb(202, 23, 23);
+}
+
+/* Modify style when checked */
+input[type="radio"]#nsp:checked {
+    border: 6px solid rgb(114, 114, 114);
+}
+
+/* Label changed when selected */
+input[type="radio"]#oui:checked + label {
+    color: #28a745;
+}
+
+/* Label changed when selected */
+input[type="radio"]#non:checked + label {
+    color: rgb(202, 23, 23);
+}
+
+/* Label changed when selected */
+input[type="radio"]#nsp:checked + label {
+    color: rgb(114, 114, 114);
+}
+
+/* Circle with text inside */
+.ouiCircle {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    line-height: 18px;
+    display:inline-block;
+    border: 2px solid white;
+    color: white;
+    background-color: #28a745;
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 3px;
+}
+
+.nonCircle {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    line-height: 18px;
+    display:inline-block;
+    border: 2px solid white;
+    color: white;
+    background-color: rgb(202, 23, 23);
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 3px;
+}
+
+/* centrer le bouton de la modal */
+.modal-footer {
+    justify-content: center;
+}
+
+.editIE {
+    margin-left: 20px;
+}
+
+.back {
+    margin-bottom: 10px;
+}
+
+.back a{
+    text-decoration: none;
+}
+
+/* Style pour la distinction Homme / Femme */
+span.fille {
+     background-color: rgb(250, 221, 227);
+}
+
+input.score {
+    width: 55px;
+    height: 25px;
+    text-align: center;
+    vertical-align: top;
+}
+
+.min-h-300 {
+    min-height: 300px;
+}
+
+/* Pour gérer les compositions d'équipe */
+
+.draggable { width: 100px; height: 100px; padding: 0.5em; float: left; margin: 10px 10px 10px 0; }
+.droppable { width: 250px; height: 250px; padding: 0.5em; float: left; margin: 10px; }

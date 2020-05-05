@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Interclub;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Interclub|null find($id, $lockMode = null, $lockVersion = null)
@@ -56,6 +56,24 @@ class InterclubRepository extends ServiceEntityRepository
 
     /**
     * @return Interclub[] Returns an array of Interclub objects
+    * only the current season and the implied team
+    */
+    public function findMyInterclubs($saison, $team)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.saison = :saison')
+            ->setParameter('saison', $saison)
+            ->andWhere('i.team_home = :team or i.team_ext = :team')
+            ->setParameter('team', $team)
+            ->orderBy('i.dateRencontre', 'ASC')
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return Interclub[] Returns an array of Interclub objects
     */
     public function findAllForCompo($saison)
     {
@@ -66,6 +84,56 @@ class InterclubRepository extends ServiceEntityRepository
             ->setMaxResults(100)
             ->getQuery()
             ->getResult()
+        ;
+    }
+
+    /**
+    * @return Interclub (next after this one)
+    * only same season and same team
+    */
+    public function findNext($interclubId)
+    {
+        // 1st step : recover season and team of this interclub
+        $interclub = $this->find($interclubId);
+        $saison = $interclub->getSaison();
+        $team = $interclub->getTeam();
+        $name = $interclub->getName();
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.saison = :saison')
+            ->setParameter('saison', $saison)
+            ->andWhere('i.team_home = :team or i.team_ext = :team')
+            ->setParameter('team', $team)
+            ->andWhere('i.name > :name')
+            ->setParameter('name', $name)
+            ->orderBy('i.name', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    /**
+    * @return Interclub (previous before this one)
+    * only same season and same team
+    */
+    public function findPrevious($interclubId)
+    {
+        // 1st step : recover season and team of this interclub
+        $interclub = $this->find($interclubId);
+        $saison = $interclub->getSaison();
+        $team = $interclub->getTeam();
+        $name = $interclub->getName();
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.saison = :saison')
+            ->setParameter('saison', $saison)
+            ->andWhere('i.team_home = :team or i.team_ext = :team')
+            ->setParameter('team', $team)
+            ->andWhere('i.name < :name')
+            ->setParameter('name', $name)
+            ->orderBy('i.name', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
         ;
     }
 

@@ -1,0 +1,154 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BACV - Présences Interclubs{% endblock %}
+
+{% block body %}
+<div class="message">
+    {% for message in app.flashes('success') %}
+    <p id="tmp" class="alert-ok">
+        <i class="fas fa-check-circle">&nbsp;</i>{{ message }}
+    </p>
+    {% endfor %}
+</div>
+
+{% for interclub in interclubs %}
+    {% set val = '?' %}
+    {% set Presents = [] %}
+    {% set Absents = [] %}
+    {% set countPresent = 0 %}
+    {% set countAbsent = 0 %}
+    {% for aie in allInterclubsUser %}
+        {% if (aie.interclub.id == interclub.id and aie.value) %}
+            {% if (aie.value == 'Oui') %}
+                {#{ aie.user.firstName }#}
+                {# Ajouter aie.user au tableau des présents #}
+                {% set Presents = Presents|merge({(countPresent): aie.user}) %}
+                {# Ajouter 1 pour chaque présent #}
+                {% set countPresent = countPresent + 1 %}
+            {% elseif (aie.value == 'Non') %}
+                {# Ajouter aie.user au tableau des absents #}
+                {% set Absents = Absents|merge({(countAbsent): aie.user}) %}
+                {# Ajouter 1 pour chaque présent #}
+                {% set countAbsent = countAbsent + 1 %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    {% for ie in interclubsUser %}
+        {% if (ie.interclub.id == interclub.id and ie.value) %}
+            {% set val = ie.value %}
+        {% endif %}
+    {% endfor %}
+    <div class="container mb-4">
+        <div class="card border-secondary mw-800">
+            {% if interclub.dejajoue %}
+                    <div class="myheader">Rencontre déjà jouée</div>
+                    <div id="score-{{interclub.id }}" class="secondheader">
+                        Score : {{ interclub.score }}&nbsp;&nbsp;<span id="link-{{interclub.id }}">
+                        <i class="fas fa-edit">&nbsp;</i></span>
+                    </div>
+                    <div class="secondheader formScore" id="form-{{interclub.id }}">
+                        <form method="POST" onsubmit="return sendData({{interclub.id }});">
+                            Score : <input class="score" type="text" id="inputScore-{{interclub.id }}" value="{{ interclub.score }}">
+                            <input type="submit" name="submit_form" value="Valider">
+                        </form>
+                    </div>
+            {% endif %}
+            <div class="card-header text-white {% if(val=='Oui') %}bg-success{% elseif(val=='Non') %}bg-danger{% else %}bg-secondary{% endif %}">
+                {{ interclub.name }}
+            </div>
+            <div class="card-body text-dark">
+                <p class="card-text"><i class="fas fa-calendar-alt">&nbsp;</i>{{ interclub.dateRencontre|date("d M Y", "Europe/Paris") }}
+                    à {{ interclub.dateRencontre|date("H:i")}}</p>
+            </div>
+            <div class="card-footer">
+                {% if interclub.dejajoue %}
+                    <label for="oui" disabled>Moi : 
+                        <input type="radio" id="oui" value="Oui" {% if(val=='Oui') %}checked{% endif %} disabled/>
+                    Présent</label>
+                    <label for="non" {% if interclub.dejajoue %}disabled{% endif %}>
+                    <input type="radio" id="non" value="Non" {% if(val=='Non') %}checked{% endif %} disabled/>
+                    Absent</label>
+                    <label for="nsp" {% if interclub.dejajoue %}disabled{% endif %}>
+                    <input type="radio" id="nsp" value="?" {% if(val=='?') %}checked{% endif %} disabled/>
+                    Inconnu</label>
+                {% else %}
+                    <form name="presence" id="{{ interclub.id }}" action="{{ path('myinterclubs_update') }}" method="POST">
+                        Moi : <label for="oui">
+                            <input type="radio" id="oui" name="value" value="Oui" {% if(val=='Oui') %}checked{% endif %}/>
+                        Présent</label>
+                        <label for="non">
+                        <input type="radio" id="non" name="value" value="Non" {% if(val=='Non') %}checked{% endif %}/>
+                        Absent</label>
+                        <label for="nsp">
+                        <input type="radio" id="nsp" name="value" value="?" {% if(val=='?') %}checked{% endif %}/>
+                        Inconnu</label>
+                        <input type="hidden" name="interclub" value="{{ interclub.id }}">
+                        <input type="hidden" name="type" value="Présence">
+                    </form>
+                {% endif %}
+            </div>
+            <div class="card-footer">
+                <span data-toggle="modal" data-target=".presents-{{ interclub.id }}" class="ouiCircle">{{ countPresent }}</span>Présents
+                <span data-toggle="modal" data-target=".absents-{{ interclub.id }}" class="nonCircle">{{ countAbsent }}</span>Absents
+                {#% Test Capitaine ou Bureau pour pouvoir les présences de son équipe %#}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <span class="editIE">
+                        <a title="Modifier" href="{{ path('myinterclubs_edit', {interclubId: interclub.id}) }}">
+                            <i class="fas fa-edit">&nbsp;</i>
+                        </a>
+                    </span>
+                {% endif %}
+                {% if countPresent > 0 %}
+                <!-- Modal des Présents -->
+                <div class="modal fade presents-{{ interclub.id }}" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitle">Joueurs présents</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {% for Present in Presents %}
+                                {{Present.firstName}} {{Present.lastName}}<br>
+                            {% endfor %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% if countAbsent > 0 %}
+                <!-- Modal des Absents -->
+                <div class="modal fade absents-{{ interclub.id }}" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitle">Joueurs absents</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {% for Absent in Absents %}
+                                {{Absent.firstName}} {{Absent.lastName}}<br>
+                            {% endfor %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% else %}
+    Vous n'avez pas encore d'Interclubs
+{% endfor %}
+{% endblock %}
+ 

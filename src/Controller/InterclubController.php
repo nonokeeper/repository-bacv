@@ -12,16 +12,10 @@ use App\Form\InterclubType;
 use App\Form\InterclubNewType;
 use App\Form\InterclubMasculinType;
 use App\Form\InterclubNewMasculinType;
-use App\Entity\Saison;
 use App\Entity\Interclub;
-use App\Entity\Team;
-use App\Entity\Lieu;
-use App\Repository\SaisonRepository;
 use App\Repository\TeamRepository;
 use App\Repository\LieuRepository;
-use App\Entity\Event;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Symfony\Component\VarDumper\VarDumper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class InterclubController extends AbstractController
@@ -194,7 +188,7 @@ class InterclubController extends AbstractController
      * @Route("/interclub/{id}", name="interclub.edit")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function edit(Interclub $interclub, Request $request): Response
+    public function edit(Interclub $interclub, Request $request, $id): Response
     {
         $form = $this->createForm(InterclubType::class, $interclub);
         $form->handleRequest($request);
@@ -217,7 +211,13 @@ class InterclubController extends AbstractController
             // Sauvegarde de la rencontre Interclub puis retour vers la liste des Interclubs
             $this->em->flush();
             $this->addFlash('success','Rencontre "'.$interclub->getName().'" modifiée avec succès !');
-            return $this->redirectToRoute('interclub.index');
+            
+            if ($form->get('saveAndQuit')->isClicked()) {
+                return $this->redirectToRoute('interclub.index');
+            } else {
+                return $this->redirectToRoute('interclub.edit', ['id' => $id]);
+            }
+            
         }
 
         if ($formMasculin->isSubmitted() && $formMasculin->isValid())
@@ -256,6 +256,20 @@ class InterclubController extends AbstractController
                 'interclubForm' => $form->createView()
             ]);
         }
+    }
+
+    /**
+     * @Route("/interclubScore", name="interclub.updateScore")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function updateScore(Request $request)
+    {
+        $score = $request->request->get('score');
+        $interclubId = $request->request->get('interclub');
+        $interclub = $this->repository->find($interclubId);
+        $interclub->setScore($score);
+        $this->em->flush();
+        return $this->redirectToRoute('interclub.index');
     }
 
     /**

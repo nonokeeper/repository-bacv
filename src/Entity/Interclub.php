@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -397,4 +396,43 @@ class Interclub
         return $this;
     }
 
+
+    /**
+     * Get the value of dejajoue
+     *
+     * @return  boolean
+     */ 
+    public function getDejajoue()
+    {
+        if ($this->getDateRencontre() < new \DateTime('now'))
+            return true;
+        else return false;
+    }
+
+    /**
+     * Get interclub type Mixte / Masculin
+     *
+     * @return  boolean
+     */ 
+    public function getisMixte()
+    {
+        return $this->getTeam()->getMixte();
+    }
+
+    /**
+     * Get BACV (Villepreux) Team
+     *
+     * @return  String
+     */ 
+    public function getTeam()
+    {
+        if ($this->getTeamExt() && $this->getTeamHome()) {
+            if ($this->getTeamExt()->getClub()->getSlug() == 'BACV') {
+                $team = $this->getTeamExt();
+            } elseif ($this->getTeamHome()->getClub()->getSlug() == 'BACV') {
+                $team = $this->getTeamHome();
+            } else $team = null;
+        }
+        return $team;
+    }
 }

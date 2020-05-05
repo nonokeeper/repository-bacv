@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\InterclubUser;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method InterclubUser|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +47,58 @@ class InterclubUserRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findMyInterclubs($user)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.user = :user')
+            ->setParameter('user', $user)
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findByInterclub($interclub)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.interclub = :interclub')
+            ->setParameter('interclub', $interclub)
+            ->getQuery()
+            ->getResult();
+        ;
+    }
+
+    /**
+    * @return User[] 
+    * Joueurs notés présents pour cet interclub
+    */
+    public function findPresents($interclubId)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.interclub = :interclub')
+            ->setParameter('interclub', $interclubId)
+            ->andWhere('i.type = :type')
+            ->setParameter('type', 'Présence')
+            ->andWhere('i.value = :value')
+            ->setParameter('value', 'Oui')
+            ->getQuery()
+            ->getResult();
+        ;
+    }
+
+    public function findMyInterclub($interclub, $user, $type)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.user = :user')
+            ->setParameter('user', $user)
+            ->andWhere('i.interclub = :interclub')
+            ->setParameter('interclub', $interclub)
+            ->andWhere('i.type = :type')
+            ->setParameter('type', $type)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+        ;
+    }
 }
