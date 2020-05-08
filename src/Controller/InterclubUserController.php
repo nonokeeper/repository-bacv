@@ -130,11 +130,6 @@ class InterclubUserController extends AbstractController
         if (!$type || !$value || !$interclub || !$joueur) {
             return $this->redirectToRoute ('myinterclubs');
         }
-        dump($value);
-        dump($type);
-        dump($interclubId);
-        dump($joueurId);
-        dump($interclubsUserId);
         // Création de la ligne InterclubsUser s'il n'existe pas encore
         if (!$interclubsUserId) {
             $interclubsUser = new InterclubUser();
