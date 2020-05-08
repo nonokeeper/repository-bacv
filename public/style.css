@@ -135,7 +135,7 @@ tr.closed {
 }
 
 .bg-success {
-    color: #e5f3e7!important;
+    color: #e5f3e7;
 }
 
 .bg-all {
@@ -517,6 +517,10 @@ section .section-title {
     max-width: 800px;
 }
 
+.mw-400 {
+    max-width: 400px;
+}
+
 .myheader {
     height: 25px;
     color: #cdedf3;
@@ -577,6 +581,58 @@ section .section-title {
     height: 25px;
 }
 
+.alert-ko {
+    color: #df2f2f;
+    width: auto;
+    margin-left: 8%;
+    height: 25px;
+}
+
+/* Style des boites de composition des équipes Interclubs */
+.DH.bg-success {
+    background-color: #146879!important;
+}
+
+.DH.card-header {
+    min-width: 200px;
+}
+
+.SH.bg-success {
+    background-color: #2ca6be!important;
+}
+
+.SD.bg-success {
+    background-color: #e087c2!important;
+}
+
+.DD.bg-success {
+    background-color: #d44aa6!important;
+}
+
+.DM.bg-success {
+    background-color: rgb(138, 53, 187)!important;
+}
+
+.DD.card-header {
+    min-width: 200px;
+}
+
+.DM.card-header {
+    min-width: 200px;
+}
+
+.card {
+    margin:10px;
+}
+
+/* Adaptation du look des 'boites' joueurs */
+.joueur {
+    background-color: #ebfbff!important;
+}
+
+.joueuse {
+    background-color: #ffe6f7!important;
+}
 
 /* Aspect de la coche radio */
 input[type="radio"] {
@@ -690,11 +746,23 @@ input.score {
     vertical-align: top;
 }
 
-.min-h-300 {
-    min-height: 300px;
+.min-h-100 {
+    min-height: 100px;
+}
+
+.min-h-400 {
+    min-height: 400px;
 }
 
 /* Pour gérer les compositions d'équipe */
 
-.draggable { width: 100px; height: 100px; padding: 0.5em; float: left; margin: 10px 10px 10px 0; }
+.draggable { width: auto; height: auto; padding: 0.5em; float: left; margin: 10px; }
+.droppable { position: unset; }
+
+.card-body{
+    min-height: 70px;
+}
+
+/*
 .droppable { width: 250px; height: 250px; padding: 0.5em; float: left; margin: 10px; }
+*/

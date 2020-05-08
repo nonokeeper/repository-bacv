@@ -43,7 +43,7 @@
             {% if interclub.dejajoue %}
                     <div class="myheader">Rencontre déjà jouée</div>
                     <div id="score-{{interclub.id }}" class="secondheader">
-                        Score : {{ interclub.score }}&nbsp;&nbsp;<span id="link-{{interclub.id }}">
+                        Score : {{ interclub.score }}&nbsp;&nbsp;<span class="int" id="link-{{interclub.id }}">
                         <i class="fas fa-edit">&nbsp;</i></span>
                     </div>
                     <div class="secondheader formScore" id="form-{{interclub.id }}">
@@ -54,7 +54,14 @@
                     </div>
             {% endif %}
             <div class="card-header text-white {% if(val=='Oui') %}bg-success{% elseif(val=='Non') %}bg-danger{% else %}bg-secondary{% endif %}">
-                {{ interclub.name }}
+                <span style="line-height:38px;">
+                    {{ interclub.name }}
+                </span>
+                {% if not interclub.dejajoue %}
+                    <span style="float:right;">
+                    <a href="{{ path('compo', {interclubId: interclub.id}) }}" class="btn btn-info"><i class="fas fa-users">&nbsp;</i>Compo</a>
+                    </span>
+                {% endif %}
             </div>
             <div class="card-body text-dark">
                 <p class="card-text"><i class="fas fa-calendar-alt">&nbsp;</i>{{ interclub.dateRencontre|date("d M Y", "Europe/Paris") }}

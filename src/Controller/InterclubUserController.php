@@ -113,66 +113,6 @@ class InterclubUserController extends AbstractController
     }
 
     /**
-     * @Route("/compo/{interclubId}", name="compo")
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function compo(Request $request, $interclubId) : Response
-    {
-        $interclub = $this->Irep->find($interclubId);
-        $joueurs = $this->Urep->findPresents($interclubId);
-        $type = null;
-        if ($request) {
-            $type = $request->request->get('type'); // 'Participe' à l'interclub
-        }
-        if ($type) {
-            $SH1 = $request->request->get('SH1');
-            $SH2 = $request->request->get('SH2');
-            $SH3 = $request->request->get('SH3');
-            $SH4 = $request->request->get('SH4');
-            $DDJoueuse1 = $request->request->get('DDJoueuse1');
-            $DDJoueuse2 = $request->request->get('DDJoueuse2');
-            $DH1Joueur1 = $request->request->get('DH1Joueur1');
-            $DH1Joueur2 = $request->request->get('DH1Joueur2');
-            $DH2Joueur1 = $request->request->get('DH2Joueur1');
-            $DH2Joueur2 = $request->request->get('DH2Joueur2');
-            $DMXJoueur = $request->request->get('DMXJoueur');
-            $DMXJoueuse = $request->request->get('DMXJoueuse');
-    
-            $joueur = $this->Urep->find($SH1);
-            $interclub->setSH1($joueur);
-            $joueur = $this->Urep->find($SH2);
-            $interclub->setSH2($joueur);
-            $joueur = $this->Urep->find($SH3);
-            $interclub->setSH3($joueur);
-            $joueur = $this->Urep->find($SH4);
-            $interclub->setSH4($joueur);
-            $joueur = $this->Urep->find($DDJoueuse1);
-            $interclub->setDDJoueuse1($joueur);
-            $joueur = $this->Urep->find($DDJoueuse2);
-            $interclub->setDDJoueuse2($joueur);
-            $joueur = $this->Urep->find($DH1Joueur1);
-            $interclub->setDH1Joueur1($joueur);
-            $joueur = $this->Urep->find($DH1Joueur2);
-            $interclub->setDH1Joueur2($joueur);
-            $joueur = $this->Urep->find($DH2Joueur1);
-            $interclub->setDH2Joueur1($joueur);
-            $joueur = $this->Urep->find($DH2Joueur2);
-            $interclub->setDH2Joueur2($joueur);
-            $joueur = $this->Urep->find($DMXJoueur);
-            $interclub->setDMXJoueur($joueur);
-            $joueur = $this->Urep->find($DMXJoueuse);
-            $interclub->setDMXJoueuse($joueur);
-
-            $this->em->flush();
-        }
-
-        return $this->render('interclub_user/compo.html.twig', [
-            'interclub' => $interclub,
-            'joueurs'   => $joueurs
-        ]);
-    }
-
-    /**
      * @Route("/myinterclubsSave", name="myinterclubs_save")
      * @IsGranted("ROLE_ADMIN")
      */

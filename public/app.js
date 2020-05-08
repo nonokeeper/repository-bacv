@@ -55,7 +55,7 @@ function sendData(interclub)
   return false;
 }
 
-$('body').delegate('span', 'click', function(){
+$('body').delegate('span.int', 'click', function(){
   let linkId = $(this).attr('id');
   if (linkId) {
     var interclub = linkId.substring(5, linkId.length);
@@ -64,41 +64,81 @@ $('body').delegate('span', 'click', function(){
   }
 });
 
-// Init du nombre de joueurs avant déplacements
+let url = window.location.href;
+
+$('body').delegate('span.compo', 'click', function(){
+  let linkId = $(this).attr('id');
+  let idTab = linkId.split('_')[0];
+  $('#'+idTab).addClass("droppable");
+  $('#'+idTab+'_header').removeClass("text-white bg-success");
+  let body = document.getElementById(idTab+'_body');
+  body.innerHTML = "";
+  let divFooter = document.getElementById(idTab+'_footer');
+  divFooter.innerHTML = "";
+  $.ajax({
+    type: 'post',
+    url: url,
+    data: {
+      tableau:idTab,
+      joueurs:[0,0] // permet de vider sans provoquer d'erreur de tableau null
+    },
+    success: function () {
+      console.log('Effacé avec succès !');
+    }
+  });
+});
+
+// Init du nombre de joueurs pour chaque tableau
 let nb = 0;
 let joueurs = [];
-console.log('init nb : '+nb);
 
 $('body').delegate('.draggable', 'mouseover', function(){
-  $('.draggable').draggable();
+  $('.draggable').draggable({ containment: ".container", scroll: false });
   $('.droppable').droppable({
     drop: function(event, ui) {
-      // Test si le joueur n'est pas encore dans la zone
-      // Pour incrémenter le nb de joueurs uniquement dans ce cas
-      if ($.inArray($(ui.draggable).attr('id'), joueurs) == -1) {
+      let idJoueur = $(ui.draggable).attr('id');
+      let idTab = $(event.target).attr('id');
+      let SouD = idTab.substring(0,1);
+      // Si c'est un Simple, le nb est incrémenté pour gérer un tableau
+      // rempli comme pour les Doubles
+      if (SouD == 'S') {
         nb = nb + 1;
-        joueurs.push($(ui.draggable).attr('id'));
       }
+      // Test si le joueur déposé est déja dans la zone
+      // Pour incrémenter le nb de joueurs uniquement sinon
+      if ($.inArray(idJoueur, joueurs) == -1) {
+        nb = nb + 1;
+        joueurs.push(idJoueur);
+      }
+      console.log(joueurs);
+      console.log('id element droppé :'+idJoueur+', sur id du parent :'+idTab);
+      console.log('in drop nb : '+nb);
       // Cas particulier des doubles
       if (nb == 2) {
-        $(this).addClass('ui-state-highlight').find('p')
-        .html('Double Homme <i class="far fa-check-circle">&nbsp;</i>');
+        $('#'+idTab+'_header').addClass("text-white bg-success");
+        $.ajax({
+          type: 'post',
+          url: url,
+          data: {
+            tableau:idTab,
+            joueurs:joueurs
+          },
+          success: function () {
+            location.reload();
+          }
+        });
       }
-//      console.log('id element droppé :'+$(ui.draggable).attr('id')+', sur id du parent :'+$(event.target).attr('id'));
-      console.log('in drop nb : '+nb);
-      console.log(joueurs);
     },
     out: function(event, ui) {
+      let idTab = $(ui.draggable).attr('id');
       // Test si le joueur était bien dans la zone avant
       // Pour décrémenter le nb de joueurs uniquement dans ce cas
-      if ($.inArray($(ui.draggable).attr('id'), joueurs) !== -1) {
+      if ($.inArray(idTab, joueurs) !== -1) {
         nb = nb - 1;
       }
-      joueurs = joueurs.filter(item => item !== $(ui.draggable).attr('id'));
-      $(this)
-        .removeClass("ui-state-highlight").find("p")
-          .html("Double Homme");
-//      console.log('id element enlevé :'+$(ui.draggable).attr('id')+', sur id du parent :'+$(event.target).attr('id'));
+      joueurs = joueurs.filter(item => item !== idTab);
+      $(this).removeClass("ui-state-highlight");
+      console.log('id element enlevé :'+idTab+', sur id du parent :'+$(event.target).attr('id'));
       console.log('in out nb : '+nb);
     },
     over: function(event, ui) {

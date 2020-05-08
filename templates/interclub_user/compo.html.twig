@@ -3,17 +3,153 @@
 {% block title %}BACV - Compo{% endblock %}
 
 {% block body %}
-{{ interclub.name }}
-{{ interclub.isMixte }}
-<div class="container mb-4 min-h-300">
-    <div id="Arnaud" class="ui-widget-content draggable">
-    <p>Arnaud</p>
+<div class="text-center m-3">
+    <a class="btn btn-primary" href="{{ path('myinterclubs') }}"><i class="fas fa-arrow-circle-left">&nbsp;</i>Retour Liste</a>
+</div>
+{% if (interclub.isMixte) %}
+    {% set header = 'Interclub Mixte' %}
+{% else %}
+    {% set header = 'Interclub Masculin' %}
+{% endif %}
+<div class="row mx-auto">
+    <div class="col-3" style="text-align:right;">
+    {% if (previousInterclub) %}
+        <a href="{{ path('compo', {interclubId: previousInterclub.id}) }}">< Précédent</a>
+    {% endif %}
     </div>
-    <div id="Clement" class="ui-widget-content draggable">
-    <p>Clément</p>
+    <div class="col-6">
+        <div class="card text-white bg-dark text-center">
+            <div class="card-header">
+                {{ header }}
+            </div>
+            <div class="card-body">
+                <p class="card-title">{{ interclub.name }}</p>
+            </div>
+        </div>
     </div>
-    <div id="1" class="ui-widget-header droppable">
-    <p>Double Homme</p>
+    <div class="col-3">
+    {% if (nextInterclub) %}
+        <a href="{{ path('compo', {interclubId: nextInterclub.id}) }}">Suivant ></a>
+    {% endif %}
     </div>
-</div
+
+</div>
+
+{% if (interclub.DH1Joueur1 and interclub.DH1Joueur2) %}
+    {% set bodyDH1 = interclub.DH1Joueur1.firstName ~ ' ' ~ interclub.DH1Joueur1.lastName ~ ' <small>' ~ interclub.DH1Joueur1.classementDouble ~ 
+                '</small><br>' ~ interclub.DH1Joueur2.firstName ~ ' ' ~ interclub.DH1Joueur2.lastName ~ ' <small>' ~ interclub.DH1Joueur2.classementDouble ~ '</small>' %}
+    {% set footerDH1 = '<span class="compo" id="DH1_reset"><i class="fas fa-trash-alt"></i></span>' %}
+{% else %}
+    {% set bodyDH1 = '' %}
+    {% set footerDH1 = '' %}
+{% endif %}
+
+{% if (interclub.DH2Joueur1 and interclub.DH2Joueur2) %}
+    {% set bodyDH2 = interclub.DH2Joueur1.firstName ~ ' ' ~ interclub.DH2Joueur1.lastName ~ ' <small>' ~ interclub.DH2Joueur1.classementDouble ~ 
+                '</small><br>' ~ interclub.DH2Joueur2.firstName ~ ' ' ~ interclub.DH2Joueur2.lastName ~ ' <small>' ~ interclub.DH2Joueur2.classementDouble ~ '</small>' %}
+    {% set footerDH2 = '<span class="compo" id="DH2_reset"><i class="fas fa-trash-alt"></i></span>' %}
+{% else %}
+    {% set bodyDH2 = '' %}
+    {% set footerDH2 = '' %}
+{% endif %}
+
+{% if (interclub.DMXJoueur and interclub.DMXJoueuse) %}
+    {% set bodyDMX = interclub.DMXJoueur.firstName ~ ' ' ~ interclub.DMXJoueur.lastName ~ ' <small>' ~ interclub.DMXJoueur.classementMixte ~
+                '</small><br>' ~ interclub.DMXJoueuse.firstName ~ ' ' ~ interclub.DMXJoueuse.lastName ~ ' <small>' ~ interclub.DMXJoueuse.classementMixte ~ '</small>' %}
+    {% set footerDMX = '<span class="compo" id="DMX_reset"><i class="fas fa-trash-alt"></i></span>' %}
+{% else %}
+    {% set bodyDMX = '' %}
+    {% set footerDMX = '' %}
+{% endif %}
+
+{% if (interclub.DDJoueuse1 and interclub.DDJoueuse2) %}
+    {% set bodyDD = interclub.DDJoueuse1.firstName ~ ' ' ~ interclub.DDJoueuse1.lastName ~ ' <small>' ~ interclub.DDJoueuse1.classementDouble ~ 
+                '</small><br>' ~ interclub.DDJoueuse2.firstName ~ ' ' ~ interclub.DDJoueuse2.lastName ~ ' <small>' ~ interclub.DDJoueuse2.classementDouble ~ '</small>' %}
+    {% set footerDD = '<span class="compo" id="DD_reset"><i class="fas fa-trash-alt"></i></span>' %}
+{% else %}
+    {% set bodyDD = '' %}
+    {% set footerDD = '' %}
+{% endif %}
+
+{% if (interclub.SD) %}
+    {% set bodySD = interclub.SD.firstName ~ ' ' ~ interclub.SD.lastName ~ '<br><small>' ~ interclub.SD.classementSimple ~ ' </small>' %}
+    {% set footerSD = '<span class="compo" id="SD_reset"><i class="fas fa-trash-alt"></i></span>' %}
+{% else %}
+    {% set bodySD = '' %}
+    {% set footerSD = '' %}
+{% endif %}
+
+{% if (interclub.SH1) %}
+    {% set bodySH1 = interclub.SH1.firstName ~ ' ' ~ interclub.SH1.lastName ~ '<br><small>' ~ interclub.SH1.classementSimple ~ ' </small>' %}
+    {% set footerSH1 = '<span class="compo" id="SH1_reset"><i class="fas fa-trash-alt"></i></span>' %}
+{% else %}
+    {% set bodySH1 = '' %}
+    {% set footerSH1 = '' %}
+{% endif %}
+
+{% if (interclub.SH2) %}
+    {% set bodySH2 = interclub.SH2.firstName ~ ' ' ~ interclub.SH2.lastName ~ '<br><small>' ~ interclub.SH2.classementSimple ~ ' </small>' %}
+    {% set footerSH2 = '<span class="compo" id="SH2_reset"><i class="fas fa-trash-alt"></i></span>' %}
+{% else %}
+    {% set bodySH2 = '' %}
+    {% set footerSH2 = '' %}
+{% endif %}
+
+{% if (interclub.SH3) %}
+    {% set bodySH3 = interclub.SH3.firstName ~ ' ' ~ interclub.SH3.lastName ~ '<br><small>' ~ interclub.SH3.classementSimple ~ ' </small>' %}
+    {% set footerSH3 = '<span class="compo" id="SH3_reset"><i class="fas fa-trash-alt"></i></span>' %}
+{% else %}
+    {% set bodySH3 = '' %}
+    {% set footerSH3 = '' %}
+{% endif %}
+
+{% if (interclub.SH4) %}
+    {% set bodySH4 = interclub.SH4.firstName ~ ' ' ~ interclub.SH4.lastName ~ '<br><small>' ~ interclub.SH4.classementSimple ~ ' </small>' %}
+    {% set footerSH4 = '<span class="compo" id="SH4_reset"><i class="fas fa-trash-alt"></i></span>' %}
+{% else %}
+    {% set bodySH4 = '' %}
+    {% set footerSH4 = '' %}
+{% endif %}
+
+{% if (interclub.isMixte) %}
+    {% set tableaux = [['SH1','Simple Homme 1',bodySH1,footerSH1],['SH2','Simple Homme 2',bodySH2,footerSH2],['SH3','Simple Homme 3',bodySH3,footerSH3],
+    ['SD','Simple Dame',bodySD,footerSD],['DD','Double Dame',bodyDD,footerDD],['DH1','Double Homme',bodyDH1,footerDH1],['DMX','Double Mixte',bodyDMX,footerDMX]] %}
+    {% else %}
+    {% set tableaux = [['SH1','Simple Homme 1',bodySH1,footerSH1],['SH2','Simple Homme 2',bodySH2,footerSH2],['SH3','Simple Homme 3',bodySH3,footerSH3],
+    ['SH4','Simple Homme 4',bodySH4,footerSH4],['DH1','Double Homme 1',bodyDH1,footerDH1],['DH2','Double Homme 2',bodyDH2,footerDH2]] %}
+{% endif %}
+<div class="container mb-4">
+    <div class="row text-center mw-800 mx-auto">
+        <!-- Joueurs -->
+        {% for joueur in joueurs %}
+        <div id="{{ joueur.id }}" class="{% if (joueur.gender == 'H') %}joueur {% else %}joueuse {% endif %}ui-widget-content draggable">
+            {{ joueur.firstName }}<br>{{ joueur.lastName }}<br>
+            <small>{{ joueur.classementSimple }}/{{ joueur.classementDouble }}/{{ joueur.classementMixte }}</small>
+        </div>
+        {% else %}
+        Aucun joueur n'est encore présent...
+        {% endfor %}
+    </div>
+    <!-- Tableaux -->
+    <div class="row text-center mw-auto mx-auto">
+    {% for tableau in tableaux %}
+        {% set id = tableau[0] %}
+        {% set class= id[0:2] %}
+        {% set label = tableau[1] %}
+        {% set body = tableau[2] %}
+        {% set footer = tableau[3] %}
+        <div id="{{id}}" class="card{% if (not body) %} droppable{% endif %} text-center">            
+            <div id="{{id}}_header" class="{{ class }} card-header {% if (body) %}text-white bg-success{% endif %}">
+                {{ label }}
+            </div>
+            <div id="{{id}}_body" class="card-body">
+                {{ body|raw }}
+            </div>
+            <div id="{{id}}_footer" class="card-footer">
+                {{ footer|raw }}
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
 {% endblock %}

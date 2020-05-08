@@ -70,12 +70,13 @@ class InterclubUserRepository extends ServiceEntityRepository
     }
 
     /**
-    * @return User[] 
+    * @return User[]
     * Joueurs notés présents pour cet interclub
     */
     public function findPresents($interclubId)
     {
-        return $this->createQueryBuilder('i')
+        $joueurs = [];
+        $IU = $this->createQueryBuilder('i')
             ->andWhere('i.interclub = :interclub')
             ->setParameter('interclub', $interclubId)
             ->andWhere('i.type = :type')
@@ -85,6 +86,11 @@ class InterclubUserRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
         ;
+        foreach ($IU as $IUser)
+        {
+            array_push($joueurs, $IUser->getUser());
+        }
+        return $joueurs;
     }
 
     public function findMyInterclub($interclub, $user, $type)

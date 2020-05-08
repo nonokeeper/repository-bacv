@@ -13,9 +13,11 @@ use App\Form\InterclubNewType;
 use App\Form\InterclubMasculinType;
 use App\Form\InterclubNewMasculinType;
 use App\Entity\Interclub;
+use App\Repository\InterclubUserRepository;
 use App\Repository\TeamRepository;
 use App\Repository\LieuRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use App\Repository\UserRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class InterclubController extends AbstractController
@@ -35,9 +37,11 @@ class InterclubController extends AbstractController
      */
     private $saison;
 
-    public function __construct(InterclubRepository $repository, EntityManagerInterface $em, ManagerRegistry $registry)
+    public function __construct(UserRepository $Urep, InterclubRepository $repository, InterclubUserRepository $IUrep, EntityManagerInterface $em, ManagerRegistry $registry)
     {
         $this->repository = $repository;
+        $this->IUrep = $IUrep;
+        $this->Urep = $Urep;
         $this->em = $em;
         $this->registry = $registry;
         $this->saison = $_ENV['SAISON'];
@@ -57,13 +61,131 @@ class InterclubController extends AbstractController
 
     /**
      * @Route("/interclub/compo", name="interclub.compo")
+     * 
      */
-    public function compo()
+    public function vueCompo()
     {
         $interclubs = $this->repository->findAllForCompo($this->saison);
-
         return $this->render('interclub/compo.html.twig', [
-            'interclubs'    => $interclubs,
+            'interclubs'    => $interclubs
+        ]);
+    }
+
+    /**
+     * @Route("/compo/{interclubId}", name="compo")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function compo(Request $request, $interclubId) : Response
+    {
+        $interclub = $this->repository->find($interclubId);
+        $joueurs = $this->IUrep->findPresents($interclubId);
+        $nextInterclub = $this->repository->findNext($interclubId);
+        $previousInterclub = $this->repository->findPrevious($interclubId);
+        $tableau = $request->request->get('tableau');
+        $joueursSelection = $request->request->get('joueurs');
+
+        // Tableau de la compo
+        // Les tests pour MAJ sont inversés pour pouvoir vider la valeur si le(s) joueur(s) est null
+        if ($tableau) {
+            switch ($tableau) {
+                case 'SH1':
+                    $joueur = $this->Urep->find($joueursSelection[0]);
+                    if ($joueur and $joueur->getGender() == 'F') {
+                        break; // pas de MAJ si c'est une Femme
+                    }
+                    $interclub->setSH1($joueur);
+                    break;
+                case 'SH2':
+                    $joueur = $this->Urep->find($joueursSelection[0]);
+                    if ($joueur and $joueur->getGender() == 'F') {
+                        break; // pas de MAJ si c'est une Femme
+                    }
+                    $interclub->setSH2($joueur);
+                    break;
+                case 'SH3':
+                    $joueur = $this->Urep->find($joueursSelection[0]);
+                    if ($joueur and $joueur->getGender() == 'F') {
+                        break; // pas de MAJ si c'est une Femme
+                    }
+                    $interclub->setSH3($joueur);
+                    break;
+                case 'SH4':
+                    $joueur = $this->Urep->find($joueursSelection[0]);
+                    if ($joueur and $joueur->getGender() == 'F') {
+                        break; // pas de MAJ si c'est une Femme
+                    }
+                    $interclub->setSH4($joueur);
+                    break;
+                case 'SD':
+                    $joueur = $this->Urep->find($joueursSelection[0]);
+                    if ($joueur and $joueur->getGender() == 'H') {
+                        break; // pas de MAJ si c'est un Homme
+                    }
+                    $interclub->setSD($joueur);
+                    break;
+                case 'DH1':
+                    if (!$joueursSelection) {
+                        $interclub->setDH1Joueur1(null);
+                        $interclub->setDH1Joueur2(null);
+                    } else {
+                        $joueur1 = $this->Urep->find($joueursSelection[0]);
+                        $joueur2 = $this->Urep->find($joueursSelection[1]);
+                        if (($joueur1 and $joueur1->getGender() == 'F') or ($joueur2 and $joueur2->getGender() == 'F')) {
+                            break;
+                        }
+                        $interclub->setDH1Joueur1($joueur1);
+                        $interclub->setDH1Joueur2($joueur2);
+                    }
+                    break;
+                case 'DH2':
+                    $joueur1 = $this->Urep->find($joueursSelection[0]);
+                    $joueur2 = $this->Urep->find($joueursSelection[1]);
+                    if (($joueur1 and $joueur1->getGender() == 'F') or ($joueur2 and $joueur2->getGender() == 'F')) {
+                        break;
+                    }
+                    $interclub->setDH2Joueur1($joueur1);
+                    $interclub->setDH2Joueur2($joueur2);
+                    break;
+                case 'DD':
+                    $joueuse1 = $this->Urep->find($joueursSelection[0]);
+                    $joueuse2 = $this->Urep->find($joueursSelection[1]);
+                    if (($joueuse1 and $joueuse1->getGender() == 'H') or ($joueuse2 and $joueuse2->getGender() == 'H')) {
+                        break;
+                    }
+                    $interclub->setDDJoueuse1($joueuse1);
+                    $interclub->setDDJoueuse2($joueuse2);
+                    break;
+                case 'DMX': // logique un peu différente ici
+                    $joueur1 = $this->Urep->find($joueursSelection[0]);
+                    $joueur2 = $this->Urep->find($joueursSelection[1]);
+                    if ($joueursSelection == [0,0]) {
+                        $interclub->setDMXJoueur($joueur1);
+                        $interclub->setDMXJoueuse($joueur2);
+                        break;
+                    } else {
+                        if ($joueur1->getGender() == 'H' and $joueur2->getGender() == 'F') {
+                            $interclub->setDMXJoueur($joueur1);
+                            $interclub->setDMXJoueuse($joueur2);
+                            break;
+                        }
+                        if ($joueur1->getGender() == 'F' and $joueur2->getGender() == 'H') {
+                            $interclub->setDMXJoueur($joueur2);
+                            $interclub->setDMXJoueuse($joueur1);
+                            break;
+                        }
+                    }
+                    break;
+                }
+
+            $this->em->flush();
+            $this->addFlash('success','Modification prise en compte avec succès !');
+        }
+
+        return $this->render('interclub_user/compo.html.twig', [
+            'interclub' => $interclub,
+            'joueurs'   => $joueurs,
+            'nextInterclub'     => $nextInterclub,
+            'previousInterclub' => $previousInterclub,
         ]);
     }
 
