@@ -7,7 +7,7 @@ use App\Entity\AgeCategory;
 use App\Repository\ClubRepository;
 use App\Repository\AgeCategoryRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 
 /**
@@ -23,35 +23,6 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
         $this->registry = $registry;
     }
-
-    // /**
-    //  * @return User[] Returns an array of User objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?User
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 
     /**
      * @return AgeCategory Returns the AgeCategory of the User
@@ -139,6 +110,82 @@ class UserRepository extends ServiceEntityRepository
             ->addSelect('substring(u.classement_simple,2,2)*100 + substring(u.classement_double,2,2)*10 + substring(u.classement_mixte,2,2)*1 as HIDDEN classement')
             ->andWhere('u.team = :team')
             ->setParameter('team', $team)
+            ->andWhere('u.active = :active')
+            ->setParameter('active', 1)
+            ->orderBy('classement')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return User[] Joueurs Equipe 1
+    */
+    public function findVIP1()
+    {
+        // Inscrit cette saison <=> champ 'active' = 1
+        // Villepreux 1 uniquement
+        return $this->createQueryBuilder('u')
+            ->addSelect('substring(u.classement_simple,2,2)*100 + substring(u.classement_double,2,2)*10 + substring(u.classement_mixte,2,2)*1 as HIDDEN classement')
+            ->andWhere('u.team = :team')
+            ->setParameter('team', 1)
+            ->andWhere('u.active = :active')
+            ->setParameter('active', 1)
+            ->orderBy('classement')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+        /**
+    * @return User[] Joueurs Equipe 2
+    */
+    public function findVIP2()
+    {
+        // Inscrit cette saison <=> champ 'active' = 1
+        // Villepreux 2 uniquement
+        return $this->createQueryBuilder('u')
+            ->addSelect('substring(u.classement_simple,2,2)*100 + substring(u.classement_double,2,2)*10 + substring(u.classement_mixte,2,2)*1 as HIDDEN classement')
+            ->andWhere('u.team = :team')
+            ->setParameter('team', 2)
+            ->andWhere('u.active = :active')
+            ->setParameter('active', 1)
+            ->orderBy('classement')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+        /**
+    * @return User[] Joueurs Equipe 3
+    */
+    public function findVIP3()
+    {
+        // Inscrit cette saison <=> champ 'active' = 1
+        // Villepreux 3 uniquement
+        return $this->createQueryBuilder('u')
+            ->addSelect('substring(u.classement_simple,2,2)*100 + substring(u.classement_double,2,2)*10 + substring(u.classement_mixte,2,2)*1 as HIDDEN classement')
+            ->andWhere('u.team = :team')
+            ->setParameter('team', 4)
+            ->andWhere('u.active = :active')
+            ->setParameter('active', 1)
+            ->orderBy('classement')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+        /**
+    * @return User[] Joueurs Equipe 4
+    */
+    public function findVIP4()
+    {
+        // Inscrit cette saison <=> champ 'active' = 1
+        // Villepreux 4 uniquement
+        return $this->createQueryBuilder('u')
+            ->addSelect('substring(u.classement_simple,2,2)*100 + substring(u.classement_double,2,2)*10 + substring(u.classement_mixte,2,2)*1 as HIDDEN classement')
+            ->andWhere('u.team = :team')
+            ->setParameter('team', 5)
             ->andWhere('u.active = :active')
             ->setParameter('active', 1)
             ->orderBy('classement')

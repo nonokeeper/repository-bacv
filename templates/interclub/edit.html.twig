@@ -10,8 +10,10 @@
 {% endfor %}
 <div class="container mt-4">
     <a class="btn btn-primary" href="{{ path('interclub.index')}}"><i class="fas fa-list-alt">&nbsp;</i>Retour Liste</a>
-    <a class="btn btn-info" href="{{ path('compo', {'interclubId': interclub.id})}}"><i class="fas fa-list-alt">&nbsp;</i>Faire la composition</a>
-
+    {% if is_granted('ROLE_ADMIN') %}
+    <a class="btn btn-info" href="{{ path('compo', {'interclubId': interclub.id})}}"><i class="fas fa-users">&nbsp;</i>Faire la composition</a>
+    <a class="btn btn-info" href="{{ path('myinterclubs_edit', {'interclubId': interclub.id})}}"><i class="fas fa-box-open">&nbsp;</i>Gérer les présences</a>
+    {% endif %}
 </div>
 <div class="container mt-4">
     <h3>Rencontre <small class="text-muted">`{{ interclub.name }}`</small></h3>
@@ -39,37 +41,18 @@
         <div class="col-md-4 col-sm-4">{{ form_row(interclubForm.saison) }}</div>
         <div class="col-md-2 col-sm-2">{{ form_row(interclubForm.score) }}</div>
     </div>
-    <!--
-    <h3>Composition de l'équipe</h3>
-        <div class="row">
-            <div class="col-md-auto">{{ form_row(interclubForm.SH1) }}</div>
-            <div class="col-md-auto">{{ form_row(interclubForm.SH2) }}</div>
-            <div class="col-md-auto">{{ form_row(interclubForm.SH3) }}</div>
-            <div class="col-md-auto">{{ form_row(interclubForm.SD) }}</div>
+    <div class="row">
+        <div class="col-md-auto">
+            {{ form_row(interclubForm.save) }}
         </div>
-        <div class="row">
-            <div class="col-md-auto">{{ form_row(interclubForm.DH1Joueur1) }}</div>
-            <div class="col-md-auto">{{ form_row(interclubForm.DH1Joueur2) }}</div>
-            <div class="col-md-auto">{{ form_row(interclubForm.DDJoueuse1) }}</div>
-            <div class="col-md-auto">{{ form_row(interclubForm.DDJoueuse2) }}</div>
+        <div class="col-md-auto">
+            {{ form_widget(interclubForm.saveAndQuit) }}
         </div>
-        <div class="row">
-            <div class="col-md-auto">{{ form_row(interclubForm.DMXJoueuse) }}</div>
-            <div class="col-md-auto">{{ form_row(interclubForm.DMXJoueur) }}</div>
-        </div> -->
-        <div class="row">
-            <div class="col-md-auto">   
-                {{ form_row(interclubForm.save) }}
-            </div>
-            <div class="col-md-auto">
-                {{ form_widget(interclubForm.saveAndQuit) }}
-<!--                <button class="btn btn-primary"><i class="far fa-save">&nbsp;</i>{{ button|default('Sauvegarder et quitter') }}</button> -->
-            </div>
-    {{ form_end(interclubForm) }}
-            <div class="col-md-auto">
-                    {{ include('interclub/_delete_form.html.twig') }}
-            </div>
+{{ form_end(interclubForm) }}
+        <div class="col-md-auto">
+                {{ include('interclub/_delete_form.html.twig') }}
         </div>
+    </div>
     <div class="tab">&nbsp;</div>
 </div>
 {% endblock %}

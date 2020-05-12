@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\Interclub;
 use App\Entity\Team;
 use App\Entity\User;
-use App\Entity\Club;
 use App\Entity\Saison;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -85,7 +84,8 @@ class InterclubType extends AbstractType
                 'required' => false,
             ])
             ->add('save', SubmitType::class, ['label' => 'Sauvegarder'])
-            ->add('saveAndQuit', SubmitType::class, ['label' => 'Sauvegarder et Quitter'])        
+            ->add('saveAndQuit', SubmitType::class, ['label' => 'Sauvegarder et Quitter'])
+/*
             ->add('SH1', EntityType::class, [
                 'placeholder' => '-- Non défini --',
                 'class'     => User::class,
@@ -275,7 +275,7 @@ class InterclubType extends AbstractType
                 'choice_label' => 'fullName',
                 'required' => false,
                 'empty_data' => null
-            ])
+            ]) */
         ;
 
         $builder->addEventListener(

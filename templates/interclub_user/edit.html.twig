@@ -12,13 +12,16 @@
 </div>
 {% set name = interclub.name %}
 {% set interclubId = interclub.id %}
+{% set active = null %}
     <div class="container mb-4">
-        <div class="back"><a href="{{ path('myinterclubs') }}"><i class="fas fa-chevron-left">&nbsp;</i>Retour liste précédente</a></div>
+        <a class="btn btn-info" href="{{ path('myinterclubs') }}"><i class="fas fa-box-open">&nbsp;</i>Mes Interclubs</a>
+        <a class="btn btn-primary" href="{{ path('interclub.index') }}"><i class="fas fa-retweet">&nbsp;</i>Toutes les Rencontres</a>
         <div class="card border-secondary">
             <div class="card-header">
                 {{ name }}
             </div>
             <div class="card-body text-dark">
+                <div class="card-text row">
                 {% for joueur in joueurs %}
                     {% set val = '?' %}
                     {% for ie in interclubsUser %}
@@ -26,30 +29,186 @@
                             {% set val = ie.value %}
                         {% endif %}
                     {% endfor %}
-                    <form name="presence" id="{{ interclubId }}-{{ joueur.id }}" action="{{ path('myinterclubs_save') }}" method="POST">
-                        <div class="card-text d-flex flex-row">
-                            <div class="p-2"><span class="{% if(joueur.gender == 'F') %}fille{% endif %}">{{ joueur.firstName }} {{ joueur.lastName }}</span>
-                                <p>
-                                <i class="far fa-arrow-alt-circle-right">&nbsp;</i>
-                                <label for="oui">
-                                    <input type="radio" id="oui" name="value" value="Oui" {% if(val=='Oui') %}checked{% endif %}/>
-                                Présent</label>
-                                <label for="non">
-                                <input type="radio" id="non" name="value" value="Non" {% if(val=='Non') %}checked{% endif %}/>
-                                Absent</label>
-                                <label for="nsp">
-                                <input type="radio" id="nsp" name="value" value="?" {% if(val=='?') %}checked{% endif %}/>
-                                Inconnu</label>
-                                <input type="hidden" name="type" value="Présence">
-                                <input type="hidden" name="interclub" value="{{ interclubId }}">
-                                <input type="hidden" name="joueur" value="{{ joueur.id }}">
-                                </p>
-                            </div>
-                        </div>
-                    </form>
+                    <div class="col-md-6">
+                        <form name="presence" id="{{ interclubId }}-{{ joueur.id }}" action="{{ path('myinterclubs_save') }}" method="POST">
+                        <span class="{% if(joueur.gender == 'F') %}fille{% endif %}">{{ joueur.firstName }} {{ joueur.lastName }}</span>
+                            <p>
+                            <i class="far fa-arrow-alt-circle-right">&nbsp;</i>
+                            <label for="oui">
+                                <input type="radio" id="oui" name="value" value="Oui" {% if(val=='Oui') %}checked{% endif %}/>
+                            Présent</label>
+                            <label for="non">
+                            <input type="radio" id="non" name="value" value="Non" {% if(val=='Non') %}checked{% endif %}/>
+                            Absent</label>
+                            <label for="nsp">
+                            <input type="radio" id="nsp" name="value" value="?" {% if(val=='?') %}checked{% endif %}/>
+                            Inconnu</label>
+                            <input type="hidden" name="type" value="Présence">
+                            <input type="hidden" name="interclub" value="{{ interclubId }}">
+                            <input type="hidden" name="joueur" value="{{ joueur.id }}">
+                            </p>
+                        </form>
+                    </div>
                 {% else %}
                     Vous devez être connecté !
                 {% endfor %}
+                <div class="col-md-12"><hr>Ajouter des joueurs d'autres équipes :</div>
+                <div class="col-md-12"></div>
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    {% if (interclub.team != 'Villepreux 1') %}
+                    <li class="nav-item">
+                        <a class="nav-link active" id="pills-vip1-tab" data-toggle="pill" href="#pills-vip1" role="tab" aria-controls="pills-vip1" aria-selected="true">Villepreux 1</a>
+                    </li>
+                    {% set active = ' show active' %}
+                    {% endif %}
+                    {% if (interclub.team != 'Villepreux 2') %}
+                    <li class="nav-item">
+                        <a class="nav-link{% if (interclub.team == 'Villepreux 1') %} active{% endif %}" id="pills-vip2-tab" data-toggle="pill" href="#pills-vip2" role="tab" aria-controls="pills-vip2" aria-selected="false">Villepreux 2</a>
+                    </li>
+                    {% endif %}
+                    {% if (interclub.team != 'Villepreux 3') %}
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-vip3-tab" data-toggle="pill" href="#pills-vip3" role="tab" aria-controls="pills-vip3" aria-selected="false">Villepreux 3</a>
+                    </li>
+                    {% endif %}
+                    {% if (interclub.team != 'Villepreux 4') %}
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-vip4-tab" data-toggle="pill" href="#pills-vip4" role="tab" aria-controls="pills-vip4" aria-selected="false">Villepreux 4</a>
+                    </li>
+                    {% endif %}
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade{% if (active) %}show active{% endif %}" id="pills-vip1" role="tabpanel" aria-labelledby="pills-vip1-tab">
+                        <div class="row">
+                       {% for joueur in joueursVIP1 %}
+                            {% set val = '?' %}
+                            {% for ie in interclubsUser %}
+                                {% if (joueur.id == ie.user.id) %}
+                                    {% set val = ie.value %}
+                                {% endif %}
+                            {% endfor %}
+                            <div class="col-md-6">
+                                <form name="presence" id="{{ interclubId }}-{{ joueur.id }}" action="{{ path('myinterclubs_save') }}" method="POST">
+                                <span class="{% if(joueur.gender == 'F') %}fille{% endif %}">{{ joueur.firstName }} {{ joueur.lastName }}</span>
+                                    <p>
+                                    <i class="far fa-arrow-alt-circle-right">&nbsp;</i>
+                                    <label for="oui">
+                                        <input type="radio" id="oui" name="value" value="Oui" {% if(val=='Oui') %}checked{% endif %}/>
+                                    Présent</label>
+                                    <label for="non">
+                                    <input type="radio" id="non" name="value" value="Non" {% if(val=='Non') %}checked{% endif %}/>
+                                    Absent</label>
+                                    <label for="nsp">
+                                    <input type="radio" id="nsp" name="value" value="?" {% if(val=='?') %}checked{% endif %}/>
+                                    Inconnu</label>
+                                    <input type="hidden" name="type" value="Présence">
+                                    <input type="hidden" name="interclub" value="{{ interclubId }}">
+                                    <input type="hidden" name="joueur" value="{{ joueur.id }}">
+                                    </p>
+                                </form>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade{% if not (active) %}show active{% endif %}" id="pills-vip2" role="tabpanel" aria-labelledby="pills-vip2-tab">
+                        <div class="row">
+                        {% for joueur in joueursVIP2 %}
+                            {% set val = '?' %}
+                            {% for ie in interclubsUser %}
+                                {% if (joueur.id == ie.user.id) %}
+                                    {% set val = ie.value %}
+                                {% endif %}
+                            {% endfor %}
+                            <div class="col-md-6">
+                                <form name="presence" id="{{ interclubId }}-{{ joueur.id }}" action="{{ path('myinterclubs_save') }}" method="POST">
+                                <span class="{% if(joueur.gender == 'F') %}fille{% endif %}">{{ joueur.firstName }} {{ joueur.lastName }}</span>
+                                    <p>
+                                    <i class="far fa-arrow-alt-circle-right">&nbsp;</i>
+                                    <label for="oui">
+                                        <input type="radio" id="oui" name="value" value="Oui" {% if(val=='Oui') %}checked{% endif %}/>
+                                    Présent</label>
+                                    <label for="non">
+                                    <input type="radio" id="non" name="value" value="Non" {% if(val=='Non') %}checked{% endif %}/>
+                                    Absent</label>
+                                    <label for="nsp">
+                                    <input type="radio" id="nsp" name="value" value="?" {% if(val=='?') %}checked{% endif %}/>
+                                    Inconnu</label>
+                                    <input type="hidden" name="type" value="Présence">
+                                    <input type="hidden" name="interclub" value="{{ interclubId }}">
+                                    <input type="hidden" name="joueur" value="{{ joueur.id }}">
+                                    </p>
+                                </form>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-vip3" role="tabpanel" aria-labelledby="pills-vip3-tab">
+                        <div class="row">
+                        {% for joueur in joueursVIP3 %}
+                            {% set val = '?' %}
+                            {% for ie in interclubsUser %}
+                                {% if (joueur.id == ie.user.id) %}
+                                    {% set val = ie.value %}
+                                {% endif %}
+                            {% endfor %}
+                            <div class="col-md-6">
+                                <form name="presence" id="{{ interclubId }}-{{ joueur.id }}" action="{{ path('myinterclubs_save') }}" method="POST">
+                                <span class="{% if(joueur.gender == 'F') %}fille{% endif %}">{{ joueur.firstName }} {{ joueur.lastName }}</span>
+                                    <p>
+                                    <i class="far fa-arrow-alt-circle-right">&nbsp;</i>
+                                    <label for="oui">
+                                        <input type="radio" id="oui" name="value" value="Oui" {% if(val=='Oui') %}checked{% endif %}/>
+                                    Présent</label>
+                                    <label for="non">
+                                    <input type="radio" id="non" name="value" value="Non" {% if(val=='Non') %}checked{% endif %}/>
+                                    Absent</label>
+                                    <label for="nsp">
+                                    <input type="radio" id="nsp" name="value" value="?" {% if(val=='?') %}checked{% endif %}/>
+                                    Inconnu</label>
+                                    <input type="hidden" name="type" value="Présence">
+                                    <input type="hidden" name="interclub" value="{{ interclubId }}">
+                                    <input type="hidden" name="joueur" value="{{ joueur.id }}">
+                                    </p>
+                                </form>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-vip4" role="tabpanel" aria-labelledby="pills-vip4-tab">
+                        <div class="row">
+                        {% for joueur in joueursVIP4 %}
+                            {% set val = '?' %}
+                            {% for ie in interclubsUser %}
+                                {% if (joueur.id == ie.user.id) %}
+                                    {% set val = ie.value %}
+                                {% endif %}
+                            {% endfor %}
+                            <div class="col-md-6">
+                                <form name="presence" id="{{ interclubId }}-{{ joueur.id }}" action="{{ path('myinterclubs_save') }}" method="POST">
+                                <span class="{% if(joueur.gender == 'F') %}fille{% endif %}">{{ joueur.firstName }} {{ joueur.lastName }}</span>
+                                    <p>
+                                    <i class="far fa-arrow-alt-circle-right">&nbsp;</i>
+                                    <label for="oui">
+                                        <input type="radio" id="oui" name="value" value="Oui" {% if(val=='Oui') %}checked{% endif %}/>
+                                    Présent</label>
+                                    <label for="non">
+                                    <input type="radio" id="non" name="value" value="Non" {% if(val=='Non') %}checked{% endif %}/>
+                                    Absent</label>
+                                    <label for="nsp">
+                                    <input type="radio" id="nsp" name="value" value="?" {% if(val=='?') %}checked{% endif %}/>
+                                    Inconnu</label>
+                                    <input type="hidden" name="type" value="Présence">
+                                    <input type="hidden" name="interclub" value="{{ interclubId }}">
+                                    <input type="hidden" name="joueur" value="{{ joueur.id }}">
+                                    </p>
+                                </form>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                </div>
             </div>
             <div class="card-footer">
                 {% if (previousInterclub) %}

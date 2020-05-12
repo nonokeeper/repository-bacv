@@ -358,7 +358,12 @@ class InterclubController extends AbstractController
             // Sauvegarde de la rencontre Interclub puis retour vers la liste des Interclubs
             $this->em->flush();
             $this->addFlash('success','Rencontre "'.$interclub->getName().'" modifiée avec succès !');
-            return $this->redirectToRoute('interclub.index');
+            
+            if ($formMasculin->get('saveAndQuit')->isClicked()) {
+                return $this->redirectToRoute('interclub.index');
+            } else {
+                return $this->redirectToRoute('interclub.edit', ['id' => $id]);
+            }
         }
         if ($interclub->getTeamHome()) {
             if ($interclub->getTeamHome()->getMixte() == true) {

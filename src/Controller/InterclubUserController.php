@@ -95,13 +95,13 @@ class InterclubUserController extends AbstractController
         $nextInterclub = $this->Irep->findNext($interclubId);
         $previousInterclub = $this->Irep->findPrevious($interclubId);
         $interclubsUser = $this->IUrep->findByInterclub($interclub);
-        $user = $this->security->getUser();
-        $team = null;
-        $users = null;
-        if ($user) {
-            $team = $user->getTeam();
-            $users = $this->Urep->findAllVIP($team);
-        }
+        $team = $interclub->getTeam();
+        $users = $this->Urep->findAllVIP($team);
+        $joueursVIP1 = $this->Urep->findVIP1();
+        $joueursVIP2 = $this->Urep->findVIP2();
+        $joueursVIP3 = $this->Urep->findVIP3();
+        $joueursVIP4 = $this->Urep->findVIP4();
+        
         return $this->render('interclub_user/edit.html.twig', [
             'interclubsUser'    => $interclubsUser,
             'joueurs'           => $users,
@@ -109,6 +109,10 @@ class InterclubUserController extends AbstractController
             'interclubId'       => $interclubId,
             'nextInterclub'     => $nextInterclub,
             'previousInterclub' => $previousInterclub,
+            'joueursVIP1'       => $joueursVIP1,
+            'joueursVIP2'       => $joueursVIP2,
+            'joueursVIP3'       => $joueursVIP3,
+            'joueursVIP4'       => $joueursVIP4,
         ]);
     }
 

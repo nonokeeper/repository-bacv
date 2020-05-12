@@ -120,7 +120,7 @@
 {% endif %}
 <div class="container mb-4">
     <div class="row text-center mw-800 mx-auto">
-        <!-- Joueurs -->
+        <!-- Joueurs de l'équipe uniquement -->
         {% for joueur in joueurs %}
         <div id="{{ joueur.id }}" class="{% if (joueur.gender == 'H') %}joueur {% else %}joueuse {% endif %}ui-widget-content draggable">
             {{ joueur.firstName }}<br>{{ joueur.lastName }}<br>

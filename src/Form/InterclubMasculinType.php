@@ -21,6 +21,7 @@ use App\Repository\UserRepository;
 use App\Repository\ClubRepository;
 use App\Repository\TeamRepository;
 use Doctrine\ORM\Query\Expr\Join;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class InterclubMasculinType extends AbstractType
 {
@@ -90,158 +91,8 @@ class InterclubMasculinType extends AbstractType
                 'label' => 'Lieu',
                 'required' => false,
             ])
-            ->add('SH1', EntityType::class, [
-                'placeholder' => '-- Non défini --',
-                'class'     => User::class,
-                'query_builder' => function (UserRepository $ur) {
-                    return $ur->createQueryBuilder('u')
-                        ->andWhere('u.club = :club')
-                        ->setParameter('club', $this->club)
-                        ->andWhere('u.active = :active')
-                        ->setParameter('active', 1)
-                        ->andWhere('u.gender = :gender')
-                        ->setParameter('gender', 'H')
-                        ->andWhere('u.category = :groupe')
-                        ->setParameter('groupe', 'Loisir avec Interclub');
-                },
-                'label'     => 'Simple Homme 1',
-                'choice_label' => 'fullName',
-                'required' => false,
-                'empty_data' => null
-            ])
-            ->add('SH2', EntityType::class, [
-                'placeholder' => '-- Non défini --',
-                'class'     => User::class,
-                'query_builder' => function (UserRepository $ur) {
-                    return $ur->createQueryBuilder('u')
-                        ->andWhere('u.club = :club')
-                        ->setParameter('club', $this->club)
-                        ->andWhere('u.active = :active')
-                        ->setParameter('active', 1)
-                        ->andWhere('u.gender = :gender')
-                        ->setParameter('gender', 'H')
-                        ->andWhere('u.category = :groupe')
-                        ->setParameter('groupe', 'Loisir avec Interclub');
-                },
-                'label'     => 'Simple Homme 2',
-                'choice_label' => 'fullName',
-                'required' => false,
-                'empty_data' => null
-            ])
-            ->add('SH3', EntityType::class, [
-                'placeholder' => '-- Non défini --',
-                'class'     => User::class,
-                'query_builder' => function (UserRepository $ur) {
-                    return $ur->createQueryBuilder('u')
-                        ->andWhere('u.club = :club')
-                        ->setParameter('club', $this->club)
-                        ->andWhere('u.active = :active')
-                        ->setParameter('active', 1)
-                        ->andWhere('u.gender = :gender')
-                        ->setParameter('gender', 'H')
-                        ->andWhere('u.category = :groupe')
-                        ->setParameter('groupe', 'Loisir avec Interclub');
-                },
-                'label'     => 'Simple Homme 3',
-                'choice_label' => 'fullName',
-                'required' => false,
-                'empty_data' => null
-            ])
-            ->add('SH4', EntityType::class, [
-                'placeholder' => '-- Non défini --',
-                'class'     => User::class,
-                'query_builder' => function (UserRepository $ur) {
-                    return $ur->createQueryBuilder('u')
-                        ->andWhere('u.club = :club')
-                        ->setParameter('club', $this->club)
-                        ->andWhere('u.active = :active')
-                        ->setParameter('active', 1)
-                        ->andWhere('u.gender = :gender')
-                        ->setParameter('gender', 'H')
-                        ->andWhere('u.category = :groupe')
-                        ->setParameter('groupe', 'Loisir avec Interclub');
-                },
-                'label'     => 'Simple Homme 4',
-                'choice_label' => 'fullName',
-                'required' => false,
-                'empty_data' => null
-            ])
-            ->add('DH1Joueur1', EntityType::class, [
-                'placeholder' => '-- Non défini --',
-                'class'     => User::class,
-                'query_builder' => function (UserRepository $ur) {
-                    return $ur->createQueryBuilder('u')
-                        ->andWhere('u.club = :club')
-                        ->setParameter('club', $this->club)
-                        ->andWhere('u.active = :active')
-                        ->setParameter('active', 1)
-                        ->andWhere('u.gender = :gender')
-                        ->setParameter('gender', 'H')
-                        ->andWhere('u.category = :groupe')
-                        ->setParameter('groupe', 'Loisir avec Interclub');
-                },
-                'label'     => 'Double Homme 1 Joueur 1',
-                'choice_label' => 'fullName',
-                'required' => false,
-                'empty_data' => null
-            ])
-            ->add('DH1Joueur2', EntityType::class, [
-                'placeholder' => '-- Non défini --',
-                'class'     => User::class,
-                'query_builder' => function (UserRepository $ur) {
-                    return $ur->createQueryBuilder('u')
-                        ->andWhere('u.club = :club')
-                        ->setParameter('club', $this->club)
-                        ->andWhere('u.active = :active')
-                        ->setParameter('active', 1)
-                        ->andWhere('u.gender = :gender')
-                        ->setParameter('gender', 'H')
-                        ->andWhere('u.category = :groupe')
-                        ->setParameter('groupe', 'Loisir avec Interclub');
-                },
-                'label'     => 'Double Homme 1 Joueur 2',
-                'choice_label' => 'fullName',
-                'required' => false,
-                'empty_data' => null
-            ])
-            ->add('DH2Joueur1', EntityType::class, [
-                'placeholder' => '-- Non défini --',
-                'class'     => User::class,
-                'query_builder' => function (UserRepository $ur) {
-                    return $ur->createQueryBuilder('u')
-                        ->andWhere('u.club = :club')
-                        ->setParameter('club', $this->club)
-                        ->andWhere('u.active = :active')
-                        ->setParameter('active', 1)
-                        ->andWhere('u.gender = :gender')
-                        ->setParameter('gender', 'H')
-                        ->andWhere('u.category = :groupe')
-                        ->setParameter('groupe', 'Loisir avec Interclub');
-                },
-                'label'     => 'Double Homme 2 Joueur 1',
-                'choice_label' => 'fullName',
-                'required' => false,
-                'empty_data' => null
-            ])
-            ->add('DH2Joueur2', EntityType::class, [
-                'placeholder' => '-- Non défini --',
-                'class'     => User::class,
-                'query_builder' => function (UserRepository $ur) {
-                    return $ur->createQueryBuilder('u')
-                        ->andWhere('u.club = :club')
-                        ->setParameter('club', $this->club)
-                        ->andWhere('u.active = :active')
-                        ->setParameter('active', 1)
-                        ->andWhere('u.gender = :gender')
-                        ->setParameter('gender', 'H')
-                        ->andWhere('u.category = :groupe')
-                        ->setParameter('groupe', 'Loisir avec Interclub');
-                },
-                'label'     => 'Double Homme 2 Joueur 2',
-                'choice_label' => 'fullName',
-                'required' => false,
-                'empty_data' => null
-            ])
+            ->add('save', SubmitType::class, ['label' => 'Sauvegarder'])
+            ->add('saveAndQuit', SubmitType::class, ['label' => 'Sauvegarder et Quitter'])
         ;
 
         $builder->addEventListener(
