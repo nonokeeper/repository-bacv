@@ -59,7 +59,7 @@ EOT
         $user = (new User())
             ->setEmail($email)
             ->setUsername($username)
-            ->setRoles($superadmin ? ['ROLE_SUPER_ADMIN'] : $admin ? ['ROLE_ADMIN'] : ['ROLE_USER'])
+            ->setRoles(($superadmin ? ['ROLE_SUPER_ADMIN'] : $admin) ? ['ROLE_ADMIN'] : ['ROLE_USER'])
         ;
         $password = $this->passwordEncoder->encodePassword($user, $password);
         $user->setPassword($password);
