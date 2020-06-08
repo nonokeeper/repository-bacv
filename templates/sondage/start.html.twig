@@ -14,10 +14,10 @@
             <p class="card-text">{{ sondage.questions[cpt].label }}</p>
                 <div>
                     <form method="POST" action="/validationReponse">
-                {% for choix in sondage.questions[cpt].choix %}
-                    <input class="test" type="radio" id="{{ choix }}" name="choix" value="{{ choix }}">
-                    <label for="{{ choix }}">{{ choix|capitalize }}</label>
-                {% endfor %}
+                    {% for choix in sondage.questions[cpt].choix %}
+                        <input class="test" type="{{ sondage.questions[cpt].type }}" id="{{ choix }}" name="choix" value="{{ choix }}">
+                        <label for="{{ choix }}">{{ choix|capitalize }}</label>
+                    {% endfor %}
                     <input type="hidden" name="sondage" value="{{sondage.id}}">
                     <input type="hidden" name="question" value="{{sondage.questions[cpt].id}}">
                     <input type="hidden" name="cpt" value="{{ cpt }}">
