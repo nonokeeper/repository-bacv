@@ -644,12 +644,17 @@ input[type="radio"] {
     width: 18px;
     height: 18px;
   
-    border: 1px solid rgb(41, 107, 107);;
+    border: 1px solid rgb(41, 107, 107);
     transition: 0.2s all linear;
     margin-right: 1px;
     margin-left: 10px;
 
     vertical-align: text-bottom;
+}
+
+/* Label changed when selected */
+input[type="radio"]:checked {
+    border: 6px solid #5289d1;
 }
 
 label[disabled]{

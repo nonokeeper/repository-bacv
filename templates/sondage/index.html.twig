@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BACV - Sondages{% endblock %}
+
+{% block body %}
+{% for sondage in sondages %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{ sondage.title }}</h5>
+            <p class="card-text">{{ sondage.description }}</p>
+            <a href="{{ path('sondage.start', {id: sondage.id, cpt: 0}) }}" class="btn btn-primary">Je participe !</a>
+        </div>
+    </div>
+{% else %}
+    Pas encore de sondages disponibles
+{% endfor %}
+{% endblock %}

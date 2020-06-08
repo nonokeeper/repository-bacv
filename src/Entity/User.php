@@ -192,9 +192,27 @@ class User implements UserInterface, \Serializable
      */
     private $teamVeteranManaged;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Commande", mappedBy="user")
+     */
+    private $commandes;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Sondage", mappedBy="user")
+     */
+    private $sondages;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Reponse", mappedBy="user")
+     */
+    private $reponses;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
+        $this->sondages = new ArrayCollection();
+        $this->reponses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -787,6 +805,96 @@ class User implements UserInterface, \Serializable
         $newCapitaine = $teamVeteranManaged === null ? null : $this;
         if ($newCapitaine !== $teamVeteranManaged->getCapitaine()) {
             $teamVeteranManaged->setCapitaine($newCapitaine);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Commande[]
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): self
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes[] = $commande;
+            $commande->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): self
+    {
+        if ($this->commandes->contains($commande)) {
+            $this->commandes->removeElement($commande);
+            // set the owning side to null (unless already changed)
+            if ($commande->getUser() === $this) {
+                $commande->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sondage[]
+     */
+    public function getSondages(): Collection
+    {
+        return $this->sondages;
+    }
+
+    public function addSondage(Sondage $sondage): self
+    {
+        if (!$this->sondages->contains($sondage)) {
+            $this->sondages[] = $sondage;
+            $sondage->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSondage(Sondage $sondage): self
+    {
+        if ($this->sondages->contains($sondage)) {
+            $this->sondages->removeElement($sondage);
+            $sondage->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reponse[]
+     */
+    public function getReponses(): Collection
+    {
+        return $this->reponses;
+    }
+
+    public function addReponse(Reponse $reponse): self
+    {
+        if (!$this->reponses->contains($reponse)) {
+            $this->reponses[] = $reponse;
+            $reponse->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReponse(Reponse $reponse): self
+    {
+        if ($this->reponses->contains($reponse)) {
+            $this->reponses->removeElement($reponse);
+            // set the owning side to null (unless already changed)
+            if ($reponse->getUser() === $this) {
+                $reponse->setUser(null);
+            }
         }
 
         return $this;

@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Créer un sondage' %}
+
+{% block body %}
+
+<div class="container mt-4">
+    <a class="btn btn-primary" href="{{ path('sondage.index') }}"><i class="fas fa-clipboard-list">&nbsp;</i>Retour liste des sondages</a>
+    <div class="tab">&nbsp;</div>
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <h3>Nouveau Sondage</h3>
+    {{ form_errors(form) }}
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-3">{{ form_row(form.title) }}</div>
+        <div class="col-md-6">{{ form_row(form.description) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">{{ form_row(form.active) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">{{ form_row(form.categorie) }}</div>
+        <div class="col-md-2">{{ form_row(form.questions) }}</div>
+    </div>
+    <button class="btn btn-success"><i class="fas fa-plus-circle">&nbsp;</i>{{ button_label|default('Créer') }}</button>
+    {{ form_end(form) }}
+    <div class="tab">&nbsp;</div>
+</div>
+{% endblock %}

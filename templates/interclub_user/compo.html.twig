@@ -4,7 +4,8 @@
 
 {% block body %}
 <div class="text-center m-3">
-    <a class="btn btn-primary" href="{{ path('myinterclubs') }}"><i class="fas fa-arrow-circle-left">&nbsp;</i>Retour Liste</a>
+    <a class="btn btn-info" href="{{ path('myinterclubs') }}"><i class="fas fa-retweet">&nbsp;</i>Retour vers mes Interclubs</a>
+    <a class="btn btn-primary" href="{{ path('interclub.index') }}"><i class="fas fa-box-open">&nbsp;</i>Retour liste des Interclubs</a>
 </div>
 {% if (interclub.isMixte) %}
     {% set header = 'Interclub Mixte' %}

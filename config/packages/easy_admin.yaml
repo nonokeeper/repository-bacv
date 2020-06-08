@@ -32,6 +32,12 @@ easy_admin:
           - {entity: 'Interclubs'}
           - {entity: 'InterclubsVeteran', label: 'Interclubs Vétéran'}
           - {entity: 'Lieu', label: 'Lieux des rencontres'}
+      - label: 'Gestion des Sondages'
+        icon: 'newspaper-o'
+        children:
+          - {entity: 'Question'}
+          - {entity: 'Sondage'}
+          - {entity: 'Reponse', label: 'Réponses'}
   entities:
     Articles:
       class: App\Entity\Article
@@ -104,3 +110,24 @@ easy_admin:
       class: App\Entity\InterclubVeteran
     Lieu:
       class: App\Entity\Lieu
+    Question:
+      class: App\Entity\Question
+      form:
+        fields:
+          - {property: 'name', label: 'Titre'}
+          - {property: 'type', label: 'Type'}
+          - {property: 'active', label: 'Actif ?'}
+          - {property: 'label', label: 'Question'}
+          - {property: 'choix', label: 'Réponses'}
+          - {property: 'sondages', label: 'Sondages liés'}
+      list:
+        fields:
+          - {property: 'name', label: 'Titre'}
+          - {property: 'type', label: 'Type'}
+          - {property: 'active', label: 'Actif ?'}
+          - {property: 'label', label: 'Question'}
+          - {property: 'sondages', label: 'Sondages liés'}
+    Sondage:
+      class: App\Entity\Sondage
+    Reponse:
+      class: App\Entity\Reponse
