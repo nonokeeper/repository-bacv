@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Entity\UserSearch;
-use App\Entity\Team;
+use App\Entity\StatusRepository;
 use App\Repository\UserRepository;
 use App\Repository\SaisonRepository;
 use App\Repository\ClubRepository;
@@ -19,6 +19,8 @@ use App\Form\UserCreateFormType;
 use App\Form\UserSearchType;
 use App\Form\UserCompteFormType;
 use App\Form\UserMdpFormType;
+use App\Repository\StatusRepository as RepositoryStatusRepository;
+use Doctrine\ORM\Query\AST\WhenClause;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -178,6 +180,114 @@ class UserController extends AbstractController
             'users'         => $users,
             'count'         => $count,
             'formSearch'    => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/inscription", name="user.inscription")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function manage(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $joueurId = $request->request->get('joueur');
+        $statutId = $request->request->get('statut');
+        $cat = $request->request->get('cat');
+        //dump($cat);
+        if ($joueurId && $statutId && $cat) { // modification temps réel du statut du joueur
+            $joueur = $this->repository->find($joueurId);
+            $statusRep = new RepositoryStatusRepository($this->registry);
+            $status = $statusRep->find($statutId);
+            $joueur->setStatus($status);
+            $this->em->flush();
+        }
+        
+        $action = $request->request->get('action');
+        if ($action == 'update') { // modification des infos du joueur
+            $joueurId = $request->request->get('id');
+            $firstName = $request->request->get('prenom');
+            $lastName = $request->request->get('nom');
+            $email = $request->request->get('email');
+            $mobile = $request->request->get('mobile');
+            $joueur = $this->repository->find($joueurId);
+            $joueur->setFirstName($firstName);
+            $joueur->setLastName($lastName);
+            $joueur->setEmail($email);
+            $cat = $joueur->getCategory();
+            if ($cat == 'Jeune') {
+                $joueur->setMobileParent($mobile);
+            } else $joueur->setMobile($mobile);
+
+            $this->em->flush();
+            
+            switch ($cat) {
+                case 'Jeune':
+                    $cat = 'jeunes';
+                    break;
+                case 'Loisir':
+                    $cat = 'loisirs';
+                    break;
+                case 'Loisir avec Interclub':
+                    $cat = 'loisirsIC';
+                    break;
+                case 'Compétiteur':
+                    $cat = 'competiteurs';
+                    break;
+            }
+        }
+        if ($action == 'create') { // modification des infos du joueur
+            $cate = null;
+            $firstName = $request->request->get('prenom');
+            $lastName = $request->request->get('nom');
+            $email = $request->request->get('email');
+            $mobile = $request->request->get('mobile');
+            $joueur = new User();
+            $joueur->setFirstName($firstName);
+            $joueur->setLastName($lastName);
+            $joueur->setUsername($firstName.'.'.$lastName);
+            $encoded = $passwordEncoder->encodePassword($joueur,$firstName.'.'.$lastName);
+            $joueur->setPassword($encoded);
+            $joueur->setActive(true);
+            //$joueur->setStatus()
+            $joueur->setEmail($email);
+            if ($cat == 'jeunes') {
+                $joueur->setMobileParent($mobile);
+            } else $joueur->setMobile($mobile);
+            switch ($cat) {
+                case 'jeunes':
+                    $cate = 'Jeune';
+                    break;
+                case 'loisirs':
+                    $cate = 'Loisir';
+                    break;
+                case 'loisirsIC':
+                    $cate = 'Loisir avec Interclub';
+                    break;
+                case 'competiteurs':
+                    $cate = 'Compétiteur';
+                    break;
+            }
+            $joueur->setCategory($cate);
+            $this->em->persist($joueur);
+            $this->em->flush();
+        }
+
+        $statusRep = new RepositoryStatusRepository($this->registry);
+        $status = $statusRep->findAll();
+        $userJeunes = $this->repository->findJeunes();
+        $userLoisirsIC = $this->repository->findLoisirsIC();
+        $userLoisirs = $this->repository->findLoisirs();
+        $userCompet = $this->repository->findCompet();
+        if (!$cat) {
+            $cat = 'jeunes'; // catégorie par défaut : Jeunes
+        }
+
+        return $this->render('user/inscription.html.twig', [
+            'userJeunes'    => $userJeunes,
+            'userLoisirsIC' => $userLoisirsIC,
+            'userLoisirs'   => $userLoisirs,
+            'userCompet'    => $userCompet,
+            'status'        => $status,
+            'cat'           => $cat
         ]);
     }
 

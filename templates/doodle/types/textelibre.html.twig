@@ -1,0 +1,51 @@
+{% set nb = 0 %}
+<div class="w-75 mx-auto">
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col"><i class="fas fa-running"></i></th>
+            {% for item in doodle.items %}
+                {% for lien in item.lienDoodles %}
+                    {% if lien.id %}
+                        {% set nb = nb + 1 %}
+                    {% endif %}
+                {% endfor %}
+                <th class="small text-center" scope="col">{{ item.name|raw }}<br>({{ nb }} réponses)</th>
+                {% set nb = 0 %}
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <input type="text" name="personne">
+                <input type="hidden" name="doodle" value="{{ doodle.id }}"/>
+            </td>
+            {% for item in doodle.items %}
+                <td class="text-center">
+                    <input type="text" name="value-{{ item.id }}"/>
+                </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td colspan="100%">
+                <input type="submit" class="btn btn-primary" name="submit_form" value="Valider">
+            </td>
+        </tr>
+        {% for personne in personnes %}
+            <tr>
+                <th scope="row">{{ personne.pseudo }}</th>
+                {% for item in doodle.items %}
+                <td class="text-center">
+                    {% for lien in doodle.lienDoodles %}
+                        {% if (lien.personne == personne) and (lien.item == item) %}
+                            {{ lien.value }}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>

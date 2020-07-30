@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Reponse;
+use App\Entity\User;
 use App\Repository\QuestionRepository;
 use App\Repository\ReponseRepository;
 use App\Repository\SondageRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,12 +51,39 @@ class ReponseController extends AbstractController
         $this->reponseRep = $reponseRep;
     }
     /**
-     * @Route("/reponse", name="reponse")
+     * @Route("/reponses", name="reponses")
      */
     public function index()
     {
+        $sondages = $this->sondageRep->findAll();
         return $this->render('reponse/index.html.twig', [
-            'controller_name' => 'ReponseController',
+            'sondages' => $sondages
+        ]);
+    }
+
+    /**
+     * @Route("/reponse/{id}", name="reponse.view")
+     */
+    public function view($id)
+    {
+        $sondage = $this->sondageRep->find($id);
+        $reponses = $this->reponseRep->findBy(['sondage' => $id]);
+        $questions = $sondage->getQuestions();
+        $users = new ArrayCollection();
+        $olduser = '';
+        foreach($reponses as $rep)
+        {
+            $user = $rep->getUser();
+            if ($olduser !== $user)
+                $users->add($user);
+            $olduser=$user;
+        }
+
+        return $this->render('reponse/view.html.twig', [
+            'sondage'   => $sondage,
+            'reponses'  => $reponses,
+            'questions' => $questions,
+            'users'     => $users
         ]);
     }
 

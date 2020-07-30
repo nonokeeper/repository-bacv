@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BACV - Doodle{% endblock %}
+
+{% block body %}
+
+{{ doodle.name }}
+{{ doodle.description }}
+{{ cle }}
+{% for item in doodle.items %}
+    {{ item.name }}
+{% endfor %}
+
+{% endblock %}

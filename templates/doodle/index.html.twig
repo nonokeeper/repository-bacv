@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BACV - Doodle{% endblock %}
+
+{% block body %}
+<div class="card mx-auto text-center mb-3 border-success " style="max-width: 30rem;">
+    <div class="card-header">Participation au Doodle</div>
+    <div class="card-body text-success">
+        <h5 class="card-title">{{ doodle.name }}</h5>
+        <p class="card-text">{{ doodle.description }}</p>
+    </div>
+</div>
+<form name="doodle" action="{{ path('lienDoodle.save') }}" method="POST">
+<!-- TABLE doodle Texte libre -->
+{% if doodle.type == 'text' %}
+    {{ include ('doodle/types/textelibre.html.twig') }}
+{% endif %}
+
+<!-- TABLE doodle checkbox -->
+{% if doodle.type == 'checkbox' %}
+    {{ include ('doodle/types/checkbox.html.twig') }}
+{% endif %}
+
+<!-- TABLE doodle QCM -->
+{% if doodle.type == 'qcm' %}
+    {{ include ('doodle/types/qcm.html.twig') }}
+{% endif %}
+
+<!-- TABLE doodle Nombre -->
+{% if doodle.type == 'number' %}
+    {{ include ('doodle/types/nombre.html.twig') }}
+{% endif %}
+
+</form>
+{% endblock %}

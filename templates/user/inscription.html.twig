@@ -1,0 +1,331 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Inscription' %}
+
+{% block body %}
+
+<form method="POST" id="formjeunes"><input type="hidden" name="cat" value="jeunes"></form>
+<form method="POST" id="formloisirs"><input type="hidden" name="cat" value="loisirs"></form>
+<form method="POST" id="formloisirsIC"><input type="hidden" name="cat" value="loisirsIC"></form>
+<form method="POST" id="formcompetiteurs"><input type="hidden" name="cat" value="competiteurs"></form>
+
+<div class="container mt-4">
+
+    <div class="card-group">
+        <div class="card">
+            <div id="titlejeunes" class="title text-center {% if (cat == 'jeunes') %}actif{% endif %}">Jeunes</div>
+            <img onclick="selectCat('jeunes')" class="card-img-top" src="/images/jeune.jpg" alt="Card image cap">
+        </div>
+        <div class="card">
+            <div id="titleloisirs" class="title text-center {% if (cat == 'loisirs') %}actif{% endif %}">Loisirs sans Interclub</div>
+            <img onclick="selectCat('loisirs')" class="card-img-top" src="/images/loisir.jpg" alt="Card image cap">
+        </div>
+        <div class="card">
+            <div id="titleloisirsIC" class="title text-center {% if (cat == 'loisirsIC') %}actif{% endif %}">Loisirs avec Interclub</div>
+            <img onclick="selectCat('loisirsIC')" class="card-img-top" src="/images/joueur.jpg" alt="Card image cap">
+        </div>
+        <div class="card">
+            <div id="titlecompetiteurs" class="title text-center {% if (cat == 'competiteurs') %}actif{% endif %}">Compétiteurs</div>
+            <img onclick="selectCat('competiteurs')" class="card-img-top" src="/images/player.jpg" alt="Card image cap">
+        </div>
+    </div>
+
+    <div class="mt-3 mb-3">
+        <button type="button" title="Créer" class="btn btn-success" data-toggle="modal" data-target="#createJoueur"><i class="fas fa-user-plus">&nbsp;</i>Création rapide</button>
+    </div>
+
+<form method="POST">
+<input type="hidden" name="action" value="update">
+<div class="modal fade" id="updateJoueur" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">  
+            <input type="hidden" class="form-control" name="id" id="id">
+          <div class="row">
+            <div class="col">
+            <label for="recipient-name" class="col-form-label">Prénom</label>
+            <input type="text" class="form-control" name="prenom" id="prenom">
+            </div>
+            <div class="col">
+            <label for="recipient-name" class="col-form-label">Nom</label>
+            <input type="text" class="form-control" name="nom" id="nom">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+            <label for="message-text" class="col-form-label">Email</label>
+            <input type="text" class="form-control" name="email" id="email">
+            </div>
+            <div class="col">
+            <label for="message-text" class="col-form-label">Mobile</label>
+            <input type="text" class="form-control" name="mobile" id="mobile">
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="submit" class="btn btn-primary">Sauvegarder</button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+<form method="POST">
+<input type="hidden" name="cat" value="{{ cat }}">
+<input type="hidden" name="action" value="create">
+<div class="modal fade" id="createJoueur" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nouveau Joueur</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+            <div class="col">
+            <label for="recipient-name" class="col-form-label">Prénom</label>
+            <input type="text" class="form-control" name="prenom">
+            </div>
+            <div class="col">
+            <label for="recipient-name" class="col-form-label">Nom</label>
+            <input type="text" class="form-control" name="nom">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+            <label for="message-text" class="col-form-label">Email</label>
+            <input type="email" class="form-control" name="email">
+            </div>
+            <div class="col">
+            <label for="message-text" class="col-form-label">Mobile</label>
+            <input type="text" class="form-control" name="mobile">
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="submit" class="btn btn-success">Créer le joueur</button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+<div id="joueurs">
+{% if (cat == 'jeunes') %}
+    <div id="jeunes">
+        <table class="table table-bordered small">
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>N° Portable (Parent)</th>
+                    {% for statut in status %}
+                        <th>
+                            {{ statut.label }}
+                            <p class="light">
+                                => Nb =
+                                {% set nb = 0 %}
+                                {% for joueur in userJeunes %}
+                                    {% if (joueur in statut.users) %}
+                                        {% set nb = nb + 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                                {{ nb }}
+                            </p>
+                        </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for joueur in userJeunes %}<!-- CAT -->
+                <tr>
+                    <td>
+                        <button type="button" title="Modifier" class="btn btn-primary" data-toggle="modal" data-target="#updateJoueur" data-id="{{ joueur.id }}" data-prenom="{{ joueur.firstName }}" data-nom="{{ joueur.lastName }}" data-email="{{ joueur.email }}" data-mobile="{{ joueur.mobileParent }}"><i class="fas fa-user-edit">&nbsp;</i></button>
+                    </td>
+                    <td>{{ joueur.firstName }}</td>
+                    <td>{{ joueur.lastName }}</td>
+                    <td>{{ joueur.email }}</td>
+                    <td>{{ joueur.mobileParent }}</td>
+                    {% for statut in status %}
+                        <td>
+                            {% if statut.label == joueur.status %}
+                                <input type="radio" class="joueurstatut" name="statut-{{ joueur.id }}" checked onchange="joueurStatut({{ joueur.id }},{{ statut.id }},'{{ cat }}')"/>
+                            {% else %}
+                                <input type="radio" class="joueurstatut" name="statut-{{ joueur.id }}" onchange="joueurStatut({{ joueur.id }},{{ statut.id }},'{{ cat }}')"/>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+{% if (cat == 'loisirs') %}
+    <div id="loisirs">
+        <table class="table table-bordered small">
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>N° Portable</th>
+                    {% for statut in status %}
+                        <th>{{ statut.label }}
+                        <p class="light">
+                                => Nb =
+                                {% set nb = 0 %}
+                                {% for joueur in userLoisirs %}
+                                    {% if (joueur in statut.users) %}
+                                        {% set nb = nb + 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                                {{ nb }}
+                            </p>
+                        </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for joueur in userLoisirs %}<!-- CAT -->
+                <tr>
+                    <td>
+                        <button type="button" title="Modifier" class="btn btn-primary" data-toggle="modal" data-target="#updateJoueur" data-id="{{ joueur.id }}" data-prenom="{{ joueur.firstName }}" data-nom="{{ joueur.lastName }}" data-email="{{ joueur.email }}" data-mobile="{{ joueur.mobile }}"><i class="fas fa-user-edit">&nbsp;</i></button>
+                    </td>
+                    <td>{{ joueur.firstName }}</td>
+                    <td>{{ joueur.lastName }}</td>
+                    <td>{{ joueur.email }}</td>
+                    <td>{{ joueur.mobile }}</td>
+                    {% for statut in status %}
+                        <td>
+                            {% if statut.label == joueur.status %}
+                                <input type="radio" class="joueurstatut" name="statut-{{ joueur.id }}" checked onchange="joueurStatut({{ joueur.id }},{{ statut.id }},'{{ cat }}')"/>
+                            {% else %}
+                                <input type="radio" class="joueurstatut" name="statut-{{ joueur.id }}" onchange="joueurStatut({{ joueur.id }},{{ statut.id }},'{{ cat }}')"/>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+{% if (cat == 'loisirsIC') %}
+    <div id="loisirsIC">
+        <table class="table table-bordered small">
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Portable</th>
+                    {% for statut in status %}
+                        <th>{{ statut.label }}
+                            <p class="light">
+                                => Nb =
+                                {% set nb = 0 %}
+                                {% for joueur in userLoisirsIC %}
+                                    {% if (joueur in statut.users) %}
+                                        {% set nb = nb + 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                                {{ nb }}
+                            </p>
+                        </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for joueur in userLoisirsIC %}<!-- CAT -->
+                <tr>
+                    <td>
+                        <button type="button" title="Modifier" class="btn btn-primary" data-toggle="modal" data-target="#updateJoueur" data-id="{{ joueur.id }}" data-prenom="{{ joueur.firstName }}" data-nom="{{ joueur.lastName }}" data-email="{{ joueur.email }}" data-mobile="{{ joueur.mobile }}"><i class="fas fa-user-edit">&nbsp;</i></button>
+                    </td>
+                    <td>{{ joueur.firstName }}</td>
+                    <td>{{ joueur.lastName }}</td>
+                    <td>{{ joueur.email }}</td>
+                    <td>{{ joueur.mobile }}</td>
+                    {% for statut in status %}
+                        <td>
+                            {% if statut.label == joueur.status %}
+                                <input type="radio" class="joueurstatut" name="statut-{{ joueur.id }}" checked onchange="joueurStatut({{ joueur.id }},{{ statut.id }},'{{ cat }}')"/>
+                            {% else %}
+                                <input type="radio" class="joueurstatut" name="statut-{{ joueur.id }}" onchange="joueurStatut({{ joueur.id }},{{ statut.id }},'{{ cat }}')"/>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+{% if (cat == 'competiteurs') %}
+    <div id="competiteurs">
+        <table class="table table-bordered small">
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Portable</th>
+                    {% for statut in status %}
+                        <th>{{ statut.label }}
+                        <p class="light">
+                            => Nb =
+                            {% set nb = 0 %}
+                            {% for joueur in userCompet %}
+                                {% if (joueur in statut.users) %}
+                                    {% set nb = nb + 1 %}
+                                {% endif %}
+                            {% endfor %}
+                            {{ nb }}
+                        </p>
+                        </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for joueur in userCompet %}<!-- CAT -->
+                <tr>
+                    <td>
+                        <button type="button" title="Modifier" class="btn btn-primary" data-toggle="modal" data-target="#updateJoueur" data-id="{{ joueur.id }}" data-prenom="{{ joueur.firstName }}" data-nom="{{ joueur.lastName }}" data-email="{{ joueur.email }}" data-mobile="{{ joueur.mobile }}"><i class="fas fa-user-edit">&nbsp;</i></button>
+                    </td>
+                    <td>{{ joueur.firstName }}</td>
+                    <td>{{ joueur.lastName }}</td>
+                    <td>{{ joueur.email }}</td>
+                    <td>{{ joueur.mobile }}</td>
+                    {% for statut in status %}
+                        <td>
+                            {% if statut.label == joueur.status %}
+                                <input type="radio" class="joueurstatut" name="statut-{{ joueur.id }}" checked onchange="joueurStatut({{ joueur.id }},{{ statut.id }},'{{ cat }}')"/>
+                            {% else %}
+                                <input type="radio" class="joueurstatut" name="statut-{{ joueur.id }}" onchange="joueurStatut({{ joueur.id }},{{ statut.id }},'{{ cat }}')"/>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+</div>
+</div>
+{% endblock %}

@@ -1,26 +1,31 @@
 easy_admin:
   site_name: 'BACV - Derrière le bureau'
   design:
+    assets:
+      css:
+          - 'bundles/easyadmin/bootstrap-all.css'
+      js:
+          # By default, EasyAdminBundle embeds a limited version of Bootstrap JS.
+          # For collapsible form filters to work, a full version should be added:
+          - 'bundles/easyadmin/bootstrap-all.js'
     form_theme: # Both themes are for ckeditor integration
             - "@EasyAdmin/form/bootstrap_4.html.twig"
             - "@FOSCKEditor/Form/ckeditor_widget.html.twig"
     brand_color: '#084a57' #d6eaf8
     menu:
       - {label: 'Retour Site BACV', route: 'homepage', icon: 'arrow-up'}
-      - label: 'Gestion des Articles et des Catégories'
-        icon: 'newspaper-o'
-        children:
-          - {entity: 'Articles'}
-          - {entity: 'Categories'}
+      - {label: 'Gestion des Articles et des Catégories', permission: ROLE_SUPER_ADMIN, icon: 'newspaper-o', children: ['Articles', 'Categories']}
       - label: 'Gestion des Joueurs, des Clubs et des Equipes'
         icon: 'users'
         children:
           - {entity: 'Joueurs'}
-          - {entity: 'Equipes'}
+          - {entity: 'Equipes', permission: 'ROLE_SUPER_ADMIN'}
           - {entity: 'Equipes_Veteran', label: 'Equipes Vétéran'}
           - {entity: 'Clubs'}
           - {entity: 'CategorieAge'}
+          - {entity: 'Status', label: 'Statut Inscription'}
       - label: 'Gestion des Tournois'
+        permission: ROLE_SUPER_ADMIN
         icon: 'users'
         children:
           - {entity: 'Tournois'}
@@ -38,6 +43,14 @@ easy_admin:
           - {entity: 'Question'}
           - {entity: 'Sondage'}
           - {entity: 'Reponse', label: 'Réponses'}
+      - label: 'Gestion Doodle'
+        icon: 'newspaper-o'
+        children:
+          - {entity: 'Doodle'}
+          - {entity: 'Item'}
+          - {entity: 'QcmValue', label: 'Valeurs de QCM'}
+          - {entity: 'Personne'}
+          - {entity: 'LienDoodle'}
   entities:
     Articles:
       class: App\Entity\Article
@@ -65,6 +78,7 @@ easy_admin:
 
     Clubs:
       class: App\Entity\Club
+      role: 'ROLE_SUPER_ADMIN'
     Categories:
       class: App\Entity\Category
     CategorieAge:
@@ -96,6 +110,8 @@ easy_admin:
         fields: ['firstName', 'lastName', 'email']
     Equipes:
       class: App\Entity\Team
+    Status:
+      class: App\Entity\Status
     Equipes_Veteran:
       class: App\Entity\TeamVeteran
     Saison:
@@ -131,3 +147,37 @@ easy_admin:
       class: App\Entity\Sondage
     Reponse:
       class: App\Entity\Reponse
+    Doodle:
+      class: App\Entity\Doodle
+      form:
+        fields:
+          - {property: 'md5', type: 'text', label: 'Clé pour le lien doodle', type_options: { disabled: true }}
+          - {property: 'name', label: 'Nom'}
+          - {property: 'description', label: 'Description'}
+          - {property: 'beginDate', label: 'Début'}
+          - {property: 'endDate', label: 'Fin'}
+          - {property: 'maxPersonnes', label: 'Nombre maximum de personnes'}
+          - {property: 'active', label: 'Actif'}
+          - {property: 'qcmValues', label: 'Valeurs du QCM'}
+          - {property: 'type', label: 'Type', type: 'choice', type_options: {
+              choices: { 'QCM': 'qcm', 'Cases à cocher': 'checkbox', 'Saisie libre': 'text', 'Nombre': 'number' },
+              required: true
+              }
+            }
+      list:
+        fields:
+          - {property: 'id', label: 'id'}
+          - {property: 'md5', label: 'Clé'}
+          - {property: 'name', label: 'Nom'}
+          - {property: 'description', label: 'Libellé'}
+          - {property: 'maxPersonnes', label: 'Maximum'}
+          - {property: 'active', label: 'Actif ?'}
+          - {property: 'typeValue', label: 'Type' }
+    Item:
+      class: App\Entity\Item
+    QcmValue:
+      class: App\Entity\QcmValue
+    Personne:
+      class: App\Entity\Personne
+    LienDoodle:
+      class: App\Entity\LienDoodle

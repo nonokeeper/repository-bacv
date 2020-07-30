@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BACV - Doodle{% endblock %}
+
+{% block body %}
+
+<div class="card mx-auto text-center mb-3 border-success " style="max-width: 30rem;">
+    <div class="card-header">Merci pour votre participation !</div>
+    <div class="card-body text-success">
+        <h5 class="card-title">{{ doodle.name }}</h5>
+        <p class="card-text">{{ doodle.description }}</p>
+        <a href="{{ path('doodle.go', {'id': doodle.id, 'md5': md5}) }}" class="btn btn-primary">Participer à nouveau</a>
+    </div>
+</div>
+
+<!-- TABLE doodle Texte libre -->
+
+<!-- TABLE doodle checkbox -->
+{% if doodle.type == 'checkbox' %}
+{% set nb = 0 %}
+<div class="w-75 mx-auto">
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col"><i class="fas fa-running"></i></th>
+            {% for item in doodle.items %}
+                {% for lien in item.lienDoodles %}
+                    {% if lien.value %}
+                        {% set nb = nb + 1 %}
+                    {% endif %}
+                {% endfor %}
+                <th class="small" scope="col">{{ item.name|raw }}<br>({{ nb }} inscrits)</th>
+                {% set nb = 0 %}
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for personne in doodle.personnes %}
+            <tr>
+                <th scope="row">{{ personne.pseudo }}</th>
+                {% for item in doodle.items %}
+                    <td class="text-center">
+                    {% for lien in doodle.lienDoodles %}
+                        {% if (lien.personne == personne) and (lien.item == item) %}
+                            <input type="checkbox" data-toggle="toggle" data-on="Présent" data-off="Absent" data-onstyle="outline-success" data-offstyle="outline-danger" name="display" {% if (lien.value) %}checked{% endif %} disabled/>
+                        {% endif %}
+                    {% endfor %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endif %}
+<!-- FIN TABLE doodle checkbox -->
+{% endblock %}

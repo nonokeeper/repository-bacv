@@ -207,6 +207,11 @@ class User implements UserInterface, \Serializable
      */
     private $reponses;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Status", inversedBy="users")
+     */
+    private $status;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
@@ -896,6 +901,18 @@ class User implements UserInterface, \Serializable
                 $reponse->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?Status $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

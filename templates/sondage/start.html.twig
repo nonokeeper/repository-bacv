@@ -15,7 +15,7 @@
                 <div>
                     <form method="POST" action="/validationReponse">
                     {% for choix in sondage.questions[cpt].choix %}
-                        <input class="test" type="{{ sondage.questions[cpt].type }}" id="{{ choix }}" name="choix" value="{{ choix }}">
+                        <input class="test" type="{{ sondage.questions[cpt].type }}" id="{{ choix }}" name="choix[]" value="{{ choix }}">
                         <label for="{{ choix }}">{{ choix|capitalize }}</label>
                     {% endfor %}
                     <input type="hidden" name="sondage" value="{{sondage.id}}">

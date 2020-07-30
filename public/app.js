@@ -8,6 +8,22 @@ $('#exampleModal').on('show.bs.modal', function (event) {
     modal.find('.modal-body input').val(recipient);
   });
 
+$('#updateJoueur').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget); // Button that triggered the modal
+  var id = button.data('id'); // Extract info from data-* attributes
+  var prenom = button.data('prenom');
+  var nom = button.data('nom');
+  var email = button.data('email');
+  var mobile = button.data('mobile');
+  var modal = $(this);
+  modal.find('.modal-title').text('Modification de '+prenom+' '+nom);
+  modal.find('#id').val(id);
+  modal.find('#prenom').val(prenom);
+  modal.find('#nom').val(nom);
+  modal.find('#email').val(email);
+  modal.find('#mobile').val(mobile);
+});
+
 $(document).ready(function () {
   $('.third-button').on('click', function () {
     $('.animated-icon3').toggleClass('open');
@@ -31,6 +47,35 @@ jQuery(document).ready(function(){
   $('#tmp').fadeTo(2000, 0);
   $('.formScore').hide();
 });
+
+/* Submit cat clicked
+*/
+
+/* Submit Catégorie des joueurs en Ajax */
+function selectCat(cat)
+{
+  $("#form"+cat).submit();
+  return false;
+}
+
+/* Submit Statut par joueur by Ajax */
+function joueurStatut(joueur, statut, cat)
+{
+  $.ajax({
+    type: 'post',
+    url: '/inscription',
+    data: {
+      joueur: joueur,
+      statut: statut,
+      cat: cat
+    },
+    success: function (rep) {
+      //console.log(cat);
+      $("#"+cat).html($("#"+cat,rep).html()); // recharge la div de la catégorie pour les comptages
+    }
+  });
+  return false;
+}
 
 /* Submit Score by Ajax */
 function sendData(interclub)
@@ -83,7 +128,7 @@ $('body').delegate('span.compo', 'click', function(){
       joueurs:[0,0] // permet de vider sans provoquer d'erreur de tableau null
     },
     success: function () {
-      console.log('Effacé avec succès !');
+      // console.log('Effacé avec succès !');
     }
   });
 });

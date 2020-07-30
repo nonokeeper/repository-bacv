@@ -99,6 +99,148 @@ class UserRepository extends ServiceEntityRepository
     }
 
     /**
+    * @return User[] Returns all active users
+    */
+    public function findAllActive()
+    {
+        // Inscrit cette saison <=> champ 'active' = 1
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.active = :active')
+            ->setParameter('active', 1)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return User[] Returns all active users
+    */
+    public function findJeunesActive()
+    {
+        // Inscrit cette saison <=> champ 'active' = 1
+        // Groupe des Jeunes <=> champ 'category' = 'Jeune'
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.active = :active')
+            ->setParameter('active', 1)
+            ->andWhere('u.category = :groupe')
+            ->setParameter('groupe', 'Jeune')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return User[] Returns all active users
+    */
+    public function findLoisirsICActive()
+    {
+        // Inscrit cette saison <=> champ 'active' = 1
+        // Groupe des Loisirs avec IC <=> champ 'category' = 'Loisir avec Interclub'
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.active = :active')
+            ->setParameter('active', 1)
+            ->andWhere('u.category = :groupe')
+            ->setParameter('groupe', 'Loisir avec Interclub')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return User[] Returns all active users
+    */
+    public function findLoisirsActive()
+    {
+        // Inscrit cette saison <=> champ 'active' = 1
+        // Groupe des Loisirs sans IC <=> champ 'category' = 'Loisir'
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.active = :active')
+            ->setParameter('active', 1)
+            ->andWhere('u.category = :groupe')
+            ->setParameter('groupe', 'Loisir')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return User[] Returns all active users
+    */
+    public function findCompetActive()
+    {
+        // Inscrit cette saison <=> champ 'active' = 1
+        // Groupe des Compétiteurs <=> champ 'category' = 'Compétiteur'
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.active = :active')
+            ->setParameter('active', 1)
+            ->andWhere('u.category = :groupe')
+            ->setParameter('groupe', 'Compétiteur')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return User[] Returns all Jeunes
+    */
+    public function findJeunes()
+    {
+        // Inscrit cette saison <=> champ 'active' = 1
+        // Groupe des Jeunes <=> champ 'category' = 'Jeune'
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.category = :groupe')
+            ->setParameter('groupe', 'Jeune')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return User[] Returns all Loisirs IC
+    */
+    public function findLoisirsIC()
+    {
+        // Inscrit cette saison <=> champ 'active' = 1
+        // Groupe des Loisirs avec IC <=> champ 'category' = 'Loisir avec Interclub'
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.category = :groupe')
+            ->setParameter('groupe', 'Loisir avec Interclub')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return User[] Returns all Loisirs
+    */
+    public function findLoisirs()
+    {
+        // Inscrit cette saison <=> champ 'active' = 1
+        // Groupe des Loisirs sans IC <=> champ 'category' = 'Loisir'
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.category = :groupe')
+            ->setParameter('groupe', 'Loisir')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return User[] Returns all Competiteurs
+    */
+    public function findCompet()
+    {
+        // Inscrit cette saison <=> champ 'active' = 1
+        // Groupe des Compétiteurs <=> champ 'category' = 'Compétiteur'
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.category = :groupe')
+            ->setParameter('groupe', 'Compétiteur')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
     * @return User[] Returns the Users of $team
     * @param Int $team
     */

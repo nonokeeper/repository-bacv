@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BACV - Résultats{% endblock %}
+
+{% block body %}
+    {% set questionCourante = '' %}
+    {% set joueur = '' %}
+    {% set reponseChoisie = '' %}
+
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{ sondage.title }}</h5>
+            <p class="card-text">{{ sondage.description }}</p>
+            {{ reponses|length }} réponses pour le sondage
+            {{ questions|length }} questions
+            {{ users|length }} utilisateurs
+        </div>
+    </div>
+
+    {% for reponse in reponses %}
+        <div>
+            {{ reponse.question.label }}
+            {{ reponse.user.username }}
+            {% for rep in reponse.choix %}
+                {{ rep }}
+                {% set reponseChoisie = rep %}
+            {% endfor %}
+            {% set questionCourante = reponse.question %}
+            {% set joueur = reponse.user %}
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -155,6 +155,22 @@ tr.closed {
     width: 10px;
 }
 
+.light {
+    font-weight: lighter; 
+    margin-bottom: 0!important;
+}
+
+/* Card titles */
+.actif {
+    background-color: rgb(26, 138, 212);
+    font-size: 1.3rem;
+    color: rgb(236, 244, 250);
+}
+
+.title {
+    font-size: 1.3rem;
+}
+
 a {
     color: #084a57;
 }

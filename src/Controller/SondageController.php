@@ -90,6 +90,6 @@ class SondageController extends AbstractController
      */
     public function delete($id)
     {
-        dump($id);
+        //dump($id);
     }
 }
