@@ -7,7 +7,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Entity\UserSearch;
-use App\Entity\StatusRepository;
 use App\Repository\UserRepository;
 use App\Repository\SaisonRepository;
 use App\Repository\ClubRepository;
@@ -20,7 +19,6 @@ use App\Form\UserSearchType;
 use App\Form\UserCompteFormType;
 use App\Form\UserMdpFormType;
 use App\Repository\StatusRepository as RepositoryStatusRepository;
-use Doctrine\ORM\Query\AST\WhenClause;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -187,7 +185,7 @@ class UserController extends AbstractController
      * @Route("/inscription", name="user.inscription")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function manage(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function manage(Request $request, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRep)
     {
         $joueurId = $request->request->get('joueur');
         $statutId = $request->request->get('statut');
@@ -234,10 +232,16 @@ class UserController extends AbstractController
                     break;
             }
         }
-        if ($action == 'create') { // modification des infos du joueur
-            $cate = null;
+        if ($action == 'create') { // Dédié au test d'existence du joueur
             $firstName = $request->request->get('prenom');
             $lastName = $request->request->get('nom');
+            $joueurTest = $userRep->findBy(['username' => $firstName.'.'.$lastName]);
+            if ($joueurTest) { // Le joueur existe déjà : consitution du message d'erreur
+                $this->addFlash("error", "Ce joueur existe déjà !");
+            }
+        }
+        if ($action == 'create' and !$joueurTest) { // création du joueur (s'il n'existe pas déjà)
+            $cate = null;
             $email = $request->request->get('email');
             $mobile = $request->request->get('mobile');
             $joueur = new User();

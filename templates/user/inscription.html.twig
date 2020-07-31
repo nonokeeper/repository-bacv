@@ -34,6 +34,12 @@
         <button type="button" title="Créer" class="btn btn-success" data-toggle="modal" data-target="#createJoueur"><i class="fas fa-user-plus">&nbsp;</i>Création rapide</button>
     </div>
 
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+
 <form method="POST">
 <input type="hidden" name="action" value="update">
 <div class="modal fade" id="updateJoueur" tabindex="-1" role="dialog" aria-hidden="true">
