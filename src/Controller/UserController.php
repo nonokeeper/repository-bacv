@@ -251,7 +251,12 @@ class UserController extends AbstractController
             $encoded = $passwordEncoder->encodePassword($joueur,$firstName.'.'.$lastName);
             $joueur->setPassword($encoded);
             $joueur->setActive(true);
-            //$joueur->setStatus()
+            $clubRepository = new ClubRepository($this->registry);
+            $bacv = $clubRepository->findClubBySlug('BACV');
+            $joueur->setClub($bacv);
+            $statusRep = new RepositoryStatusRepository($this->registry);
+            $ancien = $statusRep->find(1); // Ancien joueur par défaut
+            $joueur->setStatus($ancien);
             $joueur->setEmail($email);
             if ($cat == 'jeunes') {
                 $joueur->setMobileParent($mobile);
