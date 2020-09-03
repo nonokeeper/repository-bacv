@@ -190,6 +190,7 @@ class UserRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('u')
             ->andWhere('u.category = :groupe')
             ->setParameter('groupe', 'Jeune')
+            ->orderBy('u.lastName', 'ASC')
             ->getQuery()
             ->getResult()
         ;
@@ -205,6 +206,7 @@ class UserRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('u')
             ->andWhere('u.category = :groupe')
             ->setParameter('groupe', 'Loisir avec Interclub')
+            ->orderBy('u.lastName', 'ASC')
             ->getQuery()
             ->getResult()
         ;
@@ -220,6 +222,7 @@ class UserRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('u')
             ->andWhere('u.category = :groupe')
             ->setParameter('groupe', 'Loisir')
+            ->orderBy('u.lastName', 'ASC')
             ->getQuery()
             ->getResult()
         ;
@@ -235,6 +238,7 @@ class UserRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('u')
             ->andWhere('u.category = :groupe')
             ->setParameter('groupe', 'Compétiteur')
+            ->orderBy('u.lastName', 'ASC')
             ->getQuery()
             ->getResult()
         ;

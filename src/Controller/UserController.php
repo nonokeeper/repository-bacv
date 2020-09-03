@@ -206,10 +206,12 @@ class UserController extends AbstractController
             $lastName = $request->request->get('nom');
             $email = $request->request->get('email');
             $mobile = $request->request->get('mobile');
+            $gender = $request->request->get('gender');
             $joueur = $this->repository->find($joueurId);
             $joueur->setFirstName($firstName);
             $joueur->setLastName($lastName);
             $joueur->setEmail($email);
+            $joueur->setGender($gender);
             $cat = $joueur->getCategory();
             if ($cat == 'Jeune') {
                 $joueur->setMobileParent($mobile);
@@ -244,6 +246,7 @@ class UserController extends AbstractController
             $cate = null;
             $email = $request->request->get('email');
             $mobile = $request->request->get('mobile');
+            $gender = $request->request->get('gender');
             $joueur = new User();
             $joueur->setFirstName($firstName);
             $joueur->setLastName($lastName);
@@ -258,6 +261,8 @@ class UserController extends AbstractController
             $ancien = $statusRep->find(1); // Ancien joueur par défaut
             $joueur->setStatus($ancien);
             $joueur->setEmail($email);
+            $joueur->setGender($gender);
+
             if ($cat == 'jeunes') {
                 $joueur->setMobileParent($mobile);
             } else $joueur->setMobile($mobile);

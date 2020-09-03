@@ -52,8 +52,16 @@
         </button>
       </div>
       <div class="modal-body">  
-            <input type="hidden" class="form-control" name="id" id="id">
-          <div class="row">
+        <div class="row">
+            <div class="col">
+                <input type="radio" name="gender" value="H" id="homme"/>
+                <label for="homme">Homme/Garçon</label>
+                <input type="radio" name="gender" value="F" id="femme"/>
+                <label for="femme">Femme/Fille</label>
+            </div>
+        </div>
+        <input type="hidden" class="form-control" name="id" id="id">
+        <div class="row">
             <div class="col">
             <label for="recipient-name" class="col-form-label">Prénom</label>
             <input type="text" class="form-control" name="prenom" id="prenom">
@@ -62,8 +70,8 @@
             <label for="recipient-name" class="col-form-label">Nom</label>
             <input type="text" class="form-control" name="nom" id="nom">
             </div>
-          </div>
-          <div class="row">
+        </div>
+        <div class="row">
             <div class="col">
             <label for="message-text" class="col-form-label">Email</label>
             <input type="text" class="form-control" name="email" id="email">
@@ -72,7 +80,8 @@
             <label for="message-text" class="col-form-label">Mobile</label>
             <input type="text" class="form-control" name="mobile" id="mobile">
             </div>
-          </div>
+        </div>
+          
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
@@ -89,38 +98,46 @@
 <div class="modal fade" id="createJoueur" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Nouveau Joueur</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <div class="row">
-            <div class="col">
-            <label for="recipient-name" class="col-form-label">Prénom</label>
-            <input type="text" class="form-control" name="prenom">
+        <div class="modal-header">
+            <h5 class="modal-title">Nouveau Joueur</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col">
+                    <input type="radio" name="gender" id="homme" value="H" checked/>
+                    <label for="homme">Homme/Garçon</label>
+                    <input type="radio" name="gender" value="F" id="femme"/>
+                    <label for=" femme">Femme/Fille</label>
+                </div>
             </div>
-            <div class="col">
-            <label for="recipient-name" class="col-form-label">Nom</label>
-            <input type="text" class="form-control" name="nom">
+            <div class="row">
+                <div class="col">
+                <label for="recipient-name" class="col-form-label">Prénom</label>
+                <input type="text" class="form-control" name="prenom">
+                </div>
+                <div class="col">
+                <label for="recipient-name" class="col-form-label">Nom</label>
+                <input type="text" class="form-control" name="nom">
+                </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col">
-            <label for="message-text" class="col-form-label">Email</label>
-            <input type="email" class="form-control" name="email">
+            <div class="row">
+                <div class="col">
+                <label for="message-text" class="col-form-label">Email</label>
+                <input type="email" class="form-control" name="email">
+                </div>
+                <div class="col">
+                <label for="message-text" class="col-form-label">Mobile</label>
+                <input type="text" class="form-control" name="mobile">
+                </div>
             </div>
-            <div class="col">
-            <label for="message-text" class="col-form-label">Mobile</label>
-            <input type="text" class="form-control" name="mobile">
-            </div>
-          </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-        <button type="submit" class="btn btn-success">Créer le joueur</button>
-      </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+            <button type="submit" class="btn btn-success">Créer le joueur</button>
+        </div>
     </div>
   </div>
 </div>
@@ -158,7 +175,11 @@
                 {% for joueur in userJeunes %}<!-- CAT -->
                 <tr>
                     <td>
-                        <button type="button" title="Modifier" class="btn btn-primary" data-toggle="modal" data-target="#updateJoueur" data-id="{{ joueur.id }}" data-prenom="{{ joueur.firstName }}" data-nom="{{ joueur.lastName }}" data-email="{{ joueur.email }}" data-mobile="{{ joueur.mobileParent }}"><i class="fas fa-user-edit">&nbsp;</i></button>
+                        {% if (joueur.gender == 'H') %}
+                        <button type="button" title="Modifier" class="btn btn-primary" data-toggle="modal" data-target="#updateJoueur" data-id="{{ joueur.id }}" data-gender="{{ joueur.gender }}" data-prenom="{{ joueur.firstName }}" data-nom="{{ joueur.lastName }}" data-email="{{ joueur.email }}" data-mobile="{{ joueur.mobileParent }}"><i class="fas fa-user-edit">&nbsp;</i></button>
+                        {% else %}
+                            <button type="button" title="Modifier" class="btn btn-danger" data-toggle="modal" data-target="#updateJoueur" data-id="{{ joueur.id }}" data-gender="{{ joueur.gender }}" data-prenom="{{ joueur.firstName }}" data-nom="{{ joueur.lastName }}" data-email="{{ joueur.email }}" data-mobile="{{ joueur.mobileParent }}"><i class="fas fa-user-edit">&nbsp;</i></button>
+                        {% endif %}
                     </td>
                     <td>{{ joueur.firstName }}</td>
                     <td>{{ joueur.lastName }}</td>
@@ -209,7 +230,11 @@
                 {% for joueur in userLoisirs %}<!-- CAT -->
                 <tr>
                     <td>
-                        <button type="button" title="Modifier" class="btn btn-primary" data-toggle="modal" data-target="#updateJoueur" data-id="{{ joueur.id }}" data-prenom="{{ joueur.firstName }}" data-nom="{{ joueur.lastName }}" data-email="{{ joueur.email }}" data-mobile="{{ joueur.mobile }}"><i class="fas fa-user-edit">&nbsp;</i></button>
+                        {% if (joueur.gender == 'H') %}
+                        <button type="button" title="Modifier" class="btn btn-primary" data-toggle="modal" data-target="#updateJoueur" data-id="{{ joueur.id }}" data-gender="{{ joueur.gender }}" data-prenom="{{ joueur.firstName }}" data-nom="{{ joueur.lastName }}" data-email="{{ joueur.email }}" data-mobile="{{ joueur.mobile }}"><i class="fas fa-user-edit">&nbsp;</i></button>
+                        {% else %}
+                            <button type="button" title="Modifier" class="btn btn-danger" data-toggle="modal" data-target="#updateJoueur" data-id="{{ joueur.id }}" data-gender="{{ joueur.gender }}" data-prenom="{{ joueur.firstName }}" data-nom="{{ joueur.lastName }}" data-email="{{ joueur.email }}" data-mobile="{{ joueur.mobile }}"><i class="fas fa-user-edit">&nbsp;</i></button>
+                        {% endif %}
                     </td>
                     <td>{{ joueur.firstName }}</td>
                     <td>{{ joueur.lastName }}</td>
@@ -260,7 +285,11 @@
                 {% for joueur in userLoisirsIC %}<!-- CAT -->
                 <tr>
                     <td>
-                        <button type="button" title="Modifier" class="btn btn-primary" data-toggle="modal" data-target="#updateJoueur" data-id="{{ joueur.id }}" data-prenom="{{ joueur.firstName }}" data-nom="{{ joueur.lastName }}" data-email="{{ joueur.email }}" data-mobile="{{ joueur.mobile }}"><i class="fas fa-user-edit">&nbsp;</i></button>
+                        {% if (joueur.gender == 'H') %}
+                        <button type="button" title="Modifier" class="btn btn-primary" data-toggle="modal" data-target="#updateJoueur" data-id="{{ joueur.id }}" data-gender="{{ joueur.gender }}" data-prenom="{{ joueur.firstName }}" data-nom="{{ joueur.lastName }}" data-email="{{ joueur.email }}" data-mobile="{{ joueur.mobile }}"><i class="fas fa-user-edit">&nbsp;</i></button>
+                        {% else %}
+                            <button type="button" title="Modifier" class="btn btn-danger" data-toggle="modal" data-target="#updateJoueur" data-id="{{ joueur.id }}" data-gender="{{ joueur.gender }}" data-prenom="{{ joueur.firstName }}" data-nom="{{ joueur.lastName }}" data-email="{{ joueur.email }}" data-mobile="{{ joueur.mobile }}"><i class="fas fa-user-edit">&nbsp;</i></button>
+                        {% endif %}
                     </td>
                     <td>{{ joueur.firstName }}</td>
                     <td>{{ joueur.lastName }}</td>
@@ -311,7 +340,11 @@
                 {% for joueur in userCompet %}<!-- CAT -->
                 <tr>
                     <td>
-                        <button type="button" title="Modifier" class="btn btn-primary" data-toggle="modal" data-target="#updateJoueur" data-id="{{ joueur.id }}" data-prenom="{{ joueur.firstName }}" data-nom="{{ joueur.lastName }}" data-email="{{ joueur.email }}" data-mobile="{{ joueur.mobile }}"><i class="fas fa-user-edit">&nbsp;</i></button>
+                        {% if (joueur.gender == 'H') %}
+                        <button type="button" title="Modifier" class="btn btn-primary" data-toggle="modal" data-target="#updateJoueur" data-id="{{ joueur.id }}" data-gender="{{ joueur.gender }}" data-prenom="{{ joueur.firstName }}" data-nom="{{ joueur.lastName }}" data-email="{{ joueur.email }}" data-mobile="{{ joueur.mobile }}"><i class="fas fa-user-edit">&nbsp;</i></button>
+                        {% else %}
+                            <button type="button" title="Modifier" class="btn btn-danger" data-toggle="modal" data-target="#updateJoueur" data-id="{{ joueur.id }}" data-gender="{{ joueur.gender }}" data-prenom="{{ joueur.firstName }}" data-nom="{{ joueur.lastName }}" data-email="{{ joueur.email }}" data-mobile="{{ joueur.mobile }}"><i class="fas fa-user-edit">&nbsp;</i></button>
+                        {% endif %}
                     </td>
                     <td>{{ joueur.firstName }}</td>
                     <td>{{ joueur.lastName }}</td>

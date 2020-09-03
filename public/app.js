@@ -15,6 +15,7 @@ $('#updateJoueur').on('show.bs.modal', function (event) {
   var nom = button.data('nom');
   var email = button.data('email');
   var mobile = button.data('mobile');
+  var gender = button.data('gender');
   var modal = $(this);
   modal.find('.modal-title').text('Modification de '+prenom+' '+nom);
   modal.find('#id').val(id);
@@ -22,6 +23,10 @@ $('#updateJoueur').on('show.bs.modal', function (event) {
   modal.find('#nom').val(nom);
   modal.find('#email').val(email);
   modal.find('#mobile').val(mobile);
+  if(gender=="H")
+  modal.find('#homme').attr('checked', 'checked');
+  else modal.find('#femme').attr('checked', 'checked');
+
 });
 
 $(document).ready(function () {
