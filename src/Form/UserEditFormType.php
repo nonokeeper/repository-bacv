@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\User;
 use App\Entity\Team;
 use App\Entity\TeamVeteran;
-use App\Entity\Saison;
 use App\Entity\AgeCategory;
 use App\Repository\TeamRepository;
 use App\Repository\TeamVeteranRepository;
@@ -15,15 +14,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\CallbackTransformer;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -93,7 +87,9 @@ class UserEditFormType extends AbstractType
                 //    'Administrateur' => 'ROLE_SUPER_ADMIN',
                 ],
             ])
-            ->add('active', CheckboxType::class)
+            ->add('active', CheckboxType::class, [
+                'required' => false
+            ])
             ->add('rue', TextareaType::class, [
                 'required' => false
             ])
