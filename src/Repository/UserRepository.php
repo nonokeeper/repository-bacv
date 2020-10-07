@@ -115,6 +115,20 @@ class UserRepository extends ServiceEntityRepository
     /**
     * @return User[] Returns all active users
     */
+    public function findTestAll()
+    {
+        // Que moi pour tester
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.id in(:id)')
+            ->setParameter('id', ['32','66'])
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return User[] Returns all active users
+    */
     public function findJeunesActive()
     {
         // Inscrit cette saison <=> champ 'active' = 1

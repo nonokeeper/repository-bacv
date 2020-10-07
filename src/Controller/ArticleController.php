@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\Security;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\ArticleType;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -29,9 +30,10 @@ class ArticleController extends AbstractController
      */
     private $em;
 
-    public function __construct(ArticleRepository $repository, EntityManagerInterface $em, Security $security)
+    public function __construct(ArticleRepository $repository, UserRepository $userRepository, EntityManagerInterface $em, Security $security)
     {
         $this->repository = $repository;
+        $this->userRepository = $userRepository;
         $this->em = $em;
         $this->security = $security;
     }
@@ -78,7 +80,7 @@ class ArticleController extends AbstractController
      * @Route("/article/new", name="article.new")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function create(Request $request)
+    public function create(Request $request, \Swift_Mailer $mailer)
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
@@ -92,6 +94,7 @@ class ArticleController extends AbstractController
             $newFilename2 = $this->getFileName($form['Image2']->getData());
             if ($newFilename2) { $article->setImage2Filename($newFilename2); }
             $title = $form->get('title')->getData();
+            $content = $form->get('content')->getData();
 
             if (!$title)
             {
@@ -106,7 +109,25 @@ class ArticleController extends AbstractController
             $article->setAuteur($this->getUser());
             $this->em->persist($article);
             $this->em->flush();
-            $this->addFlash('success','Article "'.$article->getTitle().'" bien créé !');
+
+            $users = $this->userRepository->findTestAll();
+            $body = $content.'<br/>Le Club BACV';
+            $message = (new \Swift_Message())
+                ->setFrom(['arnaud.coste@bacv.fr' => 'Badminton Club de Villepreux'])
+                ->setSubject($title)
+                ->setBody($body, 'text/html');
+
+            foreach ($users as $user) {
+                $email = $user->getEmail();
+                $name = $user->getFirstName().' '.$user->getLastName();
+                $message->addBcc($email, $name);
+            }
+            
+            // Send the message
+            $numSent = $mailer->send($message);
+            $mailer->
+
+            $this->addFlash('success','Article "'.$article->getTitle().'" bien créé ! et Emails envoyés');
             return $this->redirectToRoute('article.index');
         }
 
